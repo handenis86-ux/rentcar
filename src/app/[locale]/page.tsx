@@ -172,25 +172,7 @@ function IconArrowRight({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-/* ─── Car silhouette SVG ───────────────────────────────────────────────── */
-
-function CarSilhouette() {
-  return (
-    <svg viewBox="0 0 400 180" fill="none" className="w-full h-auto">
-      <path
-        d="M45 130 C45 130 55 90 80 75 C105 60 140 50 180 48 C220 46 270 48 310 60 C340 68 360 85 365 95 L375 110 C378 115 380 120 380 125 L380 140 C380 145 376 148 372 148 L350 148 C346 148 342 144 340 140 C338 135 332 130 322 130 C312 130 306 135 304 140 C302 144 298 148 294 148 L110 148 C106 148 102 144 100 140 C98 135 92 130 82 130 C72 130 66 135 64 140 C62 144 58 148 54 148 L32 148 C28 148 24 145 24 140 L24 130 C24 125 28 122 32 122 L45 130Z"
-        fill="#201F1D"
-      />
-      <circle cx="82" cy="142" r="14" fill="#444" />
-      <circle cx="82" cy="142" r="8" fill="#666" />
-      <circle cx="322" cy="142" r="14" fill="#444" />
-      <circle cx="322" cy="142" r="8" fill="#666" />
-      <path d="M100 75 C120 60 160 50 200 48 L200 48 C230 48 260 52 280 60 L270 90 L110 90 Z" fill="#333" opacity="0.5" />
-      <rect x="50" y="100" width="40" height="12" rx="4" fill="#FFA633" opacity="0.8" />
-      <rect x="320" y="100" width="40" height="12" rx="4" fill="#e33" opacity="0.8" />
-    </svg>
-  );
-}
+/* ─── (car image is now /public/car-hero.png) ─────────────────────────── */
 
 /* ─── Page Component ───────────────────────────────────────────────────── */
 
@@ -210,8 +192,8 @@ export default function HomePage() {
   return (
     <>
       {/* ── 1. HERO — DreamsRent style: white bg, text left, car image right ── */}
-      <section className="relative bg-white overflow-hidden">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+      <section className="relative bg-white overflow-hidden" style={{ minHeight: "580px" }}>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
           <div className="flex flex-col lg:flex-row items-center gap-10">
 
             {/* Left column — text */}
@@ -239,26 +221,18 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Right column — car image area with orange background shape */}
-            <div className="lg:w-1/2 relative">
-              {/* Orange background shape — like DreamsRent's PNG bg */}
-              <div className="absolute -right-20 -top-10 -bottom-10 w-[120%] bg-[#FFA633] rounded-bl-[80px]" style={{ clipPath: "polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%)" }} />
+            {/* Right column — car image on orange background */}
+            <div className="lg:w-1/2 relative min-h-[350px] lg:min-h-[450px]">
+              {/* Orange shape extending to the right edge */}
+              <div className="absolute -right-[200px] top-0 bottom-0 left-[10%] bg-[#FFA633]" style={{ borderRadius: "0 0 0 60px" }} />
 
-              {/* Car image placeholder — replace with real photo later */}
-              <div className="relative z-10 py-8 flex justify-center">
-                <div className="w-full max-w-[500px]">
-                  {/* This is where a real car PNG would go (transparent bg, car facing right) */}
-                  {/* For now, using a clean placeholder */}
-                  <div className="bg-white/90 rounded-2xl p-8 shadow-lg">
-                    <div className="text-center text-gray-400 text-sm mb-4 font-medium">
-                      Фото автомобиля
-                    </div>
-                    <CarSilhouette />
-                    <p className="text-center text-xs text-gray-300 mt-4">
-                      * замените на реальное фото
-                    </p>
-                  </div>
-                </div>
+              {/* Car image — real PNG */}
+              <div className="relative z-10 flex items-center justify-center h-full">
+                <img
+                  src="/car-hero.png"
+                  alt="Аренда автомобиля"
+                  className="w-full max-w-[550px] h-auto object-contain drop-shadow-2xl"
+                />
               </div>
             </div>
 
