@@ -98,10 +98,7 @@ function Header({ locale }: { locale: L }) {
             <a
               key={href}
               href={href}
-              className="text-sm font-medium transition-colors"
-              style={{ color: "#2F2F2F" }}
-              onMouseOver={(e) => (e.currentTarget.style.color = "#127384")}
-              onMouseOut={(e) => (e.currentTarget.style.color = "#2F2F2F")}
+              className="text-sm font-medium text-[#2F2F2F] transition-colors hover:text-[#127384]"
             >
               {label}
             </a>
@@ -150,10 +147,7 @@ function Header({ locale }: { locale: L }) {
           {/* Login button — pill style */}
           <a
             href={`/${locale}/login`}
-            className="hidden sm:inline-flex items-center rounded-full px-5 py-2 text-sm font-medium text-white transition-colors"
-            style={{ backgroundColor: "#127384" }}
-            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#0e5d6a")}
-            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#127384")}
+            className="hidden sm:inline-flex items-center rounded-full px-5 py-2 text-sm font-medium text-white transition-colors bg-[#127384] hover:bg-[#0e5d6a]"
           >
             {t(locale, "Войти", "Kirish", "Sign in")}
           </a>
@@ -246,10 +240,7 @@ function Footer({ locale }: { locale: L }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full transition-colors"
-                  style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
-                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#FFA633")}
-                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)")}
+                  className="flex h-9 w-9 items-center justify-center rounded-full transition-colors bg-white/10 hover:bg-[#FFA633]"
                 >
                   <Icon className="h-4 w-4 text-white" />
                 </a>
