@@ -209,151 +209,96 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ── 1. HERO ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f5f5] py-16 lg:py-24 overflow-hidden">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            {/* Left column */}
-            <div className="lg:w-1/2 space-y-6">
-              <span className="inline-block bg-orange-100 text-orange-600 text-sm font-medium rounded-full px-4 py-1.5">
-                Лучший сервис аренды
+      {/* ── 1. HERO — DreamsRent style: white bg, text left, car image right ── */}
+      <section className="relative bg-white overflow-hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+          <div className="flex flex-col lg:flex-row items-center gap-10">
+
+            {/* Left column — text */}
+            <div className="lg:w-1/2 space-y-6 relative z-10">
+              <span className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 text-[#FFA633] text-sm font-medium rounded-full px-4 py-1.5">
+                <span>👍</span> 100% {tHero("trustInsurance")}
               </span>
 
-              <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight">
-                <span className="text-[#201F1D]">{headlineFirst}</span>{" "}
+              <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold leading-[1.1]">
+                <span className="text-[#201F1D]">{headlineFirst}</span>
+                <br />
                 <span className="text-[#FFA633]">{headlineRest}</span>
               </h1>
 
-              <p className="text-gray-500 text-lg max-w-md">
+              <p className="text-gray-500 text-base sm:text-lg max-w-lg leading-relaxed">
                 {tHero("subheadline")}
               </p>
 
               <Link
-                href="/catalog"
-                className="inline-flex items-center gap-2 rounded-full border-2 border-[#201F1D] text-[#201F1D] px-7 py-3 font-semibold hover:bg-[#201F1D] hover:text-white transition"
+                href="/cars"
+                className="inline-flex items-center gap-2 rounded-lg border-2 border-[#201F1D] text-[#201F1D] px-7 py-3 font-semibold hover:bg-[#201F1D] hover:text-white transition text-sm"
               >
                 {tCars("viewAll")}
                 <IconArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
-            {/* Right column */}
-            <div className="lg:w-1/2 relative min-h-[380px] flex items-center justify-center">
-              {/* Diagonal orange stripe */}
-              <div
-                className="absolute right-0 top-0 w-[60%] h-full bg-[#FFA633] rounded-3xl"
-                style={{ transform: "rotate(-12deg)", transformOrigin: "center center" }}
-              />
+            {/* Right column — car image area with orange background shape */}
+            <div className="lg:w-1/2 relative">
+              {/* Orange background shape — like DreamsRent's PNG bg */}
+              <div className="absolute -right-20 -top-10 -bottom-10 w-[120%] bg-[#FFA633] rounded-bl-[80px]" style={{ clipPath: "polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%)" }} />
 
-              {/* Car card */}
-              <div className="relative bg-white rounded-2xl shadow-xl p-6 w-full max-w-[420px] z-10">
-                <CarSilhouette />
-              </div>
-
-              {/* Floating badge */}
-              <div className="absolute top-4 left-0 lg:left-4 z-20 bg-white rounded-xl shadow-lg px-4 py-3 flex items-center gap-2">
-                <span className="text-[#FFA633] font-bold text-lg">500+</span>
-                <span className="text-gray-600 text-sm font-medium">авто</span>
+              {/* Car image placeholder — replace with real photo later */}
+              <div className="relative z-10 py-8 flex justify-center">
+                <div className="w-full max-w-[500px]">
+                  {/* This is where a real car PNG would go (transparent bg, car facing right) */}
+                  {/* For now, using a clean placeholder */}
+                  <div className="bg-white/90 rounded-2xl p-8 shadow-lg">
+                    <div className="text-center text-gray-400 text-sm mb-4 font-medium">
+                      Фото автомобиля
+                    </div>
+                    <CarSilhouette />
+                    <p className="text-center text-xs text-gray-300 mt-4">
+                      * замените на реальное фото
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* ── 2. SEARCH BAR ────────────────────────────────────────────────── */}
-      <section className="bg-white py-8">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl shadow-xl p-6">
-            <p className="text-center text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
-              {tHero("searchTitle")}
-            </p>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-              {/* Город получения */}
-              <div>
-                <label className="block text-xs text-gray-500 uppercase mb-1.5">
-                  {tHero("pickupCity")}
-                </label>
-                <input
-                  type="text"
-                  placeholder={tHero("pickupCityPlaceholder")}
-                  className="w-full border border-gray-200 rounded-lg bg-[#f5f5f5] py-2.5 px-3 text-sm text-[#2F2F2F] outline-none focus:border-[#FFA633] transition"
-                  readOnly
-                />
-              </div>
-
-              {/* Город возврата */}
-              <div>
-                <label className="block text-xs text-gray-500 uppercase mb-1.5">
-                  {tHero("dropoffCity")}
-                </label>
-                <input
-                  type="text"
-                  placeholder={tHero("dropoffCityPlaceholder")}
-                  className="w-full border border-gray-200 rounded-lg bg-[#f5f5f5] py-2.5 px-3 text-sm text-[#2F2F2F] outline-none focus:border-[#FFA633] transition"
-                  readOnly
-                />
-              </div>
-
-              {/* Дата начала */}
-              <div>
-                <label className="block text-xs text-gray-500 uppercase mb-1.5">
-                  {tHero("startDate")}
-                </label>
-                <input
-                  type="date"
-                  className="w-full border border-gray-200 rounded-lg bg-[#f5f5f5] py-2.5 px-3 text-sm text-[#2F2F2F] outline-none focus:border-[#FFA633] transition"
-                  readOnly
-                />
-              </div>
-
-              {/* Время начала */}
-              <div>
-                <label className="block text-xs text-gray-500 uppercase mb-1.5">
-                  Время начала
-                </label>
-                <input
-                  type="time"
-                  defaultValue="10:00"
-                  className="w-full border border-gray-200 rounded-lg bg-[#f5f5f5] py-2.5 px-3 text-sm text-[#2F2F2F] outline-none focus:border-[#FFA633] transition"
-                  readOnly
-                />
-              </div>
-
-              {/* Дата окончания */}
-              <div>
-                <label className="block text-xs text-gray-500 uppercase mb-1.5">
-                  {tHero("endDate")}
-                </label>
-                <input
-                  type="date"
-                  className="w-full border border-gray-200 rounded-lg bg-[#f5f5f5] py-2.5 px-3 text-sm text-[#2F2F2F] outline-none focus:border-[#FFA633] transition"
-                  readOnly
-                />
-              </div>
-
-              {/* Время окончания */}
-              <div>
-                <label className="block text-xs text-gray-500 uppercase mb-1.5">
-                  Время окончания
-                </label>
-                <input
-                  type="time"
-                  defaultValue="10:00"
-                  className="w-full border border-gray-200 rounded-lg bg-[#f5f5f5] py-2.5 px-3 text-sm text-[#2F2F2F] outline-none focus:border-[#FFA633] transition"
-                  readOnly
-                />
-              </div>
+      {/* ── 2. SEARCH BAR — full-width strip below hero ──────────────────── */}
+      <section className="bg-[#201F1D] py-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 items-end">
+            <div>
+              <label className="block text-xs text-gray-400 mb-1.5">{tHero("pickupCity")}</label>
+              <input type="text" placeholder={tHero("pickupCityPlaceholder")} className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
             </div>
-
-            <div className="mt-5 flex justify-center">
-              <Link
-                href="/catalog"
-                className="inline-flex items-center justify-center gap-2 bg-[#FFA633] hover:bg-[#e8952d] text-white rounded-full py-3.5 px-10 font-semibold transition w-full sm:w-auto"
-              >
-                <IconSearch className="w-5 h-5" />
+            <div>
+              <label className="block text-xs text-gray-400 mb-1.5">{tHero("dropoffCity")}</label>
+              <input type="text" placeholder={tHero("dropoffCityPlaceholder")} className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-400 mb-1.5">{tHero("startDate")}</label>
+              <input type="date" className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-400 mb-1.5">Время</label>
+              <input type="time" defaultValue="10:00" className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-400 mb-1.5">{tHero("endDate")}</label>
+              <input type="date" className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-400 mb-1.5">Время</label>
+              <input type="time" defaultValue="10:00" className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
+            </div>
+            <div>
+              <button className="w-full bg-[#FFA633] hover:bg-[#e8952d] text-white rounded-lg py-2.5 px-4 font-semibold transition flex items-center justify-center gap-2 text-sm">
+                <IconSearch className="w-4 h-4" />
                 {tHero("searchButton")}
-              </Link>
+              </button>
             </div>
           </div>
         </div>
