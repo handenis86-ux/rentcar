@@ -1,0 +1,153 @@
+{
+  "Metadata": {
+    "siteName": "RentCar",
+    "title": "O'zbekistonda avtomobil ijarasi — RentCar",
+    "description": "Toshkent va O'zbekistonning boshqa shaharlarida avtomobil ijaraga oling. Keng tanlov, qulay narxlar, onlayn bron.",
+    "keywords": "avtomobil ijarasi, avto prokat, Toshkent, O'zbekiston"
+  },
+  "HomePage": {
+    "metaTitle": "Bosh sahifa",
+    "metaDescription": "Avtomobilni onlayn ijaraga oling. Tez bron, shaffof narxlar."
+  },
+  "Hero": {
+    "headline": "O'zbekistonda avtomobil ijarasi",
+    "subheadline": "Keng turdagi avtomobillar, shaffof narxlar va onlayn bron qilish imkoniyati.",
+    "searchTitle": "Ideal avtomobilingizni toping",
+    "pickupCity": "Olish shahri",
+    "pickupCityPlaceholder": "Toshkent",
+    "dropoffCity": "Qaytarish shahri",
+    "dropoffCityPlaceholder": "Toshkent",
+    "startDate": "Boshlanish sanasi",
+    "endDate": "Tugash sanasi",
+    "searchButton": "Avtomobil topish",
+    "trustFreeCancel": "Bepul bekor qilish",
+    "trustInsurance": "To'liq sug'urta",
+    "trustRating": "Reyting 4.9"
+  },
+  "PopularCars": {
+    "eyebrow": "Katalog",
+    "heading": "Mashhur avtomobillar",
+    "subheading": "Eng ko'p talab qilinadigan modellar eng yaxshi narxlarda.",
+    "viewAll": "Barchasini ko'rish"
+  },
+  "Stats": {
+    "carsValue": "200+",
+    "carsLabel": "Avtomobillar parkda",
+    "citiesValue": "12",
+    "citiesLabel": "O'zbekiston shaharlari",
+    "clientsValue": "15 000+",
+    "clientsLabel": "Mamnun mijozlar",
+    "yearsValue": "7",
+    "yearsLabel": "Yillik tajriba"
+  },
+  "WhyChooseUs": {
+    "eyebrow": "Bizning afzalliklarimiz",
+    "heading": "Nega bizni tanlashadi",
+    "subheading": "Biz avtomobil ijarasini har bir mijoz uchun oddiy va xavfsiz qilamiz.",
+    "advantage1Title": "To'liq sug'urta",
+    "advantage1Desc": "Barcha avtomobillar KASKO va OSAGO bilan sug'urtalangan. Har qanday holatda xavfsizdasiz.",
+    "advantage2Title": "Shaffof narxlar",
+    "advantage2Desc": "Hech qanday yashirin to'lovlar yo'q. Bron qilishdagi narx — yakuniy narx.",
+    "advantage3Title": "Tez rasmiylashtirish",
+    "advantage3Desc": "3 daqiqada onlayn bron. Bir soat ichida berishga tayyor.",
+    "advantage4Title": "24/7 qo'llab-quvvatlash",
+    "advantage4Desc": "Qo'llab-quvvatlash xizmati telefon va messenjerlar orqali kunning istalgan vaqtida.",
+    "advantage5Title": "Shaharga yetkazib berish",
+    "advantage5Desc": "Avtomobilni shahar ichida istalgan qulay joyga olib kelamiz.",
+    "advantage6Title": "Sodiqlik dasturi",
+    "advantage6Desc": "Doimiy mijozlar uchun chegirmalar va uzoq muddatli ijarada maxsus takliflar."
+  },
+  "common": {
+    "siteName": "RentCar O'zbekiston",
+    "search": "Qidirish",
+    "book": "Bron qilish",
+    "login": "Kirish",
+    "register": "Ro'yxatdan o'tish",
+    "phone": "Telefon",
+    "email": "Elektron pochta",
+    "currency": "so'm",
+    "perDay": "kuniga",
+    "from": "Dan",
+    "to": "Gacha",
+    "cancel": "Bekor qilish",
+    "save": "Saqlash",
+    "loading": "Yuklanmoqda...",
+    "noResults": "Hech narsa topilmadi",
+    "all": "Barchasi"
+  },
+  "nav": {
+    "catalog": "Avtomobillar katalogi",
+    "about": "Biz haqimizda",
+    "contacts": "Aloqa",
+    "blog": "Blog",
+    "listYourCar": "Avtomobilingizni ijaraga bering",
+    "myBookings": "Mening bronlarim"
+  },
+  "catalog": {
+    "title": "Avtomobillar katalogi",
+    "filters": "Filtrlar",
+    "sortBy": "Saralash",
+    "priceRange": "Narx oralig'i",
+    "brand": "Brend",
+    "category": "Kategoriya",
+    "transmission": "Uzatmalar qutisi",
+    "seats": "O'rindiqlar soni",
+    "economy": "Iqtisodiy",
+    "comfort": "Komfort",
+    "business": "Biznes",
+    "suv": "Yo'l tanlamas",
+    "minivan": "Miniven",
+    "premium": "Premium",
+    "manual": "Mexanik",
+    "automatic": "Avtomat",
+    "available": "Mavjud",
+    "booked": "Bron qilingan",
+    "showMore": "Ko'proq ko'rsatish"
+  },
+  "car": {
+    "details": "Batafsil",
+    "specs": "Texnik xususiyatlar",
+    "deposit": "Garov",
+    "mileageLimit": "Yugurish limiti",
+    "fuelType": "Yoqilg'i turi",
+    "year": "Ishlab chiqarilgan yil",
+    "features": "Jihozlar va imkoniyatlar",
+    "reviews": "Sharhlar",
+    "noReviews": "Hali sharhlar yo'q",
+    "bookNow": "Hozir bron qilish",
+    "perDay": "kuniga"
+  },
+  "booking": {
+    "title": "Bronni rasmiylashtirish",
+    "selectDates": "Ijara sanalarini tanlang",
+    "pickup": "Olish joyi",
+    "dropoff": "Qaytarish joyi",
+    "totalDays": "Kunlar soni",
+    "totalPrice": "Jami narx",
+    "depositRequired": "Talab qilinadigan garov",
+    "paymentMethod": "To'lov usuli",
+    "cash": "Naqd pul",
+    "card": "Bank kartasi",
+    "confirm": "Bronni tasdiqlash",
+    "success": "Bron muvaffaqiyatli rasmiylashtirildi!",
+    "cancelled": "Bron bekor qilindi"
+  },
+  "owner": {
+    "addCar": "Avtomobil qo'shish",
+    "myCars": "Mening avtomobillarim",
+    "earnings": "Daromadlar",
+    "requests": "Ijara so'rovlari"
+  },
+  "footer": {
+    "terms": "Foydalanish shartlari",
+    "privacy": "Maxfiylik siyosati",
+    "support": "Qo'llab-quvvatlash xizmati",
+    "copyright": "© 2026 RentCar O'zbekiston. Barcha huquqlar himoyalangan."
+  },
+  "seo": {
+    "homeTitle": "O'zbekistonda avtomobil ijarasi — RentCar",
+    "homeDescription": "Toshkent, Samarqand, Buxoro va O'zbekistonning boshqa shaharlarida avtomobil ijaraga oling. Keng tanlov, qulay narxlar, tez rasmiylashtirish.",
+    "catalogTitle": "Ijaraga avtomobillar katalogi — RentCar O'zbekiston",
+    "catalogDescription": "Yuzlab iqtisodiy, komfort, biznes va premium sinf avtomobillaridan tanlang. Bugungi dolzarb narxlar va mavjudlik."
+  }
+}

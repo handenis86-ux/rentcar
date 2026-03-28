@@ -1,0 +1,188 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  RENTER
+  OWNER
+  ADMIN
+}
+
+enum Language {
+  RU
+  UZ
+  EN
+}
+
+enum CarCategory {
+  ECONOMY
+  COMFORT
+  BUSINESS
+  SUV
+  MINIVAN
+  PREMIUM
+}
+
+enum Transmission {
+  MANUAL
+  AUTOMATIC
+}
+
+enum FuelType {
+  PETROL
+  DIESEL
+  HYBRID
+  ELECTRIC
+  GAS
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  CLICK
+  PAYME
+  CARD
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  phone        String   @unique
+  name         String
+  role         Role     @default(RENTER)
+  language     Language @default(RU)
+  passwordHash String
+  avatar       String?
+  isVerified   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  ownedCars        Car[]     @relation("CarOwner")
+  bookingsAsRenter Booking[] @relation("BookingRenter")
+  bookingsAsOwner  Booking[] @relation("BookingOwner")
+  reviews          Review[]  @relation("ReviewAuthor")
+
+  @@index([email])
+  @@index([phone])
+  @@index([role])
+}
+
+model Car {
+  id           String      @id @default(cuid())
+  ownerId      String
+  brand        String
+  model        String
+  year         Int
+  category     CarCategory
+  transmission Transmission
+  fuelType     FuelType
+  seats        Int
+  pricePerDay  Int
+  deposit      Int
+  mileageLimit Int?
+  city         String
+  address      String?
+  images       String[]
+  features     String[]
+  isOwnFleet   Boolean     @default(false)
+  isAvailable  Boolean     @default(true)
+  isApproved   Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  owner    User      @relation("CarOwner", fields: [ownerId], references: [id])
+  bookings Booking[]
+  reviews  Review[]
+
+  @@index([ownerId])
+  @@index([city])
+  @@index([category])
+  @@index([isAvailable, isApproved])
+  @@index([isOwnFleet])
+  @@index([pricePerDay])
+}
+
+model Booking {
+  id              String        @id @default(cuid())
+  carId           String
+  renterId        String
+  ownerId         String
+  startDate       DateTime
+  endDate         DateTime
+  pickupLocation  String
+  dropoffLocation String
+  totalPrice      Int
+  depositAmount   Int
+  commission      Int
+  status          BookingStatus @default(PENDING)
+  paymentMethod   PaymentMethod
+  paymentStatus   PaymentStatus @default(PENDING)
+  notes           String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  car    Car    @relation(fields: [carId], references: [id])
+  renter User   @relation("BookingRenter", fields: [renterId], references: [id])
+  owner  User   @relation("BookingOwner", fields: [ownerId], references: [id])
+  review Review?
+
+  @@index([carId])
+  @@index([renterId])
+  @@index([ownerId])
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([startDate, endDate])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  bookingId  String   @unique
+  reviewerId String
+  carId      String
+  rating     Int
+  comment    String?
+  createdAt  DateTime @default(now())
+
+  booking  Booking @relation(fields: [bookingId], references: [id])
+  reviewer User    @relation("ReviewAuthor", fields: [reviewerId], references: [id])
+  car      Car     @relation(fields: [carId], references: [id])
+
+  @@index([carId])
+  @@index([reviewerId])
+  @@index([rating])
+}
+
+model Page {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  titleRu         String
+  titleUz         String
+  titleEn         String
+  contentRu       String
+  contentUz       String
+  contentEn       String
+  metaDescription String?
+  isPublished     Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isPublished])
+}

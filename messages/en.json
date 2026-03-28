@@ -1,0 +1,153 @@
+{
+  "Metadata": {
+    "siteName": "RentCar",
+    "title": "Car Rental in Uzbekistan — RentCar",
+    "description": "Rent a car in Tashkent and across Uzbekistan. Wide selection, fair prices, instant online booking.",
+    "keywords": "car rental, rent a car, Tashkent, Uzbekistan"
+  },
+  "HomePage": {
+    "metaTitle": "Home",
+    "metaDescription": "Rent a car online. Fast booking, transparent pricing."
+  },
+  "Hero": {
+    "headline": "Explore Uzbekistan Behind the Wheel",
+    "subheadline": "Thousands of verified cars across Tashkent, Samarkand, Bukhara and beyond. Simple booking, transparent pricing.",
+    "searchTitle": "Find Your Perfect Car",
+    "pickupCity": "Pickup City",
+    "pickupCityPlaceholder": "Tashkent",
+    "dropoffCity": "Drop-off City",
+    "dropoffCityPlaceholder": "Tashkent",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "searchButton": "Find a Car",
+    "trustFreeCancel": "Free cancellation",
+    "trustInsurance": "Full insurance",
+    "trustRating": "4.9 rating"
+  },
+  "PopularCars": {
+    "eyebrow": "Catalog",
+    "heading": "Popular Cars",
+    "subheading": "Most popular models at the best prices.",
+    "viewAll": "View All"
+  },
+  "Stats": {
+    "carsValue": "200+",
+    "carsLabel": "Cars in Fleet",
+    "citiesValue": "12",
+    "citiesLabel": "Cities in Uzbekistan",
+    "clientsValue": "15,000+",
+    "clientsLabel": "Happy Customers",
+    "yearsValue": "7",
+    "yearsLabel": "Years in Business"
+  },
+  "WhyChooseUs": {
+    "eyebrow": "Our Advantages",
+    "heading": "Why Choose Us",
+    "subheading": "We make car rental simple and safe for every customer.",
+    "advantage1Title": "Full Insurance",
+    "advantage1Desc": "All vehicles are fully insured with comprehensive coverage. You're safe in any situation.",
+    "advantage2Title": "Transparent Pricing",
+    "advantage2Desc": "No hidden fees. The price you see at booking is the final price.",
+    "advantage3Title": "Quick Booking",
+    "advantage3Desc": "Online booking in 3 minutes. Ready for pickup within an hour.",
+    "advantage4Title": "24/7 Support",
+    "advantage4Desc": "Our support team is available around the clock via phone and messengers.",
+    "advantage5Title": "City Delivery",
+    "advantage5Desc": "We'll deliver the car to any convenient location within the city.",
+    "advantage6Title": "Loyalty Program",
+    "advantage6Desc": "Discounts for returning customers and special offers for long-term rentals."
+  },
+  "common": {
+    "siteName": "RentCar Uzbekistan",
+    "search": "Search",
+    "book": "Book",
+    "login": "Log In",
+    "register": "Sign Up",
+    "phone": "Phone",
+    "email": "Email",
+    "currency": "UZS",
+    "perDay": "per day",
+    "from": "From",
+    "to": "To",
+    "cancel": "Cancel",
+    "save": "Save",
+    "loading": "Loading...",
+    "noResults": "No results found",
+    "all": "All"
+  },
+  "nav": {
+    "catalog": "Browse Cars",
+    "about": "About Us",
+    "contacts": "Contact",
+    "blog": "Blog",
+    "listYourCar": "List Your Car",
+    "myBookings": "My Bookings"
+  },
+  "catalog": {
+    "title": "Available Cars",
+    "filters": "Filters",
+    "sortBy": "Sort By",
+    "priceRange": "Price Range",
+    "brand": "Brand",
+    "category": "Category",
+    "transmission": "Transmission",
+    "seats": "Seats",
+    "economy": "Economy",
+    "comfort": "Comfort",
+    "business": "Business",
+    "suv": "SUV",
+    "minivan": "Minivan",
+    "premium": "Premium",
+    "manual": "Manual",
+    "automatic": "Automatic",
+    "available": "Available",
+    "booked": "Booked",
+    "showMore": "Show More"
+  },
+  "car": {
+    "details": "View Details",
+    "specs": "Specifications",
+    "deposit": "Security Deposit",
+    "mileageLimit": "Mileage Limit",
+    "fuelType": "Fuel Type",
+    "year": "Year",
+    "features": "Features & Equipment",
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet",
+    "bookNow": "Book Now",
+    "perDay": "per day"
+  },
+  "booking": {
+    "title": "Complete Your Booking",
+    "selectDates": "Select Rental Dates",
+    "pickup": "Pickup Location",
+    "dropoff": "Drop-off Location",
+    "totalDays": "Total Days",
+    "totalPrice": "Total Price",
+    "depositRequired": "Security Deposit",
+    "paymentMethod": "Payment Method",
+    "cash": "Cash",
+    "card": "Credit / Debit Card",
+    "confirm": "Confirm Booking",
+    "success": "Your booking is confirmed!",
+    "cancelled": "Booking Cancelled"
+  },
+  "owner": {
+    "addCar": "Add a Car",
+    "myCars": "My Cars",
+    "earnings": "Earnings",
+    "requests": "Rental Requests"
+  },
+  "footer": {
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "support": "Customer Support",
+    "copyright": "© 2026 RentCar Uzbekistan. All rights reserved."
+  },
+  "seo": {
+    "homeTitle": "Car Rental in Uzbekistan — RentCar",
+    "homeDescription": "Rent a car in Tashkent, Samarkand, Bukhara and across Uzbekistan. Hundreds of verified vehicles, clear pricing, and instant booking.",
+    "catalogTitle": "Cars for Rent in Uzbekistan — RentCar Catalog",
+    "catalogDescription": "Browse economy, comfort, business, and premium rental cars. Check real-time availability and get the best rates."
+  }
+}
