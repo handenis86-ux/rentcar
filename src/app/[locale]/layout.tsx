@@ -68,8 +68,8 @@ function Header({ locale }: { locale: L }) {
   const navLinks = [
     { href: `/${locale}/cars`,    label: t(locale, "Каталог",  "Katalog",       "Cars")    },
     { href: `/${locale}/about`,   label: t(locale, "О нас",    "Biz haqimizda", "About")   },
-    { href: `/${locale}/contact`, label: t(locale, "Контакты", "Aloqa",         "Contact") },
     { href: `/${locale}/blog`,    label: t(locale, "Блог",     "Blog",          "Blog")    },
+    { href: `/${locale}/contact`, label: t(locale, "Контакты", "Aloqa",         "Contact") },
   ];
 
   const locales: { code: L; label: string }[] = [
@@ -79,26 +79,26 @@ function Header({ locale }: { locale: L }) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="bg-white shadow-sm sticky top-0 z-50 w-full">
+      <div className="max-w-7xl mx-auto h-20 flex items-center justify-between px-4">
 
-        {/* Logo */}
+        {/* Logo — LEFT */}
         <a
           href={`/${locale}`}
-          className="flex items-center gap-0 select-none"
+          className="select-none"
           aria-label="RentCar — home"
         >
-          <span className="text-xl font-bold" style={{ color: "#201F1D" }}>Rent</span>
-          <span className="text-xl font-bold" style={{ color: "#FFA633" }}>Car</span>
+          <span className="font-bold text-xl text-[#201F1D]">Rent</span>
+          <span className="font-bold text-xl text-[#FFA633]">Car</span>
         </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-7 md:flex" aria-label="Main navigation">
+        {/* Nav — CENTER */}
+        <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
           {navLinks.map(({ href, label }) => (
             <a
               key={href}
               href={href}
-              className="text-sm font-medium text-[#2F2F2F] transition-colors hover:text-[#127384]"
+              className="text-[#2F2F2F] text-sm font-medium hover:text-[#FFA633] transition-colors"
             >
               {label}
             </a>
@@ -106,27 +106,26 @@ function Header({ locale }: { locale: L }) {
         </nav>
 
         {/* Right side */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
 
           {/* Language switcher */}
           <div
-            className="hidden items-center gap-1 sm:flex text-sm font-medium"
+            className="hidden sm:flex items-center gap-1 text-sm"
             role="navigation"
             aria-label="Language switcher"
           >
             {locales.map(({ code, label }, i) => (
               <span key={code} className="flex items-center gap-1">
                 {i > 0 && (
-                  <span className="select-none" style={{ color: "#d1d5db" }} aria-hidden="true">·</span>
+                  <span className="text-gray-400 select-none" aria-hidden="true">·</span>
                 )}
                 <a
                   href={`/${code}`}
                   aria-current={code === locale ? "page" : undefined}
-                  className="transition-colors"
-                  style={
+                  className={
                     code === locale
-                      ? { color: "#127384", fontWeight: 600 }
-                      : { color: "#6b7280" }
+                      ? "text-[#FFA633] font-semibold"
+                      : "text-gray-400 hover:text-[#FFA633] transition-colors"
                   }
                 >
                   {label}
@@ -135,28 +134,26 @@ function Header({ locale }: { locale: L }) {
             ))}
           </div>
 
-          {/* Phone — large screens only */}
-          <a
-            href="tel:+998711234567"
-            className="hidden lg:block text-sm font-medium transition-colors whitespace-nowrap"
-            style={{ color: "#2F2F2F" }}
-          >
-            +998 71 123-45-67
-          </a>
-
-          {/* Login button — pill style */}
+          {/* Войти button */}
           <a
             href={`/${locale}/login`}
-            className="hidden sm:inline-flex items-center rounded-full px-5 py-2 text-sm font-medium text-white transition-colors bg-[#127384] hover:bg-[#0e5d6a]"
+            className="border-2 border-[#201F1D] text-[#201F1D] rounded-full px-6 py-2 text-sm font-semibold hover:bg-[#201F1D] hover:text-white transition"
           >
             {t(locale, "Войти", "Kirish", "Sign in")}
+          </a>
+
+          {/* Регистрация button */}
+          <a
+            href={`/${locale}/register`}
+            className="hidden sm:inline-flex items-center bg-[#FFA633] text-white rounded-full px-6 py-2 text-sm font-semibold hover:bg-[#e8952d] transition"
+          >
+            {t(locale, "Регистрация", "Ro'yxatdan o'tish", "Sign up")}
           </a>
 
           {/* Mobile hamburger */}
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-full border transition-colors md:hidden"
-            style={{ borderColor: "#e5e7eb", color: "#2F2F2F" }}
+            className="md:hidden flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-[#2F2F2F]"
             aria-label={t(locale, "Открыть меню", "Menyuni ochish", "Open menu")}
           >
             <svg
@@ -183,42 +180,36 @@ function Header({ locale }: { locale: L }) {
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
 function Footer({ locale }: { locale: L }) {
-  const year = new Date().getFullYear();
-
   const vehicleTypes = [
-    { href: `/${locale}/cars?type=sedan`,   label: t(locale, "Седан",     "Sedan",     "Sedan")   },
-    { href: `/${locale}/cars?type=suv`,     label: t(locale, "Внедорожник", "SUV",     "SUV")     },
-    { href: `/${locale}/cars?type=minivan`, label: t(locale, "Минивэн",   "Miniven",   "Minivan") },
-    { href: `/${locale}/cars?type=premium`, label: t(locale, "Премиум",   "Premium",   "Premium") },
-    { href: `/${locale}/cars?type=economy`, label: t(locale, "Эконом",    "Ekonom",    "Economy") },
+    { href: `/${locale}/cars?type=sedan`,   label: t(locale, "Седан",      "Sedan",   "Sedan")   },
+    { href: `/${locale}/cars?type=suv`,     label: t(locale, "Внедорожник","SUV",     "SUV")     },
+    { href: `/${locale}/cars?type=minivan`, label: t(locale, "Минивэн",    "Miniven", "Minivan") },
+    { href: `/${locale}/cars?type=premium`, label: t(locale, "Премиум",    "Premium", "Premium") },
+    { href: `/${locale}/cars?type=economy`, label: t(locale, "Эконом",     "Ekonom",  "Economy") },
   ];
 
   const quickLinks = [
-    { href: `/${locale}/cars`,        label: t(locale, "Каталог",       "Katalog",           "Catalog")     },
-    { href: `/${locale}/about`,       label: t(locale, "О нас",         "Biz haqimizda",     "About us")    },
-    { href: `/${locale}/blog`,        label: t(locale, "Блог",          "Blog",              "Blog")        },
-    { href: `/${locale}/contact`,     label: t(locale, "Контакты",      "Aloqa",             "Contact")     },
-    { href: `/${locale}/faq`,         label: "FAQ"                                                           },
-    { href: `/${locale}/terms`,       label: t(locale, "Условия",       "Shartlar",          "Terms")       },
-    { href: `/${locale}/privacy`,     label: t(locale, "Конфиденциальность", "Maxfiylik",    "Privacy")     },
+    { href: `/${locale}/cars`,    label: t(locale, "Каталог",  "Katalog",       "Catalog") },
+    { href: `/${locale}/about`,   label: t(locale, "О нас",    "Biz haqimizda", "About us") },
+    { href: `/${locale}/blog`,    label: t(locale, "Блог",     "Blog",          "Blog")    },
+    { href: `/${locale}/contact`, label: t(locale, "Контакты", "Aloqa",         "Contact") },
+    { href: `/${locale}/faq`,     label: "FAQ"                                              },
   ];
 
   return (
-    <footer style={{ backgroundColor: "#201F1D" }} className="text-white">
+    <footer className="bg-[#201F1D] text-white pt-16 pb-8">
+      <div className="max-w-7xl mx-auto px-4">
 
-      {/* Main content */}
-      <div className="mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 lg:px-8">
+        {/* 4-column grid */}
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
 
-          {/* Col 1 — Brand + about + socials */}
+          {/* Col 1 — О компании */}
           <div className="space-y-5">
-            {/* Logo */}
-            <a href={`/${locale}`} className="inline-flex items-center gap-0 select-none" aria-label="RentCar — home">
-              <span className="text-xl font-bold text-white">Rent</span>
-              <span className="text-xl font-bold" style={{ color: "#FFA633" }}>Car</span>
+            <a href={`/${locale}`} className="inline-flex items-center select-none" aria-label="RentCar — home">
+              <span className="font-bold text-xl text-white">Rent</span>
+              <span className="font-bold text-xl text-[#FFA633]">Car</span>
             </a>
-
-            <p className="text-sm leading-relaxed max-w-[210px]" style={{ color: "#9ca3af" }}>
+            <p className="text-gray-400 text-sm leading-relaxed max-w-[210px]">
               {t(
                 locale,
                 "Аренда автомобилей по всему Узбекистану. Быстро, удобно, надёжно.",
@@ -226,21 +217,20 @@ function Footer({ locale }: { locale: L }) {
                 "Fast, convenient and reliable car rental across Uzbekistan."
               )}
             </p>
-
-            {/* Social icons — white circles, hover orange */}
-            <div className="flex items-center gap-3 pt-1">
-              {[
-                { href: "https://t.me/rentcar_uz",       label: "Telegram",  Icon: TelegramIcon  },
+            {/* Social icons */}
+            <div className="flex items-center gap-3">
+              {([
+                { href: "https://t.me/rentcar_uz",         label: "Telegram",  Icon: TelegramIcon  },
                 { href: "https://instagram.com/rentcar.uz", label: "Instagram", Icon: InstagramIcon },
-                { href: "https://wa.me/998711234567",     label: "WhatsApp",  Icon: WhatsAppIcon  },
-              ].map(({ href, label, Icon }) => (
+                { href: "https://wa.me/998711234567",       label: "WhatsApp",  Icon: WhatsAppIcon  },
+              ] as const).map(({ href, label, Icon }) => (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full transition-colors bg-white/10 hover:bg-[#FFA633]"
+                  className="rounded-full bg-white/10 h-9 w-9 flex items-center justify-center hover:bg-[#FFA633] transition"
                 >
                   <Icon className="h-4 w-4 text-white" />
                 </a>
@@ -248,22 +238,15 @@ function Footer({ locale }: { locale: L }) {
             </div>
           </div>
 
-          {/* Col 2 — Vehicle types */}
+          {/* Col 2 — Тип транспорта */}
           <div>
-            <h3
-              className="mb-5 text-xs font-semibold uppercase tracking-widest"
-              style={{ color: "#6b7280" }}
-            >
+            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-gray-500">
               {t(locale, "Тип транспорта", "Transport turi", "Vehicle Type")}
             </h3>
             <ul className="space-y-3">
               {vehicleTypes.map(({ href, label }) => (
                 <li key={href}>
-                  <a
-                    href={href}
-                    className="text-sm transition-colors hover:text-white"
-                    style={{ color: "#9ca3af" }}
-                  >
+                  <a href={href} className="text-gray-400 text-sm hover:text-[#FFA633] transition-colors">
                     {label}
                   </a>
                 </li>
@@ -271,22 +254,15 @@ function Footer({ locale }: { locale: L }) {
             </ul>
           </div>
 
-          {/* Col 3 — Quick links */}
+          {/* Col 3 — Быстрые ссылки */}
           <div>
-            <h3
-              className="mb-5 text-xs font-semibold uppercase tracking-widest"
-              style={{ color: "#6b7280" }}
-            >
+            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-gray-500">
               {t(locale, "Быстрые ссылки", "Tezkor havolalar", "Quick Links")}
             </h3>
             <ul className="space-y-3">
               {quickLinks.map(({ href, label }) => (
                 <li key={href}>
-                  <a
-                    href={href}
-                    className="text-sm transition-colors hover:text-white"
-                    style={{ color: "#9ca3af" }}
-                  >
+                  <a href={href} className="text-gray-400 text-sm hover:text-[#FFA633] transition-colors">
                     {label}
                   </a>
                 </li>
@@ -294,97 +270,72 @@ function Footer({ locale }: { locale: L }) {
             </ul>
           </div>
 
-          {/* Col 4 — Contacts */}
+          {/* Col 4 — Контакты */}
           <div>
-            <h3
-              className="mb-5 text-xs font-semibold uppercase tracking-widest"
-              style={{ color: "#6b7280" }}
-            >
+            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-gray-500">
               {t(locale, "Контакты", "Aloqa", "Contact")}
             </h3>
-            <ul className="space-y-4 text-sm" style={{ color: "#9ca3af" }}>
+            <ul className="space-y-4 text-sm text-gray-400">
+
+              {/* Phone */}
               <li className="flex items-start gap-2">
-                {/* Phone icon */}
-                <svg className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: "#FFA633" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
+                <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#FFA633]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
                 </svg>
-                <a href="tel:+998711234567" className="hover:text-white transition-colors">
+                <a href="tel:+998711234567" className="hover:text-[#FFA633] transition-colors">
                   +998 71 123-45-67
                 </a>
               </li>
+
+              {/* Email */}
               <li className="flex items-start gap-2">
-                {/* Email icon */}
-                <svg className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: "#FFA633" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
+                <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#FFA633]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                 </svg>
-                <a href="mailto:info@rentcar.uz" className="hover:text-white transition-colors">
+                <a href="mailto:info@rentcar.uz" className="hover:text-[#FFA633] transition-colors">
                   info@rentcar.uz
                 </a>
               </li>
+
+              {/* Address */}
               <li className="flex items-start gap-2">
-                {/* Location icon */}
-                <svg className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: "#FFA633" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
+                <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#FFA633]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                 </svg>
-                <span>
-                  {t(locale, "Ташкент, Узбекистан", "Toshkent, O'zbekiston", "Tashkent, Uzbekistan")}
-                </span>
+                <span>{t(locale, "Ташкент, Узбекистан", "Toshkent, O'zbekiston", "Tashkent, Uzbekistan")}</span>
               </li>
+
             </ul>
           </div>
 
         </div>
-      </div>
 
-      {/* Divider */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="border-t" style={{ borderColor: "#3a3a38" }} />
-      </div>
+        {/* Divider */}
+        <div className="border-t border-[#3a3a38] mt-12 pt-6">
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
 
-      {/* Bottom bar */}
-      <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+            {/* Copyright */}
+            <p className="text-gray-500 text-xs">
+              © 2026 RentCar.{" "}
+              {t(locale, "Все права защищены.", "Barcha huquqlar himoyalangan.", "All rights reserved.")}
+            </p>
 
-          {/* Copyright */}
-          <p className="order-3 text-xs sm:order-1" style={{ color: "#6b7280" }}>
-            © {year} RentCar.uz.{" "}
-            {t(locale, "Все права защищены.", "Barcha huquqlar himoyalangan.", "All rights reserved.")}
-          </p>
+            {/* Legal links */}
+            <div className="flex items-center gap-2 text-gray-500 text-xs">
+              <a href={`/${locale}/terms`} className="hover:text-white transition-colors">
+                {t(locale, "Условия", "Shartlar", "Terms")}
+              </a>
+              <span aria-hidden="true">·</span>
+              <a href={`/${locale}/privacy`} className="hover:text-white transition-colors">
+                {t(locale, "Конфиденциальность", "Maxfiylik", "Privacy")}
+              </a>
+            </div>
 
-          {/* Payment methods */}
-          <div className="order-2 flex items-center gap-2 text-xs font-medium">
-            {["Click", "Payme", "Visa", "Mastercard"].map((method) => (
-              <span
-                key={method}
-                className="rounded-full border px-2.5 py-0.5"
-                style={{ borderColor: "#3a3a38", color: "#9ca3af" }}
-              >
-                {method}
-              </span>
-            ))}
           </div>
-
-          {/* Legal links */}
-          <div className="order-1 flex items-center gap-4 text-xs sm:order-3" style={{ color: "#6b7280" }}>
-            <a
-              href={`/${locale}/terms`}
-              className="transition-colors hover:text-white"
-            >
-              {t(locale, "Условия", "Shartlar", "Terms")}
-            </a>
-            <span style={{ color: "#3a3a38" }} aria-hidden="true">·</span>
-            <a
-              href={`/${locale}/privacy`}
-              className="transition-colors hover:text-white"
-            >
-              {t(locale, "Конфиденциальность", "Maxfiylik", "Privacy")}
-            </a>
-          </div>
-
         </div>
-      </div>
 
+      </div>
     </footer>
   );
 }
