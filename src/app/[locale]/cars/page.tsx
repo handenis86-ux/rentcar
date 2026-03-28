@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import type { CarCategory, Transmission, FuelType } from "@/types";
 
-// ---------------------------------------------------------------------------
-// Mock data
-// ---------------------------------------------------------------------------
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 interface MockCar {
   id: string;
@@ -18,765 +16,609 @@ interface MockCar {
   fuelType: FuelType;
   seats: number;
   pricePerDay: number;
+  city: string;
   initials: string;
-  initialsClasses: string;
 }
+
+// ─── Constants ────────────────────────────────────────────────────────────────
 
 const MOCK_CARS: MockCar[] = [
-  {
-    id: "1",
-    brand: "Chevrolet",
-    model: "Spark",
-    year: 2023,
-    category: "ECONOMY",
-    transmission: "MANUAL",
-    fuelType: "PETROL",
-    seats: 5,
-    pricePerDay: 300_000,
-    initials: "CS",
-    initialsClasses: "bg-sky-100 text-sky-700",
-  },
-  {
-    id: "2",
-    brand: "Chevrolet",
-    model: "Cobalt",
-    year: 2023,
-    category: "ECONOMY",
-    transmission: "AUTOMATIC",
-    fuelType: "GAS",
-    seats: 5,
-    pricePerDay: 400_000,
-    initials: "CC",
-    initialsClasses: "bg-blue-100 text-blue-700",
-  },
-  {
-    id: "3",
-    brand: "Chevrolet",
-    model: "Lacetti",
-    year: 2022,
-    category: "COMFORT",
-    transmission: "MANUAL",
-    fuelType: "GAS",
-    seats: 5,
-    pricePerDay: 450_000,
-    initials: "CL",
-    initialsClasses: "bg-stone-200 text-stone-600",
-  },
-  {
-    id: "4",
-    brand: "Chevrolet",
-    model: "Tracker",
-    year: 2024,
-    category: "SUV",
-    transmission: "AUTOMATIC",
-    fuelType: "PETROL",
-    seats: 5,
-    pricePerDay: 650_000,
-    initials: "CT",
-    initialsClasses: "bg-rose-100 text-rose-700",
-  },
-  {
-    id: "5",
-    brand: "Kia",
-    model: "Sonet",
-    year: 2023,
-    category: "SUV",
-    transmission: "AUTOMATIC",
-    fuelType: "PETROL",
-    seats: 5,
-    pricePerDay: 700_000,
-    initials: "KS",
-    initialsClasses: "bg-amber-100 text-amber-700",
-  },
-  {
-    id: "6",
-    brand: "Kia",
-    model: "K5",
-    year: 2023,
-    category: "BUSINESS",
-    transmission: "AUTOMATIC",
-    fuelType: "PETROL",
-    seats: 5,
-    pricePerDay: 800_000,
-    initials: "KK",
-    initialsClasses: "bg-indigo-100 text-indigo-700",
-  },
-  {
-    id: "7",
-    brand: "Toyota",
-    model: "Camry",
-    year: 2024,
-    category: "BUSINESS",
-    transmission: "AUTOMATIC",
-    fuelType: "HYBRID",
-    seats: 5,
-    pricePerDay: 900_000,
-    initials: "TC",
-    initialsClasses: "bg-teal-100 text-teal-700",
-  },
-  {
-    id: "8",
-    brand: "BYD",
-    model: "Song Plus",
-    year: 2024,
-    category: "SUV",
-    transmission: "AUTOMATIC",
-    fuelType: "ELECTRIC",
-    seats: 5,
-    pricePerDay: 750_000,
-    initials: "BS",
-    initialsClasses: "bg-green-100 text-green-700",
-  },
-  {
-    id: "9",
-    brand: "Kia",
-    model: "Carnival",
-    year: 2023,
-    category: "MINIVAN",
-    transmission: "AUTOMATIC",
-    fuelType: "DIESEL",
-    seats: 8,
-    pricePerDay: 1_100_000,
-    initials: "KC",
-    initialsClasses: "bg-violet-100 text-violet-700",
-  },
-  {
-    id: "10",
-    brand: "Toyota",
-    model: "Prado",
-    year: 2023,
-    category: "PREMIUM",
-    transmission: "AUTOMATIC",
-    fuelType: "DIESEL",
-    seats: 7,
-    pricePerDay: 1_500_000,
-    initials: "TP",
-    initialsClasses: "bg-emerald-100 text-emerald-700",
-  },
+  { id: "1",  brand: "Chevrolet", model: "Spark",    year: 2022, category: "ECONOMY",  transmission: "MANUAL",    fuelType: "GAS",      seats: 5, pricePerDay: 120_000, city: "Ташкент", initials: "CS" },
+  { id: "2",  brand: "Chevrolet", model: "Cobalt",   year: 2023, category: "ECONOMY",  transmission: "MANUAL",    fuelType: "GAS",      seats: 5, pricePerDay: 150_000, city: "Ташкент", initials: "CC" },
+  { id: "3",  brand: "Chevrolet", model: "Lacetti",  year: 2021, category: "COMFORT",  transmission: "MANUAL",    fuelType: "GAS",      seats: 5, pricePerDay: 170_000, city: "Ташкент", initials: "CL" },
+  { id: "4",  brand: "Chevrolet", model: "Tracker",  year: 2023, category: "SUV",      transmission: "AUTOMATIC", fuelType: "PETROL",   seats: 5, pricePerDay: 280_000, city: "Ташкент", initials: "CT" },
+  { id: "5",  brand: "Kia",       model: "Sportage", year: 2023, category: "SUV",      transmission: "AUTOMATIC", fuelType: "PETROL",   seats: 5, pricePerDay: 350_000, city: "Ташкент", initials: "KS" },
+  { id: "6",  brand: "Kia",       model: "K5",       year: 2022, category: "BUSINESS", transmission: "AUTOMATIC", fuelType: "PETROL",   seats: 5, pricePerDay: 400_000, city: "Ташкент", initials: "KK" },
+  { id: "7",  brand: "Toyota",    model: "Camry",    year: 2023, category: "BUSINESS", transmission: "AUTOMATIC", fuelType: "HYBRID",   seats: 5, pricePerDay: 500_000, city: "Ташкент", initials: "TC" },
+  { id: "8",  brand: "BYD",       model: "Seal",     year: 2024, category: "BUSINESS", transmission: "AUTOMATIC", fuelType: "ELECTRIC", seats: 5, pricePerDay: 450_000, city: "Ташкент", initials: "BS" },
+  { id: "9",  brand: "Kia",       model: "Carnival", year: 2022, category: "MINIVAN",  transmission: "AUTOMATIC", fuelType: "DIESEL",   seats: 8, pricePerDay: 550_000, city: "Ташкент", initials: "KC" },
+  { id: "10", brand: "Toyota",    model: "Prado",    year: 2021, category: "PREMIUM",  transmission: "AUTOMATIC", fuelType: "PETROL",   seats: 7, pricePerDay: 800_000, city: "Ташкент", initials: "TP" },
 ];
 
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
-
-const PRICE_MIN = 300_000;
-const PRICE_MAX = 1_500_000;
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function formatPrice(amount: number): string {
-  return amount.toLocaleString("ru-RU");
-}
-
-// ---------------------------------------------------------------------------
-// Label maps — using Russian directly as required by spec
-// ---------------------------------------------------------------------------
-
-const FUEL_LABELS: Record<FuelType, string> = {
-  PETROL: "Бензин",
-  DIESEL: "Дизель",
-  GAS: "Газ/метан",
-  ELECTRIC: "Электро",
-  HYBRID: "Гибрид",
+const INITIALS_STYLES: Record<string, { bg: string; text: string }> = {
+  CS: { bg: "bg-amber-50",   text: "text-amber-600"   },
+  CC: { bg: "bg-sky-50",     text: "text-sky-600"     },
+  CL: { bg: "bg-stone-100",  text: "text-stone-500"   },
+  CT: { bg: "bg-rose-50",    text: "text-rose-600"    },
+  KS: { bg: "bg-orange-50",  text: "text-orange-600"  },
+  KK: { bg: "bg-indigo-50",  text: "text-indigo-600"  },
+  TC: { bg: "bg-teal-50",    text: "text-teal-600"    },
+  BS: { bg: "bg-emerald-50", text: "text-emerald-600" },
+  KC: { bg: "bg-violet-50",  text: "text-violet-600"  },
+  TP: { bg: "bg-cyan-50",    text: "text-cyan-600"    },
 };
 
-// ---------------------------------------------------------------------------
-// Inline SVG icons (no lucide-react)
-// ---------------------------------------------------------------------------
+const CATEGORY_LABELS: Record<CarCategory, string> = {
+  ECONOMY:  "Эконом",
+  COMFORT:  "Комфорт",
+  BUSINESS: "Бизнес",
+  SUV:      "Внедорожник",
+  MINIVAN:  "Минивэн",
+  PREMIUM:  "Премиум",
+};
 
-function IconFilter() {
+const FUEL_LABELS: Record<FuelType, string> = {
+  PETROL:   "Бензин",
+  DIESEL:   "Дизель",
+  GAS:      "Газ/метан",
+  ELECTRIC: "Электро",
+  HYBRID:   "Гибрид",
+};
+
+const TRANSMISSION_LABELS: Record<Transmission, string> = {
+  AUTOMATIC: "Автомат",
+  MANUAL:    "Механика",
+};
+
+const BRANDS = ["Все", "Chevrolet", "Kia", "Toyota", "BYD"] as const;
+
+const CATEGORY_OPTIONS: CarCategory[] = [
+  "ECONOMY", "COMFORT", "BUSINESS", "SUV", "MINIVAN", "PREMIUM",
+];
+
+const SEATS_OPTIONS = [2, 4, 5, 7, 8];
+
+// ─── SVG Icons ────────────────────────────────────────────────────────────────
+
+function IconGearbox({ className }: { className?: string }) {
   return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="5"  cy="12" r="2" />
+      <circle cx="19" cy="12" r="2" />
+      <circle cx="12" cy="5"  r="2" />
+      <path d="M5 14v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" />
+      <path d="M12 7v5" />
     </svg>
   );
 }
 
-function IconChevronDown() {
+function IconFuel({ className }: { className?: string }) {
   return (
-    <svg
-      width="13"
-      height="13"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 22V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v14" />
+      <path d="M3 22h14" />
+      <path d="M17 8l2 2v8a1 1 0 0 0 2 0V9l-2-3" />
+      <line x1="7" y1="6" x2="13" y2="6" />
+    </svg>
+  );
+}
+
+function IconSeats({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="7" r="3" />
+      <path d="M5.5 21a9 9 0 0 1 13 0" />
+    </svg>
+  );
+}
+
+function IconChevronDown({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="6 9 12 15 18 9" />
     </svg>
   );
 }
 
-function IconHome() {
+function IconSliders({ className }: { className?: string }) {
   return (
-    <svg
-      width="13"
-      height="13"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-      <polyline points="9 22 9 12 15 12 15 22" />
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="4"  y1="6"  x2="20" y2="6"  />
+      <line x1="4"  y1="12" x2="20" y2="12" />
+      <line x1="4"  y1="18" x2="20" y2="18" />
+      <circle cx="8"  cy="6"  r="2" fill="white" />
+      <circle cx="16" cy="12" r="2" fill="white" />
+      <circle cx="10" cy="18" r="2" fill="white" />
     </svg>
   );
 }
 
-function IconSearch() {
+// ─── Car Card ─────────────────────────────────────────────────────────────────
+
+function CarCard({ car }: { car: MockCar }) {
+  const style = INITIALS_STYLES[car.initials] ?? { bg: "bg-gray-100", text: "text-gray-500" };
+
   return (
-    <svg
-      width="52"
-      height="52"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="#d6d3d1"
-      strokeWidth="1.25"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-      <line x1="8" y1="11" x2="14" y2="11" />
-    </svg>
+    <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col">
+      {/* Image area */}
+      <div className={`relative h-48 flex items-center justify-center ${style.bg}`}>
+        <span className={`font-black text-5xl tracking-tight select-none ${style.text}`}>
+          {car.initials}
+        </span>
+
+        {/* Year badge */}
+        <span className="absolute top-3 left-3 bg-white text-[#201F1D] text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+          {car.year}
+        </span>
+
+        {/* Category badge */}
+        <span className="absolute top-3 right-3 bg-[#FFA633]/10 text-[#FFA633] text-xs font-medium px-3 py-1 rounded-full">
+          {CATEGORY_LABELS[car.category]}
+        </span>
+      </div>
+
+      {/* Body */}
+      <div className="flex flex-col flex-1 p-4 gap-3">
+        {/* Brand + Model */}
+        <div>
+          <p className="text-xs text-gray-400 uppercase tracking-wider font-medium">
+            {car.brand}
+          </p>
+          <h3 className="text-lg font-bold text-[#201F1D] leading-tight mt-0.5">
+            {car.model}
+          </h3>
+        </div>
+
+        {/* Specs */}
+        <div className="grid grid-cols-3 gap-2">
+          <div className="flex flex-col items-center gap-1">
+            <IconGearbox className="w-4 h-4 text-[#127384]" />
+            <span className="text-xs text-gray-500 text-center leading-tight">
+              {TRANSMISSION_LABELS[car.transmission]}
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <IconFuel className="w-4 h-4 text-[#127384]" />
+            <span className="text-xs text-gray-500 text-center leading-tight">
+              {FUEL_LABELS[car.fuelType]}
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <IconSeats className="w-4 h-4 text-[#127384]" />
+            <span className="text-xs text-gray-500 text-center leading-tight">
+              {car.seats} мест
+            </span>
+          </div>
+        </div>
+
+        {/* Location */}
+        <p className="text-xs text-gray-400">
+          <span className="mr-1">📍</span>
+          {car.city}
+        </p>
+
+        {/* Divider */}
+        <div className="border-t border-gray-100" />
+
+        {/* Price + Button */}
+        <div className="flex items-center justify-between gap-2 mt-auto">
+          <div className="leading-tight">
+            <span className="font-bold text-[#201F1D] text-base">
+              от {car.pricePerDay.toLocaleString("ru-RU")} сум
+            </span>
+            <span className="text-xs text-gray-400 ml-1">/сутки</span>
+          </div>
+          <button className="rounded-full bg-[#127384] text-white text-sm font-medium px-5 py-2 hover:bg-[#0e5d6a] transition-colors whitespace-nowrap flex-shrink-0">
+            Забронировать
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
-// ---------------------------------------------------------------------------
-// Filters sidebar
-// ---------------------------------------------------------------------------
+// ─── Filter Sidebar ───────────────────────────────────────────────────────────
 
-interface FiltersProps {
-  selectedCategory: CarCategory | "ALL";
-  setSelectedCategory: (v: CarCategory | "ALL") => void;
-  selectedTransmission: Transmission | "ALL";
-  setSelectedTransmission: (v: Transmission | "ALL") => void;
+interface FilterState {
+  categories: CarCategory[];
+  transmissions: Transmission[];
+  fuelTypes: FuelType[];
+  seats: number[];
   minPrice: number;
-  setMinPrice: (v: number) => void;
   maxPrice: number;
-  setMaxPrice: (v: number) => void;
-  selectedSeats: number | "ALL";
-  setSelectedSeats: (v: number | "ALL") => void;
-  onReset: () => void;
 }
 
-function FiltersPanel({
-  selectedCategory,
-  setSelectedCategory,
-  selectedTransmission,
-  setSelectedTransmission,
-  minPrice,
-  setMinPrice,
-  maxPrice,
-  setMaxPrice,
-  selectedSeats,
-  setSelectedSeats,
+function FilterSidebar({
+  filters,
+  onChange,
   onReset,
-}: FiltersProps) {
-  const tCatalog = useTranslations("catalog");
-  const tCommon = useTranslations("common");
+}: {
+  filters: FilterState;
+  onChange: (next: FilterState) => void;
+  onReset: () => void;
+}) {
+  const MAX_PRICE = 900_000;
+  const MIN_PRICE = 100_000;
 
-  const categories: { value: CarCategory | "ALL"; labelKey: string }[] = [
-    { value: "ALL",      labelKey: "all"      },
-    { value: "ECONOMY",  labelKey: "economy"  },
-    { value: "COMFORT",  labelKey: "comfort"  },
-    { value: "BUSINESS", labelKey: "business" },
-    { value: "SUV",      labelKey: "suv"      },
-    { value: "MINIVAN",  labelKey: "minivan"  },
-    { value: "PREMIUM",  labelKey: "premium"  },
-  ];
+  function toggleCategory(cat: CarCategory) {
+    const next = filters.categories.includes(cat)
+      ? filters.categories.filter((c) => c !== cat)
+      : [...filters.categories, cat];
+    onChange({ ...filters, categories: next });
+  }
 
-  const seatOptions: (number | "ALL")[] = ["ALL", 5, 7, 8];
+  function toggleTransmission(t: Transmission) {
+    const next = filters.transmissions.includes(t)
+      ? filters.transmissions.filter((x) => x !== t)
+      : [...filters.transmissions, t];
+    onChange({ ...filters, transmissions: next });
+  }
 
-  const transmissionOptions: { value: Transmission | "ALL"; labelKey: string }[] = [
-    { value: "ALL",       labelKey: "all"       },
-    { value: "MANUAL",    labelKey: "manual"    },
-    { value: "AUTOMATIC", labelKey: "automatic" },
-  ];
+  function toggleSeats(s: number) {
+    const next = filters.seats.includes(s)
+      ? filters.seats.filter((x) => x !== s)
+      : [...filters.seats, s];
+    onChange({ ...filters, seats: next });
+  }
 
   return (
-    <aside className="w-full lg:w-[280px] lg:shrink-0">
-      <div className="rounded-2xl border border-stone-200 bg-white p-6">
+    <aside className="w-full lg:w-[280px] flex-shrink-0">
+      <div className="bg-white rounded-xl shadow-sm p-5 flex flex-col gap-6">
+
         {/* Header */}
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-stone-400">
-            {tCatalog("filters")}
-          </h2>
+        <div className="flex items-center justify-between">
+          <h2 className="font-bold text-[#201F1D] text-base">Фильтры</h2>
           <button
-            type="button"
             onClick={onReset}
-            className="text-xs font-medium text-[#1e3a8a] hover:underline"
+            className="text-sm text-[#FFA633] hover:underline font-medium"
           >
             Сбросить
           </button>
         </div>
 
         {/* Category */}
-        <div className="mb-6">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-stone-400">
-            {tCatalog("category")}
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+            Категория
           </p>
           <div className="flex flex-col gap-1.5">
-            {categories.map(({ value, labelKey }) => {
-              const active = selectedCategory === value;
-              const label =
-                value === "ALL" ? tCommon("all") : tCatalog(labelKey as Parameters<typeof tCatalog>[0]);
+            {CATEGORY_OPTIONS.map((cat) => {
+              const active = filters.categories.includes(cat);
               return (
                 <button
-                  key={value}
-                  type="button"
-                  onClick={() => setSelectedCategory(value)}
-                  className={`w-full rounded-xl px-4 py-2.5 text-left text-sm font-medium transition-colors ${
+                  key={cat}
+                  onClick={() => toggleCategory(cat)}
+                  className={`text-left text-sm font-medium px-4 py-2.5 rounded-lg transition-colors ${
                     active
-                      ? "bg-[#1e3a8a] text-white"
-                      : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+                      ? "bg-[#127384] text-white"
+                      : "bg-gray-50 text-gray-600 hover:bg-gray-100"
                   }`}
                 >
-                  {label}
+                  {CATEGORY_LABELS[cat]}
                 </button>
               );
             })}
           </div>
         </div>
-
-        <div className="mb-6 border-t border-stone-100" />
 
         {/* Transmission */}
-        <div className="mb-6">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-stone-400">
-            {tCatalog("transmission")}
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+            Коробка передач
           </p>
-          <div className="flex gap-1.5">
-            {transmissionOptions.map(({ value, labelKey }) => {
-              const active = selectedTransmission === value;
-              const label =
-                value === "ALL" ? tCommon("all") : tCatalog(labelKey as Parameters<typeof tCatalog>[0]);
+          <div className="flex gap-2">
+            {(["AUTOMATIC", "MANUAL"] as Transmission[]).map((t) => {
+              const active = filters.transmissions.includes(t);
               return (
                 <button
-                  key={value}
-                  type="button"
-                  onClick={() => setSelectedTransmission(value)}
-                  className={`flex-1 rounded-xl py-2.5 text-xs font-semibold transition-colors ${
+                  key={t}
+                  onClick={() => toggleTransmission(t)}
+                  className={`flex-1 text-xs font-medium px-3 py-2 rounded-full border transition-colors ${
                     active
-                      ? "bg-[#1e3a8a] text-white"
-                      : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+                      ? "bg-[#127384] text-white border-[#127384]"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-[#127384] hover:text-[#127384]"
                   }`}
                 >
-                  {label}
+                  {TRANSMISSION_LABELS[t]}
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div className="mb-6 border-t border-stone-100" />
-
-        {/* Price range */}
-        <div className="mb-6">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-stone-400">
-            {tCatalog("priceRange")}
+        {/* Price */}
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+            Цена в сутки (сум)
           </p>
-          <div className="mb-3 flex items-center gap-2">
-            <div className="flex-1 rounded-xl border border-stone-200 bg-stone-50 px-3 py-2">
-              <p className="text-[10px] text-stone-400">от</p>
-              <p className="text-sm font-bold text-stone-800">{formatPrice(minPrice)}</p>
+          <div className="flex gap-2 mb-3">
+            <div className="flex-1">
+              <label className="text-xs text-gray-400 block mb-1">От</label>
+              <input
+                type="number"
+                min={MIN_PRICE}
+                max={filters.maxPrice}
+                step={10_000}
+                value={filters.minPrice}
+                onChange={(e) =>
+                  onChange({
+                    ...filters,
+                    minPrice: Math.min(Number(e.target.value), filters.maxPrice),
+                  })
+                }
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-[#201F1D] focus:outline-none focus:border-[#127384]"
+              />
             </div>
-            <span className="text-stone-300">—</span>
-            <div className="flex-1 rounded-xl border border-stone-200 bg-stone-50 px-3 py-2">
-              <p className="text-[10px] text-stone-400">до</p>
-              <p className="text-sm font-bold text-stone-800">{formatPrice(maxPrice)}</p>
+            <div className="flex-1">
+              <label className="text-xs text-gray-400 block mb-1">До</label>
+              <input
+                type="number"
+                min={filters.minPrice}
+                max={MAX_PRICE}
+                step={10_000}
+                value={filters.maxPrice}
+                onChange={(e) =>
+                  onChange({
+                    ...filters,
+                    maxPrice: Math.max(Number(e.target.value), filters.minPrice),
+                  })
+                }
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-[#201F1D] focus:outline-none focus:border-[#127384]"
+              />
             </div>
           </div>
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <input
               type="range"
-              min={PRICE_MIN}
-              max={PRICE_MAX}
-              step={50_000}
-              value={minPrice}
-              onChange={(e) => {
-                const v = Number(e.target.value);
-                if (v <= maxPrice) setMinPrice(v);
-              }}
-              className="w-full cursor-pointer accent-[#1e3a8a]"
+              min={MIN_PRICE}
+              max={MAX_PRICE}
+              step={10_000}
+              value={filters.minPrice}
+              onChange={(e) =>
+                onChange({
+                  ...filters,
+                  minPrice: Math.min(Number(e.target.value), filters.maxPrice - 10_000),
+                })
+              }
+              className="w-full accent-[#127384] h-1.5 cursor-pointer"
             />
             <input
               type="range"
-              min={PRICE_MIN}
-              max={PRICE_MAX}
-              step={50_000}
-              value={maxPrice}
-              onChange={(e) => {
-                const v = Number(e.target.value);
-                if (v >= minPrice) setMaxPrice(v);
-              }}
-              className="w-full cursor-pointer accent-[#1e3a8a]"
+              min={MIN_PRICE}
+              max={MAX_PRICE}
+              step={10_000}
+              value={filters.maxPrice}
+              onChange={(e) =>
+                onChange({
+                  ...filters,
+                  maxPrice: Math.max(Number(e.target.value), filters.minPrice + 10_000),
+                })
+              }
+              className="w-full accent-[#FFA633] h-1.5 cursor-pointer"
             />
-          </div>
-          <div className="mt-1.5 flex justify-between text-[10px] text-stone-400">
-            <span>300 000</span>
-            <span>1 500 000 сум</span>
           </div>
         </div>
-
-        <div className="mb-6 border-t border-stone-100" />
 
         {/* Seats */}
         <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-stone-400">
-            {tCatalog("seats")}
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+            Количество мест
           </p>
-          <div className="flex gap-1.5">
-            {seatOptions.map((v) => {
-              const active = selectedSeats === v;
+          <div className="flex flex-wrap gap-2">
+            {SEATS_OPTIONS.map((s) => {
+              const active = filters.seats.includes(s);
               return (
                 <button
-                  key={v}
-                  type="button"
-                  onClick={() => setSelectedSeats(v)}
-                  className={`flex-1 rounded-xl py-2.5 text-xs font-semibold transition-colors ${
+                  key={s}
+                  onClick={() => toggleSeats(s)}
+                  className={`text-xs font-medium px-4 py-2 rounded-full border transition-colors ${
                     active
-                      ? "bg-[#1e3a8a] text-white"
-                      : "bg-stone-100 text-stone-600 hover:bg-stone-200"
+                      ? "bg-[#127384] text-white border-[#127384]"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-[#127384] hover:text-[#127384]"
                   }`}
                 >
-                  {v === "ALL" ? tCommon("all") : v}
+                  {s}
                 </button>
               );
             })}
           </div>
-        </div>
-
-        {/* Bottom reset */}
-        <div className="mt-6 border-t border-stone-100 pt-5 text-center">
-          <button
-            type="button"
-            onClick={onReset}
-            className="text-sm text-stone-400 hover:text-stone-600 hover:underline"
-          >
-            Сбросить
-          </button>
         </div>
       </div>
     </aside>
   );
 }
 
-// ---------------------------------------------------------------------------
-// Car Card
-// ---------------------------------------------------------------------------
+// ─── Default filter state ─────────────────────────────────────────────────────
 
-function CarCard({ car }: { car: MockCar }) {
-  const tCatalog = useTranslations("catalog");
-  const tCar = useTranslations("car");
-  const tCommon = useTranslations("common");
+const DEFAULT_FILTERS: FilterState = {
+  categories:    [],
+  transmissions: [],
+  fuelTypes:     [],
+  seats:         [],
+  minPrice:      100_000,
+  maxPrice:      900_000,
+};
 
-  const categoryLabelMap: Record<CarCategory, string> = {
-    ECONOMY:  tCatalog("economy"),
-    COMFORT:  tCatalog("comfort"),
-    BUSINESS: tCatalog("business"),
-    SUV:      tCatalog("suv"),
-    MINIVAN:  tCatalog("minivan"),
-    PREMIUM:  tCatalog("premium"),
-  };
-
-  const transmissionLabel =
-    car.transmission === "AUTOMATIC" ? tCatalog("automatic") : tCatalog("manual");
-  const fuelLabel = FUEL_LABELS[car.fuelType];
-  const categoryLabel = categoryLabelMap[car.category];
-
-  return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white transition-all hover:border-blue-200 hover:shadow-lg">
-      {/* Visual area — colored initials block */}
-      <div className={`relative flex h-44 items-center justify-center ${car.initialsClasses}`}>
-        {/* Year badge */}
-        <span className="absolute left-3 top-3 rounded-full bg-white px-3 py-0.5 text-xs font-semibold text-stone-700 shadow-sm">
-          {car.year}
-        </span>
-        {/* Category badge */}
-        <span className="absolute right-3 top-3 rounded-full bg-white px-3 py-0.5 text-xs font-semibold text-stone-700 shadow-sm">
-          {categoryLabel}
-        </span>
-        {/* Initials */}
-        <span className="select-none font-black text-5xl tracking-tight">
-          {car.initials}
-        </span>
-      </div>
-
-      {/* Body */}
-      <div className="flex flex-1 flex-col p-5">
-        {/* Brand small caps + model */}
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-stone-400">
-          {car.brand}
-        </p>
-        <h3 className="mt-0.5 text-base font-bold text-stone-900 leading-tight">
-          {car.model}
-        </h3>
-
-        {/* Specs */}
-        <p className="mt-2 text-sm text-stone-500">
-          {transmissionLabel} · {car.seats} {tCatalog("seats").toLowerCase()} · {fuelLabel}
-        </p>
-
-        {/* Price + CTA */}
-        <div className="mt-auto pt-4 border-t border-stone-100 mt-4">
-          <div className="mb-3">
-            <span className="text-2xl font-bold text-stone-900">
-              {formatPrice(car.pricePerDay)}
-            </span>
-            <span className="ml-1.5 text-sm text-stone-400">
-              {tCommon("currency")} / {tCar("perDay")}
-            </span>
-          </div>
-          <button
-            type="button"
-            className="w-full rounded-xl bg-[#f97316] px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-orange-600 active:bg-orange-700"
-          >
-            {tCar("bookNow")}
-          </button>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Empty state
-// ---------------------------------------------------------------------------
-
-function EmptyState({ onReset }: { onReset: () => void }) {
-  const tCommon = useTranslations("common");
-
-  return (
-    <div className="flex min-h-[380px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-stone-200 bg-white px-8 text-center">
-      <div className="mb-5">
-        <IconSearch />
-      </div>
-      <h3 className="mb-2 text-lg font-bold text-stone-800">{tCommon("noResults")}</h3>
-      <p className="mb-6 max-w-xs text-sm text-stone-500 leading-relaxed">
-        По выбранным фильтрам автомобили не найдены. Попробуйте изменить параметры поиска.
-      </p>
-      <button
-        type="button"
-        onClick={onReset}
-        className="rounded-xl bg-[#1e3a8a] px-6 py-2.5 text-sm font-bold text-white transition-colors hover:bg-blue-900"
-      >
-        {tCommon("book")}
-      </button>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
-
-type SortKey = "price_asc" | "price_desc" | "year_desc";
-
-const SORT_OPTIONS: { value: SortKey; label: string }[] = [
-  { value: "price_asc",  label: "по цене ↑" },
-  { value: "price_desc", label: "по цене ↓" },
-  { value: "year_desc",  label: "по году"   },
-];
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function CarsPage() {
-  const tCatalog = useTranslations("catalog");
+  useTranslations("catalog");
+  useTranslations("car");
+  useTranslations("common");
 
-  const [selectedCategory, setSelectedCategory] = useState<CarCategory | "ALL">("ALL");
-  const [selectedTransmission, setSelectedTransmission] = useState<Transmission | "ALL">("ALL");
-  const [minPrice, setMinPrice] = useState(PRICE_MIN);
-  const [maxPrice, setMaxPrice] = useState(PRICE_MAX);
-  const [selectedSeats, setSelectedSeats] = useState<number | "ALL">("ALL");
-  const [sortBy, setSortBy] = useState<SortKey>("price_asc");
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
+  const [activeBrand, setActiveBrand] = useState<string>("Все");
+  const [sortBy, setSortBy] = useState<string>("price_asc");
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  function resetFilters() {
-    setSelectedCategory("ALL");
-    setSelectedTransmission("ALL");
-    setMinPrice(PRICE_MIN);
-    setMaxPrice(PRICE_MAX);
-    setSelectedSeats("ALL");
+  const filtered = useMemo(() => {
+    let result = MOCK_CARS.slice();
+
+    if (activeBrand !== "Все") {
+      result = result.filter((c) => c.brand === activeBrand);
+    }
+    if (filters.categories.length > 0) {
+      result = result.filter((c) => filters.categories.includes(c.category));
+    }
+    if (filters.transmissions.length > 0) {
+      result = result.filter((c) => filters.transmissions.includes(c.transmission));
+    }
+    if (filters.fuelTypes.length > 0) {
+      result = result.filter((c) => filters.fuelTypes.includes(c.fuelType));
+    }
+    if (filters.seats.length > 0) {
+      result = result.filter((c) => filters.seats.includes(c.seats));
+    }
+    result = result.filter(
+      (c) => c.pricePerDay >= filters.minPrice && c.pricePerDay <= filters.maxPrice,
+    );
+
+    if (sortBy === "price_asc")  result.sort((a, b) => a.pricePerDay - b.pricePerDay);
+    if (sortBy === "price_desc") result.sort((a, b) => b.pricePerDay - a.pricePerDay);
+    if (sortBy === "newest")     result.sort((a, b) => b.year - a.year);
+
+    return result;
+  }, [filters, activeBrand, sortBy]);
+
+  function handleReset() {
+    setFilters(DEFAULT_FILTERS);
+    setActiveBrand("Все");
   }
 
-  const filtered = MOCK_CARS.filter((car) => {
-    if (selectedCategory !== "ALL" && car.category !== selectedCategory) return false;
-    if (selectedTransmission !== "ALL" && car.transmission !== selectedTransmission) return false;
-    if (car.pricePerDay < minPrice || car.pricePerDay > maxPrice) return false;
-    if (selectedSeats !== "ALL" && car.seats !== selectedSeats) return false;
-    return true;
-  });
-
-  const sorted = [...filtered].sort((a, b) => {
-    if (sortBy === "price_asc")  return a.pricePerDay - b.pricePerDay;
-    if (sortBy === "price_desc") return b.pricePerDay - a.pricePerDay;
-    if (sortBy === "year_desc")  return b.year - a.year;
-    return 0;
-  });
-
   return (
-    <div className="min-h-screen bg-stone-50">
-      {/* ------------------------------------------------------------------ */}
-      {/* Page header                                                          */}
-      {/* ------------------------------------------------------------------ */}
-      <div className="border-b border-stone-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#f7f7f7]">
+
+      {/* ── Page Header ────────────────────────────────────────────────── */}
+      <div className="bg-[#f7f7f7] border-b border-gray-200">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Breadcrumb */}
-          <nav
-            className="mb-3 flex items-center gap-1.5 text-sm text-stone-400"
-            aria-label="Breadcrumb"
-          >
-            <a
-              href="/"
-              className="flex items-center gap-1 text-stone-400 hover:text-[#1e3a8a] transition-colors"
-            >
-              <IconHome />
+          <nav className="flex items-center gap-2 text-sm text-gray-400 mb-3">
+            <a href="/" className="hover:text-[#127384] transition-colors">
               Главная
             </a>
-            <span className="text-stone-300">/</span>
-            <span className="text-stone-700 font-medium">Каталог</span>
+            <span>/</span>
+            <span className="text-[#201F1D] font-medium">Каталог автомобилей</span>
           </nav>
-
-          <h1 className="text-2xl font-bold text-stone-900">{tCatalog("title")}</h1>
-          <p className="mt-1 text-sm text-stone-500">
-            Найдено{" "}
-            <span className="font-semibold text-stone-800">{MOCK_CARS.length}</span>{" "}
-            автомобилей
+          <h1 className="text-2xl sm:text-3xl font-black text-[#201F1D] tracking-tight">
+            Каталог автомобилей
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">
+            {filtered.length} авто доступно для аренды в Ташкенте
           </p>
         </div>
       </div>
 
-      {/* ------------------------------------------------------------------ */}
-      {/* Main content                                                         */}
-      {/* ------------------------------------------------------------------ */}
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        {/* Mobile filter toggle */}
-        <div className="mb-4 lg:hidden">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        {/* ── Brand Tabs ─────────────────────────────────────────────────── */}
+        <div className="flex gap-2 overflow-x-auto pb-1 mb-6 scrollbar-hide">
+          {BRANDS.map((brand) => {
+            const active = activeBrand === brand;
+            return (
+              <button
+                key={brand}
+                onClick={() => setActiveBrand(brand)}
+                className={`whitespace-nowrap text-sm font-medium px-5 py-2 rounded-full border transition-colors flex-shrink-0 ${
+                  active
+                    ? "bg-[#FFA633] text-white border-[#FFA633]"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-[#FFA633] hover:text-[#FFA633]"
+                }`}
+              >
+                {brand}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ── Mobile Filter Toggle ────────────────────────────────────────── */}
+        <div className="lg:hidden mb-4">
           <button
-            type="button"
-            onClick={() => setFiltersOpen((v) => !v)}
-            className="flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 shadow-sm transition-colors hover:border-[#1e3a8a] hover:text-[#1e3a8a]"
+            onClick={() => setMobileFiltersOpen((v) => !v)}
+            className="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-2.5 text-sm font-medium text-[#201F1D] hover:border-[#127384] transition-colors shadow-sm"
           >
-            <IconFilter />
-            {filtersOpen ? "Скрыть фильтры" : tCatalog("filters")}
+            <IconSliders className="w-4 h-4 text-[#127384]" />
+            Фильтры
+            <IconChevronDown
+              className={`w-4 h-4 text-gray-400 transition-transform ${
+                mobileFiltersOpen ? "rotate-180" : ""
+              }`}
+            />
           </button>
         </div>
 
-        {/* Mobile filters — inline */}
-        {filtersOpen && (
-          <div className="mb-4 lg:hidden">
-            <FiltersPanel
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              selectedTransmission={selectedTransmission}
-              setSelectedTransmission={setSelectedTransmission}
-              minPrice={minPrice}
-              setMinPrice={setMinPrice}
-              maxPrice={maxPrice}
-              setMaxPrice={setMaxPrice}
-              selectedSeats={selectedSeats}
-              setSelectedSeats={setSelectedSeats}
-              onReset={resetFilters}
+        {/* ── Mobile Filters Panel ───────────────────────────────────────── */}
+        {mobileFiltersOpen && (
+          <div className="lg:hidden mb-6">
+            <FilterSidebar
+              filters={filters}
+              onChange={setFilters}
+              onReset={handleReset}
             />
           </div>
         )}
 
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-          {/* Sidebar — desktop only */}
+        {/* ── Main Layout ────────────────────────────────────────────────── */}
+        <div className="flex gap-6 items-start">
+
+          {/* Desktop Sidebar */}
           <div className="hidden lg:block">
-            <FiltersPanel
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              selectedTransmission={selectedTransmission}
-              setSelectedTransmission={setSelectedTransmission}
-              minPrice={minPrice}
-              setMinPrice={setMinPrice}
-              maxPrice={maxPrice}
-              setMaxPrice={setMaxPrice}
-              selectedSeats={selectedSeats}
-              setSelectedSeats={setSelectedSeats}
-              onReset={resetFilters}
+            <FilterSidebar
+              filters={filters}
+              onChange={setFilters}
+              onReset={handleReset}
             />
           </div>
 
-          {/* Results column */}
-          <div className="min-w-0 flex-1">
-            {/* Sort bar */}
-            <div className="mb-5 flex items-center justify-between rounded-2xl border border-stone-200 bg-white px-5 py-3.5">
-              <p className="text-sm text-stone-500">
-                Найдено{" "}
-                <span className="font-bold text-stone-900">{sorted.length}</span>{" "}
-                авто
-              </p>
+          {/* Content */}
+          <div className="flex-1 min-w-0">
 
-              <div className="flex items-center gap-2.5">
-                <label
-                  htmlFor="sort-select"
-                  className="text-sm text-stone-400 hidden sm:block"
-                >
-                  {tCatalog("sortBy")}:
-                </label>
+            {/* Sort Bar */}
+            <div className="bg-white rounded-xl shadow-sm px-5 py-3.5 flex items-center justify-between mb-5">
+              <p className="text-sm text-gray-500">
+                <span className="font-bold text-[#201F1D]">{filtered.length}</span> авто
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-400 hidden sm:inline">Сортировка:</span>
                 <div className="relative">
                   <select
-                    id="sort-select"
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as SortKey)}
-                    className="appearance-none rounded-xl border border-stone-200 bg-white py-2 pl-3 pr-8 text-sm font-medium text-stone-700 transition focus:border-[#1e3a8a] focus:outline-none focus:ring-1 focus:ring-[#1e3a8a]"
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="appearance-none bg-gray-50 border border-gray-200 text-sm text-[#201F1D] font-medium rounded-full pl-4 pr-8 py-2 focus:outline-none focus:border-[#127384] cursor-pointer"
                   >
-                    {SORT_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
+                    <option value="price_asc">Цена: по возрастанию</option>
+                    <option value="price_desc">Цена: по убыванию</option>
+                    <option value="newest">Сначала новые</option>
                   </select>
-                  <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400">
-                    <IconChevronDown />
-                  </span>
+                  <IconChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
                 </div>
               </div>
             </div>
 
-            {/* Car grid or empty state */}
-            {sorted.length === 0 ? (
-              <EmptyState onReset={resetFilters} />
+            {/* Grid */}
+            {filtered.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                {filtered.map((car) => (
+                  <CarCard key={car.id} car={car} />
+                ))}
+              </div>
             ) : (
-              <>
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  {sorted.map((car) => (
-                    <CarCard key={car.id} car={car} />
-                  ))}
+              <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <IconSliders className="w-7 h-7 text-gray-400" />
                 </div>
-
-                {/* Show more */}
-                {sorted.length >= 9 && (
-                  <div className="mt-8 text-center">
-                    <button
-                      type="button"
-                      className="inline-flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-8 py-3 text-sm font-semibold text-stone-600 transition-colors hover:border-[#1e3a8a] hover:text-[#1e3a8a]"
-                    >
-                      {tCatalog("showMore")}
-                    </button>
-                  </div>
-                )}
-              </>
+                <h3 className="font-bold text-[#201F1D] text-lg mb-1">
+                  Ничего не найдено
+                </h3>
+                <p className="text-gray-400 text-sm mb-5">
+                  Попробуйте изменить параметры фильтра
+                </p>
+                <button
+                  onClick={handleReset}
+                  className="rounded-full bg-[#127384] text-white text-sm font-medium px-6 py-2.5 hover:bg-[#0e5d6a] transition-colors"
+                >
+                  Сбросить фильтры
+                </button>
+              </div>
             )}
           </div>
         </div>

@@ -11,28 +11,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
-
   return {
-    metadataBase: new URL(
-      process.env.NEXT_PUBLIC_SITE_URL ?? "https://rentcar.uz"
-    ),
-    title: {
-      default: t("title"),
-      template: `%s — ${t("siteName")}`,
-    },
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://rentcar.uz"),
+    title: { default: t("title"), template: `%s — ${t("siteName")}` },
     description: t("description"),
     keywords: t("keywords"),
-    openGraph: {
-      type: "website",
-      locale,
-      siteName: t("siteName"),
-      title: t("title"),
-      description: t("description"),
-    },
-    alternates: {
-      canonical: "/",
-      languages: { ru: "/ru", uz: "/uz", en: "/en" },
-    },
+    openGraph: { type: "website", locale, siteName: t("siteName"), title: t("title"), description: t("description") },
+    alternates: { canonical: "/", languages: { ru: "/ru", uz: "/uz", en: "/en" } },
     robots: { index: true, follow: true },
   };
 }
@@ -94,7 +79,7 @@ function Header({ locale }: { locale: L }) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b border-stone-200">
+    <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
         {/* Logo */}
@@ -103,9 +88,8 @@ function Header({ locale }: { locale: L }) {
           className="flex items-center gap-0 select-none"
           aria-label="RentCar — home"
         >
-          <span className="text-xl font-bold text-stone-900 font-[Manrope,sans-serif]">Rent</span>
-          <span className="text-xl font-bold text-blue-900 font-[Manrope,sans-serif]">Car</span>
-          <span className="ml-0.5 inline-block h-1.5 w-1.5 rounded-full bg-orange-500 self-end mb-1" aria-hidden="true" />
+          <span className="text-xl font-bold" style={{ color: "#201F1D" }}>Rent</span>
+          <span className="text-xl font-bold" style={{ color: "#FFA633" }}>Car</span>
         </a>
 
         {/* Desktop nav */}
@@ -114,7 +98,10 @@ function Header({ locale }: { locale: L }) {
             <a
               key={href}
               href={href}
-              className="text-sm font-medium text-stone-600 hover:text-blue-900 transition-colors"
+              className="text-sm font-medium transition-colors"
+              style={{ color: "#2F2F2F" }}
+              onMouseOver={(e) => (e.currentTarget.style.color = "#127384")}
+              onMouseOut={(e) => (e.currentTarget.style.color = "#2F2F2F")}
             >
               {label}
             </a>
@@ -133,15 +120,16 @@ function Header({ locale }: { locale: L }) {
             {locales.map(({ code, label }, i) => (
               <span key={code} className="flex items-center gap-1">
                 {i > 0 && (
-                  <span className="text-stone-300 select-none" aria-hidden="true">·</span>
+                  <span className="select-none" style={{ color: "#d1d5db" }} aria-hidden="true">·</span>
                 )}
                 <a
                   href={`/${code}`}
                   aria-current={code === locale ? "page" : undefined}
-                  className={
+                  className="transition-colors"
+                  style={
                     code === locale
-                      ? "font-bold text-blue-900"
-                      : "text-stone-500 hover:text-stone-800 transition-colors"
+                      ? { color: "#127384", fontWeight: 600 }
+                      : { color: "#6b7280" }
                   }
                 >
                   {label}
@@ -153,15 +141,19 @@ function Header({ locale }: { locale: L }) {
           {/* Phone — large screens only */}
           <a
             href="tel:+998711234567"
-            className="hidden lg:block text-sm font-medium text-stone-700 hover:text-blue-900 transition-colors whitespace-nowrap"
+            className="hidden lg:block text-sm font-medium transition-colors whitespace-nowrap"
+            style={{ color: "#2F2F2F" }}
           >
             +998 71 123-45-67
           </a>
 
-          {/* Login button */}
+          {/* Login button — pill style */}
           <a
             href={`/${locale}/login`}
-            className="hidden sm:inline-flex items-center rounded-lg bg-blue-900 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800 transition-colors"
+            className="hidden sm:inline-flex items-center rounded-full px-5 py-2 text-sm font-medium text-white transition-colors"
+            style={{ backgroundColor: "#127384" }}
+            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#0e5d6a")}
+            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#127384")}
           >
             {t(locale, "Войти", "Kirish", "Sign in")}
           </a>
@@ -169,7 +161,8 @@ function Header({ locale }: { locale: L }) {
           {/* Mobile hamburger */}
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-stone-200 text-stone-600 hover:border-stone-300 hover:text-stone-900 transition-colors md:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-full border transition-colors md:hidden"
+            style={{ borderColor: "#e5e7eb", color: "#2F2F2F" }}
             aria-label={t(locale, "Открыть меню", "Menyuni ochish", "Open menu")}
           >
             <svg
@@ -198,89 +191,87 @@ function Header({ locale }: { locale: L }) {
 function Footer({ locale }: { locale: L }) {
   const year = new Date().getFullYear();
 
-  const navLinks = [
-    { href: `/${locale}/cars`,    label: t(locale, "Каталог",  "Katalog",       "Catalog") },
-    { href: `/${locale}/about`,   label: t(locale, "О нас",    "Biz haqimizda", "About")   },
-    { href: `/${locale}/blog`,    label: t(locale, "Блог",     "Blog",          "Blog")    },
-    { href: `/${locale}/contact`, label: t(locale, "Контакты", "Aloqa",         "Contact") },
-    { href: `/${locale}/faq`,     label: "FAQ" },
+  const vehicleTypes = [
+    { href: `/${locale}/cars?type=sedan`,   label: t(locale, "Седан",     "Sedan",     "Sedan")   },
+    { href: `/${locale}/cars?type=suv`,     label: t(locale, "Внедорожник", "SUV",     "SUV")     },
+    { href: `/${locale}/cars?type=minivan`, label: t(locale, "Минивэн",   "Miniven",   "Minivan") },
+    { href: `/${locale}/cars?type=premium`, label: t(locale, "Премиум",   "Premium",   "Premium") },
+    { href: `/${locale}/cars?type=economy`, label: t(locale, "Эконом",    "Ekonom",    "Economy") },
   ];
 
-  const serviceLinks = [
-    { href: `/${locale}/cars`,        label: t(locale, "Аренда авто",    "Avtomobil ijarasi", "Car Rental")  },
-    { href: `/${locale}/transfer`,    label: t(locale, "Трансфер",       "Transfer",          "Transfer")    },
-    { href: `/${locale}/with-driver`, label: t(locale, "С водителем",    "Haydovchi bilan",   "With Driver") },
-    { href: `/${locale}/corporate`,   label: t(locale, "Корпоративная",  "Korporativ",        "Corporate")   },
+  const quickLinks = [
+    { href: `/${locale}/cars`,        label: t(locale, "Каталог",       "Katalog",           "Catalog")     },
+    { href: `/${locale}/about`,       label: t(locale, "О нас",         "Biz haqimizda",     "About us")    },
+    { href: `/${locale}/blog`,        label: t(locale, "Блог",          "Blog",              "Blog")        },
+    { href: `/${locale}/contact`,     label: t(locale, "Контакты",      "Aloqa",             "Contact")     },
+    { href: `/${locale}/faq`,         label: "FAQ"                                                           },
+    { href: `/${locale}/terms`,       label: t(locale, "Условия",       "Shartlar",          "Terms")       },
+    { href: `/${locale}/privacy`,     label: t(locale, "Конфиденциальность", "Maxfiylik",    "Privacy")     },
   ];
 
   return (
-    <footer className="bg-stone-900 text-white">
+    <footer style={{ backgroundColor: "#201F1D" }} className="text-white">
 
       {/* Main content */}
       <div className="mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
 
-          {/* Col 1 — Brand */}
+          {/* Col 1 — Brand + about + socials */}
           <div className="space-y-5">
             {/* Logo */}
             <a href={`/${locale}`} className="inline-flex items-center gap-0 select-none" aria-label="RentCar — home">
-              <span className="text-xl font-bold text-white font-[Manrope,sans-serif]">Rent</span>
-              <span className="text-xl font-bold text-white font-[Manrope,sans-serif]">Car</span>
-              <span className="ml-0.5 inline-block h-1.5 w-1.5 rounded-full bg-orange-500 self-end mb-1" aria-hidden="true" />
+              <span className="text-xl font-bold text-white">Rent</span>
+              <span className="text-xl font-bold" style={{ color: "#FFA633" }}>Car</span>
             </a>
 
-            <p className="text-sm leading-relaxed text-stone-400 max-w-[210px]">
+            <p className="text-sm leading-relaxed max-w-[210px]" style={{ color: "#9ca3af" }}>
               {t(
                 locale,
-                "Аренда автомобилей по всему Узбекистану.",
-                "O'zbekiston bo'ylab avtomobil ijarasi.",
-                "Car rental across Uzbekistan."
+                "Аренда автомобилей по всему Узбекистану. Быстро, удобно, надёжно.",
+                "O'zbekiston bo'ylab tez, qulay va ishonchli avtomobil ijarasi.",
+                "Fast, convenient and reliable car rental across Uzbekistan."
               )}
             </p>
 
-            {/* Socials */}
-            <div className="flex items-center gap-4 pt-1">
-              <a
-                href="https://t.me/rentcar_uz"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Telegram"
-                className="text-stone-400 hover:text-white transition-colors"
-              >
-                <TelegramIcon className="h-5 w-5" />
-              </a>
-              <a
-                href="https://instagram.com/rentcar.uz"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="text-stone-400 hover:text-white transition-colors"
-              >
-                <InstagramIcon className="h-5 w-5" />
-              </a>
-              <a
-                href="https://wa.me/998711234567"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="WhatsApp"
-                className="text-stone-400 hover:text-white transition-colors"
-              >
-                <WhatsAppIcon className="h-5 w-5" />
-              </a>
+            {/* Social icons — white circles, hover orange */}
+            <div className="flex items-center gap-3 pt-1">
+              {[
+                { href: "https://t.me/rentcar_uz",       label: "Telegram",  Icon: TelegramIcon  },
+                { href: "https://instagram.com/rentcar.uz", label: "Instagram", Icon: InstagramIcon },
+                { href: "https://wa.me/998711234567",     label: "WhatsApp",  Icon: WhatsAppIcon  },
+              ].map(({ href, label, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-9 w-9 items-center justify-center rounded-full transition-colors"
+                  style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#FFA633")}
+                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)")}
+                >
+                  <Icon className="h-4 w-4 text-white" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Col 2 — Navigation */}
+          {/* Col 2 — Vehicle types */}
           <div>
-            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-stone-500">
-              {t(locale, "Навигация", "Navigatsiya", "Navigation")}
+            <h3
+              className="mb-5 text-xs font-semibold uppercase tracking-widest"
+              style={{ color: "#6b7280" }}
+            >
+              {t(locale, "Тип транспорта", "Transport turi", "Vehicle Type")}
             </h3>
             <ul className="space-y-3">
-              {navLinks.map(({ href, label }) => (
+              {vehicleTypes.map(({ href, label }) => (
                 <li key={href}>
                   <a
                     href={href}
-                    className="text-sm text-stone-400 hover:text-white transition-colors"
+                    className="text-sm transition-colors hover:text-white"
+                    style={{ color: "#9ca3af" }}
                   >
                     {label}
                   </a>
@@ -289,17 +280,21 @@ function Footer({ locale }: { locale: L }) {
             </ul>
           </div>
 
-          {/* Col 3 — Services */}
+          {/* Col 3 — Quick links */}
           <div>
-            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-stone-500">
-              {t(locale, "Услуги", "Xizmatlar", "Services")}
+            <h3
+              className="mb-5 text-xs font-semibold uppercase tracking-widest"
+              style={{ color: "#6b7280" }}
+            >
+              {t(locale, "Быстрые ссылки", "Tezkor havolalar", "Quick Links")}
             </h3>
             <ul className="space-y-3">
-              {serviceLinks.map(({ href, label }) => (
+              {quickLinks.map(({ href, label }) => (
                 <li key={href}>
                   <a
                     href={href}
-                    className="text-sm text-stone-400 hover:text-white transition-colors"
+                    className="text-sm transition-colors hover:text-white"
+                    style={{ color: "#9ca3af" }}
                   >
                     {label}
                   </a>
@@ -308,24 +303,42 @@ function Footer({ locale }: { locale: L }) {
             </ul>
           </div>
 
-          {/* Col 4 — Contact */}
+          {/* Col 4 — Contacts */}
           <div>
-            <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-stone-500">
+            <h3
+              className="mb-5 text-xs font-semibold uppercase tracking-widest"
+              style={{ color: "#6b7280" }}
+            >
               {t(locale, "Контакты", "Aloqa", "Contact")}
             </h3>
-            <ul className="space-y-3 text-sm text-stone-400">
-              <li>
+            <ul className="space-y-4 text-sm" style={{ color: "#9ca3af" }}>
+              <li className="flex items-start gap-2">
+                {/* Phone icon */}
+                <svg className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: "#FFA633" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                </svg>
                 <a href="tel:+998711234567" className="hover:text-white transition-colors">
                   +998 71 123-45-67
                 </a>
               </li>
-              <li>
+              <li className="flex items-start gap-2">
+                {/* Email icon */}
+                <svg className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: "#FFA633" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                </svg>
                 <a href="mailto:info@rentcar.uz" className="hover:text-white transition-colors">
                   info@rentcar.uz
                 </a>
               </li>
-              <li>
-                {t(locale, "Ташкент, Узбекистан", "Toshkent, O'zbekiston", "Tashkent, Uzbekistan")}
+              <li className="flex items-start gap-2">
+                {/* Location icon */}
+                <svg className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: "#FFA633" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                </svg>
+                <span>
+                  {t(locale, "Ташкент, Узбекистан", "Toshkent, O'zbekiston", "Tashkent, Uzbekistan")}
+                </span>
               </li>
             </ul>
           </div>
@@ -333,41 +346,51 @@ function Footer({ locale }: { locale: L }) {
         </div>
       </div>
 
+      {/* Divider */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="border-t" style={{ borderColor: "#3a3a38" }} />
+      </div>
+
       {/* Bottom bar */}
-      <div className="border-t border-stone-800">
-        <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+      <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
 
-            {/* Copyright */}
-            <p className="order-3 text-xs text-stone-500 sm:order-1">
-              © {year} RentCar.uz.{" "}
-              {t(locale, "Все права защищены.", "Barcha huquqlar himoyalangan.", "All rights reserved.")}
-            </p>
+          {/* Copyright */}
+          <p className="order-3 text-xs sm:order-1" style={{ color: "#6b7280" }}>
+            © {year} RentCar.uz.{" "}
+            {t(locale, "Все права защищены.", "Barcha huquqlar himoyalangan.", "All rights reserved.")}
+          </p>
 
-            {/* Payment methods */}
-            <div className="order-2 flex items-center gap-2 text-xs font-medium text-stone-500">
-              {["Click", "Payme", "Visa", "Mastercard"].map((method) => (
-                <span
-                  key={method}
-                  className="rounded border border-stone-700 px-2 py-0.5 text-stone-400"
-                >
-                  {method}
-                </span>
-              ))}
-            </div>
-
-            {/* Legal links */}
-            <div className="order-1 flex items-center gap-4 text-xs text-stone-500 sm:order-3">
-              <a href={`/${locale}/terms`} className="hover:text-stone-300 transition-colors">
-                {t(locale, "Условия", "Shartlar", "Terms")}
-              </a>
-              <span className="text-stone-700" aria-hidden="true">·</span>
-              <a href={`/${locale}/privacy`} className="hover:text-stone-300 transition-colors">
-                {t(locale, "Конфиденциальность", "Maxfiylik", "Privacy")}
-              </a>
-            </div>
-
+          {/* Payment methods */}
+          <div className="order-2 flex items-center gap-2 text-xs font-medium">
+            {["Click", "Payme", "Visa", "Mastercard"].map((method) => (
+              <span
+                key={method}
+                className="rounded-full border px-2.5 py-0.5"
+                style={{ borderColor: "#3a3a38", color: "#9ca3af" }}
+              >
+                {method}
+              </span>
+            ))}
           </div>
+
+          {/* Legal links */}
+          <div className="order-1 flex items-center gap-4 text-xs sm:order-3" style={{ color: "#6b7280" }}>
+            <a
+              href={`/${locale}/terms`}
+              className="transition-colors hover:text-white"
+            >
+              {t(locale, "Условия", "Shartlar", "Terms")}
+            </a>
+            <span style={{ color: "#3a3a38" }} aria-hidden="true">·</span>
+            <a
+              href={`/${locale}/privacy`}
+              className="transition-colors hover:text-white"
+            >
+              {t(locale, "Конфиденциальность", "Maxfiylik", "Privacy")}
+            </a>
+          </div>
+
         </div>
       </div>
 
@@ -384,9 +407,7 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children, params }: RootLayoutProps) {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
+  if (!hasLocale(routing.locales, locale)) notFound();
   const messages = await getMessages();
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>

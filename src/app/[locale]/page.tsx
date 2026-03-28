@@ -25,9 +25,12 @@ const POPULAR_CARS = [
     year: 2023,
     price: 300_000,
     seats: 4,
+    fuel: "Бензин",
     transmission: "manual" as const,
     initials: "CS",
-    initialsClass: "bg-blue-100 text-blue-800",
+    cardBg: "bg-blue-50",
+    initialsColor: "#1e40af",
+    initialsBg: "#dbeafe",
   },
   {
     id: 2,
@@ -36,9 +39,12 @@ const POPULAR_CARS = [
     year: 2024,
     price: 650_000,
     seats: 5,
+    fuel: "Бензин",
     transmission: "automatic" as const,
     initials: "CT",
-    initialsClass: "bg-rose-100 text-rose-800",
+    cardBg: "bg-rose-50",
+    initialsColor: "#9f1239",
+    initialsBg: "#ffe4e6",
   },
   {
     id: 3,
@@ -47,9 +53,12 @@ const POPULAR_CARS = [
     year: 2024,
     price: 900_000,
     seats: 5,
+    fuel: "Бензин",
     transmission: "automatic" as const,
     initials: "TC",
-    initialsClass: "bg-amber-100 text-amber-800",
+    cardBg: "bg-amber-50",
+    initialsColor: "#92400e",
+    initialsBg: "#fef3c7",
   },
   {
     id: 4,
@@ -58,15 +67,20 @@ const POPULAR_CARS = [
     year: 2023,
     price: 1_500_000,
     seats: 7,
+    fuel: "Дизель",
     transmission: "automatic" as const,
     initials: "TP",
-    initialsClass: "bg-emerald-100 text-emerald-800",
+    cardBg: "bg-emerald-50",
+    initialsColor: "#065f46",
+    initialsBg: "#d1fae5",
   },
 ];
 
-/* ─── SVG Icons ─────────────────────────────────────────────────────────── */
+const BRANDS = ["Все", "Chevrolet", "Kia", "Toyota", "BYD"];
 
-function MapPinIcon() {
+/* ─── Inline SVG icons ──────────────────────────────────────────────────── */
+
+function MapPinIcon({ className = "h-4 w-4" }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +90,7 @@ function MapPinIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-4 w-4"
+      className={className}
       aria-hidden="true"
     >
       <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -85,7 +99,7 @@ function MapPinIcon() {
   );
 }
 
-function CalendarIcon() {
+function CalendarIcon({ className = "h-4 w-4" }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +109,7 @@ function CalendarIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-4 w-4"
+      className={className}
       aria-hidden="true"
     >
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -106,7 +120,7 @@ function CalendarIcon() {
   );
 }
 
-function ArrowRightIcon() {
+function ArrowRightIcon({ className = "h-4 w-4" }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -116,10 +130,200 @@ function ArrowRightIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-4 w-4"
+      className={className}
       aria-hidden="true"
     >
       <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+  );
+}
+
+function CheckCircleIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  );
+}
+
+function GearIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="3" />
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
+      <path d="M12 2v2M12 20v2M2 12h2M20 12h2" />
+    </svg>
+  );
+}
+
+function FuelIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M3 22V8a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v14" />
+      <path d="M3 16h12" />
+      <path d="M14 10h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2 2 2 0 0 0 2-2V8l-3-3" />
+    </svg>
+  );
+}
+
+function UsersIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}
+
+function ShieldIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  );
+}
+
+function StarIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+
+function ClockIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  );
+}
+
+function HeadphonesIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+    </svg>
+  );
+}
+
+function TagIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+      <line x1="7" y1="7" x2="7.01" y2="7" />
+    </svg>
+  );
+}
+
+function CarIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" />
+      <rect x="11" y="11" width="10" height="8" rx="2" />
+      <circle cx="5" cy="17" r="1" />
+      <circle cx="18" cy="17" r="1" />
     </svg>
   );
 }
@@ -130,119 +334,199 @@ function HeroSection() {
   const t = useTranslations("Hero");
 
   return (
-    <section
-      className="relative bg-gradient-to-b from-blue-900 to-blue-800 py-28 pb-36"
-      style={{
-        clipPath: "ellipse(120% 100% at 50% 0%)",
-      }}
-    >
-      {/* Text block */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-          {t("headline")}
-        </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-lg text-stone-300">
-          {t("subheadline")}
-        </p>
-      </div>
+    <section className="bg-white pt-10 pb-20 sm:pt-16 sm:pb-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          {/* Left — text + search form */}
+          <div>
+            {/* Orange badge */}
+            <span
+              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
+              style={{ background: "#FFF3E0", color: "#FFA633" }}
+            >
+              <span
+                className="h-1.5 w-1.5 rounded-full"
+                style={{ background: "#FFA633" }}
+                aria-hidden="true"
+              />
+              Лучший сервис аренды
+            </span>
 
-      {/* Search card — overlaps into next section */}
-      <div className="mx-auto mt-12 max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10 -mb-16">
-        <div className="rounded-2xl bg-white shadow-xl p-6 sm:p-8">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-stone-400">
-            {t("searchTitle")}
-          </p>
+            {/* Headline */}
+            <h1
+              className="mt-4 text-4xl font-bold leading-tight sm:text-5xl"
+              style={{ color: "#201F1D" }}
+            >
+              {t("headline")}
+            </h1>
+            <p className="mt-4 text-lg text-gray-500">{t("subheadline")}</p>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Pickup city */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-stone-500 uppercase tracking-wide">
-                {t("pickupCity")}
-              </label>
-              <div className="relative">
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">
-                  <MapPinIcon />
-                </span>
-                <input
-                  type="text"
-                  placeholder={t("pickupCityPlaceholder")}
-                  className="w-full rounded-lg border border-stone-200 py-2.5 pl-9 pr-3 text-sm text-stone-900 placeholder-stone-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
-                />
+            {/* Search card */}
+            <div className="mt-8 rounded-2xl bg-white shadow-xl p-5 sm:p-6 border border-gray-100">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                {t("searchTitle")}
+              </p>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {/* Pickup city */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                    {t("pickupCity")}
+                  </label>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                      <MapPinIcon />
+                    </span>
+                    <input
+                      type="text"
+                      placeholder={t("pickupCityPlaceholder")}
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm text-gray-900 placeholder-gray-400 focus:border-[#FFA633] focus:outline-none focus:ring-1 focus:ring-[#FFA633]"
+                    />
+                  </div>
+                </div>
+
+                {/* Dropoff city */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                    {t("dropoffCity")}
+                  </label>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                      <MapPinIcon />
+                    </span>
+                    <input
+                      type="text"
+                      placeholder={t("dropoffCityPlaceholder")}
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm text-gray-900 placeholder-gray-400 focus:border-[#FFA633] focus:outline-none focus:ring-1 focus:ring-[#FFA633]"
+                    />
+                  </div>
+                </div>
+
+                {/* Start date */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                    {t("startDate")}
+                  </label>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                      <CalendarIcon />
+                    </span>
+                    <input
+                      type="date"
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm text-gray-900 focus:border-[#FFA633] focus:outline-none focus:ring-1 focus:ring-[#FFA633]"
+                    />
+                  </div>
+                </div>
+
+                {/* End date */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                    {t("endDate")}
+                  </label>
+                  <div className="relative">
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                      <CalendarIcon />
+                    </span>
+                    <input
+                      type="date"
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm text-gray-900 focus:border-[#FFA633] focus:outline-none focus:ring-1 focus:ring-[#FFA633]"
+                    />
+                  </div>
+                </div>
               </div>
+
+              {/* Search button */}
+              <button
+                type="button"
+                className="mt-4 w-full rounded-full py-3.5 text-sm font-semibold text-white transition hover:bg-[#e8952d] active:scale-[0.99]"
+                style={{ background: "#FFA633" }}
+              >
+                {t("searchButton")}
+              </button>
             </div>
 
-            {/* Dropoff city */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-stone-500 uppercase tracking-wide">
-                {t("dropoffCity")}
-              </label>
-              <div className="relative">
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">
-                  <MapPinIcon />
-                </span>
-                <input
-                  type="text"
-                  placeholder={t("dropoffCityPlaceholder")}
-                  className="w-full rounded-lg border border-stone-200 py-2.5 pl-9 pr-3 text-sm text-stone-900 placeholder-stone-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
-                />
-              </div>
-            </div>
-
-            {/* Start date */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-stone-500 uppercase tracking-wide">
-                {t("startDate")}
-              </label>
-              <div className="relative">
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">
-                  <CalendarIcon />
-                </span>
-                <input
-                  type="date"
-                  className="w-full rounded-lg border border-stone-200 py-2.5 pl-9 pr-3 text-sm text-stone-900 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
-                />
-              </div>
-            </div>
-
-            {/* End date */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-stone-500 uppercase tracking-wide">
-                {t("endDate")}
-              </label>
-              <div className="relative">
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">
-                  <CalendarIcon />
-                </span>
-                <input
-                  type="date"
-                  className="w-full rounded-lg border border-stone-200 py-2.5 pl-9 pr-3 text-sm text-stone-900 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
-                />
-              </div>
+            {/* Trust badges */}
+            <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+              <span className="flex items-center gap-1.5 text-sm text-gray-600">
+                <CheckCircleIcon className="h-4 w-4 text-[#127384]" />
+                {t("trustFreeCancel")}
+              </span>
+              <span className="flex items-center gap-1.5 text-sm text-gray-600">
+                <CheckCircleIcon className="h-4 w-4 text-[#127384]" />
+                {t("trustInsurance")}
+              </span>
+              <span className="flex items-center gap-1.5 text-sm text-gray-600">
+                <CheckCircleIcon className="h-4 w-4 text-[#127384]" />
+                {t("trustRating")}
+              </span>
             </div>
           </div>
 
-          {/* Search button */}
-          <button
-            type="button"
-            className="mt-5 w-full rounded-xl bg-orange-500 py-4 text-sm font-bold text-white transition hover:bg-orange-600 active:scale-[0.99]"
-          >
-            {t("searchButton")}
-          </button>
+          {/* Right — car image placeholder */}
+          <div className="hidden lg:flex items-center justify-center">
+            <div
+              className="relative w-full max-w-lg rounded-3xl overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, #e0f4f7 0%, #b2e0e8 100%)",
+                aspectRatio: "4/3",
+              }}
+            >
+              {/* Decorative circles */}
+              <div
+                className="absolute -top-10 -right-10 h-48 w-48 rounded-full opacity-30"
+                style={{ background: "#127384" }}
+                aria-hidden="true"
+              />
+              <div
+                className="absolute -bottom-8 -left-8 h-36 w-36 rounded-full opacity-20"
+                style={{ background: "#FFA633" }}
+                aria-hidden="true"
+              />
 
-          {/* Trust badges */}
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-1">
-            <span className="text-xs text-stone-500">
-              <span className="mr-1 font-bold text-orange-500">&#10003;</span>
-              {t("trustFreeCancel") || "Бесплатная отмена"}
-            </span>
-            <span className="text-xs text-stone-500">
-              <span className="mr-1 font-bold text-orange-500">&#10003;</span>
-              {t("trustInsurance") || "Полная страховка"}
-            </span>
-            <span className="text-xs text-stone-500">
-              <span className="mr-1 font-bold text-orange-500">&#10003;</span>
-              {t("trustRating") || "Рейтинг 4.9"}
-            </span>
+              {/* Car emoji placeholder */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#127384"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-24 w-24 opacity-70"
+                  aria-hidden="true"
+                >
+                  <path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" />
+                  <rect x="11" y="11" width="10" height="8" rx="2" />
+                  <circle cx="5" cy="17" r="1" />
+                  <circle cx="18" cy="17" r="1" />
+                </svg>
+                <span
+                  className="text-sm font-semibold tracking-wide opacity-60"
+                  style={{ color: "#127384" }}
+                >
+                  DreamsRent
+                </span>
+              </div>
+
+              {/* Floating badge */}
+              <div
+                className="absolute top-5 left-5 rounded-2xl px-4 py-2 shadow-lg"
+                style={{ background: "#127384" }}
+              >
+                <p className="text-xs font-bold text-white">500+ авто</p>
+                <p className="text-[10px] text-teal-200">по всему Узбекистану</p>
+              </div>
+
+              {/* Floating price badge */}
+              <div className="absolute bottom-5 right-5 rounded-2xl bg-white px-4 py-2 shadow-lg">
+                <p className="text-[10px] text-gray-400">от</p>
+                <p className="text-sm font-extrabold" style={{ color: "#FFA633" }}>
+                  300 000 сум
+                </p>
+                <p className="text-[10px] text-gray-400">в сутки</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -259,43 +543,64 @@ function PopularCarsSection() {
   const tCar = useTranslations("car");
 
   return (
-    <section className="bg-white pt-28 pb-20 sm:pb-28">
+    <section style={{ background: "#f7f7f7" }} className="py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-orange-500">
-              {t("eyebrow")}
-            </p>
-            <h2 className="mt-1 text-2xl font-bold text-stone-900 sm:text-3xl">
-              {t("heading")}
-            </h2>
-            <p className="mt-1 text-stone-500">{t("subheading")}</p>
-          </div>
-          <a
-            href="#"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-800 hover:text-orange-500 whitespace-nowrap transition-colors"
+        <div className="text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#FFA633" }}>
+            {t("eyebrow")}
+          </p>
+          <h2
+            className="mt-2 text-2xl font-bold sm:text-3xl"
+            style={{ color: "#201F1D" }}
           >
-            {t("viewAll")}
-            <ArrowRightIcon />
-          </a>
+            {t("heading")}
+          </h2>
+          <p className="mx-auto mt-2 max-w-xl text-gray-500">{t("subheading")}</p>
+        </div>
+
+        {/* Brand filter pills */}
+        <div className="mt-8 flex flex-wrap justify-center gap-2">
+          {BRANDS.map((brand, idx) => (
+            <button
+              key={brand}
+              type="button"
+              className="rounded-full px-5 py-2 text-sm font-semibold transition"
+              style={
+                idx === 0
+                  ? { background: "#127384", color: "#fff" }
+                  : {
+                      background: "#fff",
+                      color: "#2F2F2F",
+                      border: "1px solid #e5e7eb",
+                    }
+              }
+            >
+              {brand}
+            </button>
+          ))}
         </div>
 
         {/* Cards grid */}
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {POPULAR_CARS.map((car) => (
             <div
               key={car.id}
-              className="flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white transition-shadow hover:shadow-lg hover:border-blue-200"
+              className="flex flex-col overflow-hidden rounded-xl bg-white shadow-sm transition hover:shadow-md"
             >
-              {/* Car visual — colored rectangle with initials */}
+              {/* Car visual */}
               <div
-                className={`flex items-center justify-center ${car.initialsClass} py-10 relative`}
+                className="relative flex items-center justify-center py-10"
+                style={{ background: car.initialsBg }}
               >
-                <span className="text-4xl font-black tracking-tight select-none">
+                <span
+                  className="text-4xl font-black tracking-tight select-none"
+                  style={{ color: car.initialsColor }}
+                >
                   {car.initials}
                 </span>
-                <span className="absolute right-3 top-3 rounded-full bg-white/80 px-2 py-0.5 text-[11px] font-semibold text-stone-600 border border-stone-100">
+                {/* Year badge */}
+                <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-0.5 text-[11px] font-semibold text-gray-600 shadow-sm">
                   {car.year}
                 </span>
               </div>
@@ -303,34 +608,56 @@ function PopularCarsSection() {
               {/* Card body */}
               <div className="flex flex-1 flex-col gap-3 p-4">
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-stone-400">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                     {car.brand}
                   </p>
-                  <h3 className="mt-0.5 text-base font-bold text-stone-900">
+                  <h3 className="mt-0.5 text-base font-bold" style={{ color: "#201F1D" }}>
                     {car.model}
                   </h3>
                 </div>
 
-                {/* Specs row */}
-                <p className="text-xs text-stone-500">
-                  {car.year}&nbsp;&middot;&nbsp;
-                  {tCatalog(car.transmission)}&nbsp;&middot;&nbsp;
-                  {car.seats} мест
-                </p>
+                {/* Specs grid */}
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="flex flex-col items-center gap-1 rounded-lg bg-gray-50 px-2 py-2">
+                    <GearIcon className="h-3.5 w-3.5 text-gray-400" />
+                    <span className="text-[10px] text-gray-500 text-center leading-tight">
+                      {tCatalog(car.transmission)}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 rounded-lg bg-gray-50 px-2 py-2">
+                    <FuelIcon className="h-3.5 w-3.5 text-gray-400" />
+                    <span className="text-[10px] text-gray-500 text-center leading-tight">
+                      {car.fuel}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1 rounded-lg bg-gray-50 px-2 py-2">
+                    <UsersIcon className="h-3.5 w-3.5 text-gray-400" />
+                    <span className="text-[10px] text-gray-500 text-center leading-tight">
+                      {car.seats} мест
+                    </span>
+                  </div>
+                </div>
+
+                {/* Location */}
+                <div className="flex items-center gap-1 text-xs text-gray-400">
+                  <MapPinIcon className="h-3.5 w-3.5" />
+                  Ташкент
+                </div>
 
                 {/* Price + CTA */}
-                <div className="mt-auto flex items-center justify-between border-t border-stone-100 pt-3">
+                <div className="mt-auto flex items-end justify-between border-t border-gray-100 pt-3">
                   <div>
-                    <p className="text-lg font-extrabold text-stone-900">
+                    <p className="text-base font-extrabold" style={{ color: "#201F1D" }}>
                       {car.price.toLocaleString("ru-RU")}
                     </p>
-                    <p className="text-[11px] text-stone-400">
+                    <p className="text-[11px] text-gray-400">
                       {tCommon("currency")} / {tCar("perDay")}
                     </p>
                   </div>
                   <button
                     type="button"
-                    className="rounded-lg bg-orange-500 px-3 py-2 text-xs font-bold text-white transition hover:bg-orange-600"
+                    className="rounded-full px-4 py-2 text-xs font-semibold text-white transition hover:opacity-90"
+                    style={{ background: "#127384" }}
                   >
                     {tCommon("book")}
                   </button>
@@ -338,6 +665,21 @@ function PopularCarsSection() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* View all link */}
+        <div className="mt-10 text-center">
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-semibold transition hover:shadow-sm"
+            style={{
+              borderColor: "#127384",
+              color: "#127384",
+            }}
+          >
+            {t("viewAll")}
+            <ArrowRightIcon />
+          </a>
         </div>
       </div>
     </section>
@@ -349,64 +691,68 @@ function PopularCarsSection() {
 const HOW_IT_WORKS = [
   {
     num: "01",
-    title: "Выберите авто",
-    desc: "Просмотрите каталог и выберите подходящий автомобиль для вашей поездки.",
+    title: "Выберите место",
+    desc: "Укажите город получения и возврата автомобиля. Мы работаем по всему Узбекистану.",
   },
   {
     num: "02",
-    title: "Забронируйте",
-    desc: "Укажите даты, подтвердите детали и оплатите бронирование за несколько минут.",
+    title: "Выберите дату",
+    desc: "Задайте удобные даты аренды и мгновенно получите расчёт стоимости.",
   },
   {
     num: "03",
-    title: "В путь!",
-    desc: "Заберите автомобиль в удобном месте и отправляйтесь навстречу приключениям.",
+    title: "Забронируйте авто",
+    desc: "Подтвердите бронь за несколько кликов и заберите автомобиль в нужное время.",
   },
-];
+] as const;
 
 function HowItWorksSection() {
   return (
-    <section className="bg-stone-50 py-20 sm:py-28">
+    <section className="bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-orange-500">
+          <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#FFA633" }}>
             Просто и быстро
           </p>
-          <h2 className="mt-2 text-2xl font-bold text-stone-900 sm:text-3xl">
+          <h2 className="mt-2 text-2xl font-bold sm:text-3xl" style={{ color: "#201F1D" }}>
             Как это работает
           </h2>
-          <p className="mx-auto mt-2 max-w-xl text-stone-500">
+          <p className="mx-auto mt-2 max-w-xl text-gray-500">
             От выбора до старта — мы сделали всё максимально просто.
           </p>
         </div>
 
         {/* Steps */}
-        <div className="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-3 relative">
-          {/* Connector line — desktop only */}
+        <div className="relative mt-14 grid grid-cols-1 gap-8 lg:grid-cols-3">
+          {/* Dotted connector line — desktop */}
           <div
-            className="hidden lg:block absolute top-9 left-[calc(1/6*100%+2rem)] right-[calc(1/6*100%+2rem)] h-px bg-stone-200"
+            className="hidden lg:block absolute top-10 left-[calc(16.67%+2.5rem)] right-[calc(16.67%+2.5rem)] border-t-2 border-dashed"
+            style={{ borderColor: "#e5e7eb" }}
             aria-hidden="true"
           />
 
           {HOW_IT_WORKS.map(({ num, title, desc }) => (
-            <div key={num} className="flex flex-col items-center text-center relative">
-              {/* Faded background number */}
-              <div className="relative flex items-center justify-center">
-                <span
-                  className="absolute text-[72px] font-black text-blue-900/10 leading-none select-none"
-                  aria-hidden="true"
-                >
-                  {num}
-                </span>
-                <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border-2 border-orange-500 bg-white text-lg font-extrabold text-blue-900">
-                  {num}
-                </div>
+            <div
+              key={num}
+              className="flex flex-col items-center rounded-2xl bg-white p-8 text-center shadow-sm"
+              style={{ border: "1px solid #f0f0f0" }}
+            >
+              {/* Orange numbered circle */}
+              <div
+                className="flex h-20 w-20 items-center justify-center rounded-full text-2xl font-extrabold text-white"
+                style={{ background: "linear-gradient(135deg, #FFA633 0%, #e8952d 100%)" }}
+              >
+                {num}
               </div>
-              <h3 className="mt-5 text-lg font-bold text-stone-900">{title}</h3>
-              <p className="mt-2 max-w-xs text-sm leading-relaxed text-stone-500">
-                {desc}
-              </p>
+
+              <h3
+                className="mt-5 text-lg font-semibold"
+                style={{ color: "#201F1D" }}
+              >
+                {title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-500">{desc}</p>
             </div>
           ))}
         </div>
@@ -428,7 +774,7 @@ function StatsBanner() {
   ] as const;
 
   return (
-    <section className="bg-blue-900 py-16 sm:py-24">
+    <section style={{ background: "#127384" }} className="py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <dl className="grid grid-cols-2 gap-10 lg:grid-cols-4">
           {stats.map(({ valueKey, labelKey }) => (
@@ -436,7 +782,10 @@ function StatsBanner() {
               <dt className="text-4xl font-extrabold text-white sm:text-5xl">
                 {t(valueKey)}
               </dt>
-              <dd className="mt-2 text-sm font-medium text-blue-200">
+              <dd
+                className="mt-2 text-sm font-medium"
+                style={{ color: "#a5d8e0" }}
+              >
                 {t(labelKey)}
               </dd>
             </div>
@@ -449,13 +798,13 @@ function StatsBanner() {
 
 /* ─── Why Choose Us ─────────────────────────────────────────────────────── */
 
-const ADVANTAGE_DOTS = [
-  "bg-blue-500",
-  "bg-orange-500",
-  "bg-emerald-500",
-  "bg-purple-500",
-  "bg-rose-500",
-  "bg-amber-500",
+const ADVANTAGE_ICONS = [
+  ShieldIcon,
+  ClockIcon,
+  StarIcon,
+  HeadphonesIcon,
+  TagIcon,
+  CarIcon,
 ] as const;
 
 function WhyChooseUsSection() {
@@ -471,41 +820,55 @@ function WhyChooseUsSection() {
   ] as const;
 
   return (
-    <section className="bg-white py-20 sm:py-28">
+    <section style={{ background: "#f7f7f7" }} className="py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-orange-500">
+          <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#FFA633" }}>
             {t("eyebrow")}
           </p>
-          <h2 className="mt-2 text-2xl font-bold text-stone-900 sm:text-3xl">
+          <h2 className="mt-2 text-2xl font-bold sm:text-3xl" style={{ color: "#201F1D" }}>
             {t("heading")}
           </h2>
-          <p className="mx-auto mt-2 max-w-2xl text-stone-500">
-            {t("subheading")}
-          </p>
+          <p className="mx-auto mt-2 max-w-2xl text-gray-500">{t("subheading")}</p>
         </div>
 
         {/* Grid */}
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {advantages.map(({ titleKey, descKey }, idx) => (
-            <div
-              key={titleKey}
-              className="rounded-xl bg-stone-50 p-6 transition hover:bg-white hover:shadow-md"
-            >
-              {/* Colored dot */}
+          {advantages.map(({ titleKey, descKey }, idx) => {
+            const Icon = ADVANTAGE_ICONS[idx];
+            return (
               <div
-                className={`mb-4 h-2 w-2 rounded-full ${ADVANTAGE_DOTS[idx]}`}
-                aria-hidden="true"
-              />
-              <h3 className="text-sm font-semibold text-stone-900">
-                {t(titleKey)}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-stone-500">
-                {t(descKey)}
-              </p>
-            </div>
-          ))}
+                key={titleKey}
+                className="group rounded-xl bg-white p-6 shadow-sm transition hover:shadow-md hover:border-l-4"
+                style={
+                  {
+                    "--hover-border": "#FFA633",
+                  } as React.CSSProperties
+                }
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.borderLeftColor = "#FFA633";
+                }}
+              >
+                {/* Icon in orange circle */}
+                <div
+                  className="mb-4 flex h-11 w-11 items-center justify-center rounded-full"
+                  style={{ background: "#FFF3E0" }}
+                >
+                  <span style={{ color: "#FFA633" }} className="flex items-center justify-center">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                </div>
+
+                <h3 className="text-sm font-semibold" style={{ color: "#201F1D" }}>
+                  {t(titleKey)}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                  {t(descKey)}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -518,29 +881,31 @@ function CTASection() {
   const tNav = useTranslations("nav");
 
   return (
-    <section className="bg-stone-900 py-20 sm:py-28">
+    <section style={{ background: "#201F1D" }} className="py-20 sm:py-28">
       <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-white sm:text-4xl">
           Готовы к поездке?
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-lg text-stone-400">
+        <p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">
           Тысячи водителей по всему Узбекистану уже доверяют нам. Забронируйте
           автомобиль за несколько минут.
         </p>
 
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          {/* Primary — orange */}
+          {/* Primary — orange pill */}
           <a
             href="#"
-            className="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-8 py-3.5 text-sm font-bold text-white transition hover:bg-orange-600"
+            className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold text-white transition hover:opacity-90"
+            style={{ background: "#FFA633" }}
           >
             {tNav("catalog")}
           </a>
 
-          {/* Secondary — white outline */}
+          {/* Secondary — teal outline pill */}
           <a
             href="#"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/40 px-8 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+            className="inline-flex items-center gap-2 rounded-full border px-8 py-3.5 text-sm font-semibold transition hover:bg-white/5"
+            style={{ borderColor: "#127384", color: "#fff" }}
           >
             {tNav("listYourCar")}
           </a>

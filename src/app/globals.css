@@ -1,9 +1,13 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-manrope);
-  --color-brand: #1e3a8a;
-  --color-accent: #f97316;
+  --font-sans: var(--font-poppins);
+  --color-primary: #FFA633;
+  --color-primary-hover: #e8952d;
+  --color-secondary: #127384;
+  --color-secondary-hover: #0e5d6a;
+  --color-dark: #201F1D;
+  --color-body: #2F2F2F;
 }
 
 html {
@@ -11,28 +15,27 @@ html {
 }
 
 :focus-visible {
-  outline: 2px solid #1e3a8a;
+  outline: 2px solid #127384;
   outline-offset: 2px;
 }
 
-/* Warm scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #fafaf9; }
-::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #f7f7f7; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
 
 /* Range input */
 input[type="range"] {
   -webkit-appearance: none;
   height: 4px;
   border-radius: 2px;
-  background: #e7e5e4;
+  background: #e5e5e5;
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #1e3a8a;
+  background: #127384;
   border: 3px solid white;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   cursor: pointer;
@@ -42,7 +45,7 @@ input[type="range"]::-moz-range-thumb {
   height: 18px;
   border: 3px solid white;
   border-radius: 50%;
-  background: #1e3a8a;
+  background: #127384;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   cursor: pointer;
 }
