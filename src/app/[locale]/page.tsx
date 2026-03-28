@@ -840,15 +840,7 @@ function WhyChooseUsSection() {
             return (
               <div
                 key={titleKey}
-                className="group rounded-xl bg-white p-6 shadow-sm transition hover:shadow-md hover:border-l-4"
-                style={
-                  {
-                    "--hover-border": "#FFA633",
-                  } as React.CSSProperties
-                }
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderLeftColor = "#FFA633";
-                }}
+                className="group rounded-xl bg-white p-6 shadow-sm transition-all hover:shadow-md hover:border-l-4 hover:border-l-[#FFA633]"
               >
                 {/* Icon in orange circle */}
                 <div
