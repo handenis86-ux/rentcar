@@ -23,8 +23,32 @@ export interface User extends BaseEntity {
   isVerified: boolean;
 }
 
-export interface Car extends BaseEntity {
+export interface City {
+  id: string;
+  slug: string;
+  nameRu: string;
+  nameUz: string;
+  nameEn: string;
+}
+
+export interface Company extends BaseEntity {
+  slug: string;
+  name: string;
+  description: string | null;
+  logo: string | null;
+  phone: string | null;
+  email: string | null;
+  address: string | null;
   ownerId: string;
+  isVerified: boolean;
+  owner?: User;
+}
+
+export interface Car extends BaseEntity {
+  slug: string;
+  ownerId: string;
+  companyId: string | null;
+  cityId: string;
   brand: string;
   model: string;
   year: number;
@@ -35,14 +59,16 @@ export interface Car extends BaseEntity {
   pricePerDay: number;
   deposit: number;
   mileageLimit: number | null;
-  city: string;
   address: string | null;
   images: string[];
   features: string[];
+  description: string | null;
   isOwnFleet: boolean;
   isAvailable: boolean;
   isApproved: boolean;
   owner?: User;
+  company?: Company;
+  city?: City;
   reviews?: Review[];
   averageRating?: number;
   reviewCount?: number;

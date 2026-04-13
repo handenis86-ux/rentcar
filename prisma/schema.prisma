@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -78,15 +79,52 @@ model User {
   bookingsAsRenter Booking[] @relation("BookingRenter")
   bookingsAsOwner  Booking[] @relation("BookingOwner")
   reviews          Review[]  @relation("ReviewAuthor")
+  companies        Company[] @relation("CompanyOwner")
 
   @@index([email])
   @@index([phone])
   @@index([role])
 }
 
+model City {
+  id     String @id @default(cuid())
+  slug   String @unique
+  nameRu String
+  nameUz String
+  nameEn String
+
+  cars Car[]
+
+  @@index([slug])
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String?
+  logo        String?
+  phone       String?
+  email       String?
+  address     String?
+  ownerId     String
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner User  @relation("CompanyOwner", fields: [ownerId], references: [id])
+  cars  Car[]
+
+  @@index([slug])
+  @@index([ownerId])
+}
+
 model Car {
-  id           String      @id @default(cuid())
+  id           String       @id @default(cuid())
+  slug         String       @unique
   ownerId      String
+  companyId    String?
+  cityId       String
   brand        String
   model        String
   year         Int
@@ -97,22 +135,26 @@ model Car {
   pricePerDay  Int
   deposit      Int
   mileageLimit Int?
-  city         String
   address      String?
   images       String[]
   features     String[]
-  isOwnFleet   Boolean     @default(false)
-  isAvailable  Boolean     @default(true)
-  isApproved   Boolean     @default(false)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  description  String?
+  isOwnFleet   Boolean      @default(false)
+  isAvailable  Boolean      @default(true)
+  isApproved   Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 
   owner    User      @relation("CarOwner", fields: [ownerId], references: [id])
+  company  Company?  @relation(fields: [companyId], references: [id])
+  city     City      @relation(fields: [cityId], references: [id])
   bookings Booking[]
   reviews  Review[]
 
+  @@index([slug])
   @@index([ownerId])
-  @@index([city])
+  @@index([companyId])
+  @@index([cityId])
   @@index([category])
   @@index([isAvailable, isApproved])
   @@index([isOwnFleet])
