@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { PageHero } from "@/components/SiteChrome";
-import { CATALOG, type CarCategory } from "@/lib/catalog";
+import { CATALOG, carDescription, type CarCategory } from "@/lib/catalog";
 import { CarImage } from "@/components/CarImage";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -18,6 +18,19 @@ const BADGE_COLOR: Record<CarCategory, string> = {
   suv:     "bg-[#ECFDF5] text-[#16A34A]",
   minivan: "bg-[#F5F3FF] text-[#7C3AED]",
 };
+
+function Spec({ k, v }: { k: string; v: string }) {
+  return (
+    <div className="flex items-baseline gap-1.5">
+      <dt className="text-[#9CA3AF] text-[11px] uppercase tracking-wide">{k}</dt>
+      <dd className="text-[#1A1A2E] font-medium truncate">{v}</dd>
+    </div>
+  );
+}
+
+function capitalize(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
 function Pill({ label, active = false }: { label: string; active?: boolean }) {
   return (
@@ -81,21 +94,29 @@ export default async function FleetPage({ params }: { params: Promise<{ locale: 
                 </div>
                 <div className="p-5 space-y-3 flex-1 flex flex-col">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-[18px] font-bold text-[#1A1A2E]">{car.brand} {car.model}</h3>
+                    <div>
+                      <h3 className="text-[18px] font-bold text-[#1A1A2E]">{car.brand} {car.model}</h3>
+                      <p className="text-[12px] text-[#9CA3AF] mt-0.5">{car.year} · <span className="capitalize">{car.body}</span></p>
+                    </div>
                     <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap ${BADGE_COLOR[car.category]}`}>
                       {badgeLabel[car.category]}
                     </span>
                   </div>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-[#9CA3AF]">
-                    <span>{car.seats} {tc("seats")}</span>
-                    <span>·</span>
-                    <span>{car.bags} {car.bags === 1 ? t("bagUnit") : t("bagsUnit")}</span>
-                    <span>·</span>
-                    <span>{car.transmission === "auto" ? tc("auto") : tc("manual")}</span>
-                    <span>·</span>
-                    <span className="capitalize">{car.fuel}</span>
-                  </div>
-                  <div className="flex items-center justify-between pt-2 mt-auto">
+
+                  <p className="text-[13px] text-[#4B5563] leading-[1.55] line-clamp-3 min-h-[60px]">
+                    {carDescription(car, locale)}
+                  </p>
+
+                  <dl className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[12px] pt-1">
+                    <Spec k={tc("seats")}     v={String(car.seats)} />
+                    <Spec k={tc("auto") + " / " + tc("manual")} v={car.transmission === "auto" ? tc("auto") : tc("manual")} />
+                    <Spec k="Engine"          v={car.engine} />
+                    <Spec k="Drive"           v={car.drive.toUpperCase()} />
+                    <Spec k="Fuel"            v={capitalize(car.fuel)} />
+                    <Spec k={car.bags === 1 ? t("bagUnit") : t("bagsUnit")} v={String(car.bags)} />
+                  </dl>
+
+                  <div className="flex items-center justify-between pt-3 mt-auto border-t border-[#F5F5F0]">
                     <div>
                       <span className="text-[22px] font-bold text-[#F97316]">${car.pricePerDay}</span>
                       <span className="text-[13px] text-[#9CA3AF]"> {tc("perDay")}</span>
