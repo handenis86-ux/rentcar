@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { getCarBySlug, CATALOG } from "@/lib/catalog";
+import { getCarBySlug, carDescription, CATALOG } from "@/lib/catalog";
+import { EXTRAS } from "@/lib/catalog-extras";
 
 export async function generateStaticParams() {
   return CATALOG.map((c) => ({ slug: c.slug }));
@@ -18,6 +19,7 @@ export default async function CarDetailPage({
 
   const t = await getTranslations({ locale, namespace: "fleet" });
   const tc = await getTranslations({ locale, namespace: "common" });
+  const extra = EXTRAS[car.slug];
 
   const badgeLabel: Record<string, string> = {
     economy: t("filterEconomy"),
@@ -61,19 +63,46 @@ export default async function CarDetailPage({
           <h1 className="text-[32px] md:text-[40px] font-bold text-[#1A1A2E] leading-tight">
             {car.brand} {car.model}
           </h1>
+          <p className="text-[13px] text-[#9CA3AF]">{car.year} · <span className="capitalize">{car.body}</span></p>
+
+          <p className="text-[15px] text-[#4B5563] leading-[1.7]">
+            {carDescription(car, locale)}
+          </p>
+
           <div className="flex items-end gap-1">
             <span className="text-[36px] font-extrabold text-[#F97316]">${car.pricePerDay}</span>
             <span className="text-[15px] text-[#9CA3AF] mb-1">{tc("perDay")}</span>
           </div>
 
-          <dl className="grid grid-cols-2 gap-4 text-[14px] pt-2">
+          <dl className="grid grid-cols-2 gap-3 text-[14px] pt-2">
             <Spec label={tc("seats")} value={String(car.seats)} />
             <Spec label={car.bags === 1 ? t("bagUnit") : t("bagsUnit")} value={String(car.bags)} />
             <Spec label="Transmission" value={car.transmission === "auto" ? tc("auto") : tc("manual")} />
-            <Spec label="Fuel" value={car.fuel} />
+            <Spec label="Engine" value={car.engine} />
+            <Spec label="Drive" value={car.drive.toUpperCase()} />
+            <Spec label="Fuel" value={capitalize(car.fuel)} />
+            {extra && (
+              <>
+                <Spec label="Залог" value={`${extra.depositUzs.toLocaleString("ru-RU")} сум`} />
+                <Spec label="Суточный лимит" value={`${extra.dailyKm} км`} />
+              </>
+            )}
           </dl>
 
-          <div className="flex items-center gap-3 pt-2">
+          {extra && extra.features.length > 0 && (
+            <div className="pt-2">
+              <h2 className="text-[13px] uppercase tracking-wide font-semibold text-[#9CA3AF] mb-3">Комплектация</h2>
+              <div className="flex flex-wrap gap-1.5">
+                {extra.features.map((f) => (
+                  <span key={f} className="inline-flex items-center rounded-full bg-[#F5F5F0] text-[#1A1A2E] text-[12px] px-3 py-1.5">
+                    {f}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-center gap-3 pt-4">
             <button type="button" className="inline-flex items-center justify-center rounded-full bg-[#F97316] px-7 py-3 text-[14px] font-semibold text-white hover:bg-[#EA580C] transition">
               {tc("reserveYourCar")}
             </button>
@@ -91,7 +120,11 @@ function Spec({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-[#F5F5F0] rounded-[10px] px-4 py-3">
       <dt className="text-[11px] uppercase tracking-wide font-semibold text-[#9CA3AF]">{label}</dt>
-      <dd className="text-[15px] font-semibold text-[#1A1A2E] mt-0.5 capitalize">{value}</dd>
+      <dd className="text-[15px] font-semibold text-[#1A1A2E] mt-0.5 break-words">{value}</dd>
     </div>
   );
+}
+
+function capitalize(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }

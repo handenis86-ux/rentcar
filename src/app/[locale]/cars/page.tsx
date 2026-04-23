@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { PageHero } from "@/components/SiteChrome";
 import { CATALOG, carDescription, type CarCategory } from "@/lib/catalog";
+import { EXTRAS } from "@/lib/catalog-extras";
 import { CarImage } from "@/components/CarImage";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -87,7 +88,12 @@ export default async function FleetPage({ params }: { params: Promise<{ locale: 
       <section className="bg-white">
         <div className="mx-auto max-w-[1312px] px-6 md:px-16 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {CATALOG.map((car) => (
+            {CATALOG.map((car) => {
+              const extra = EXTRAS[car.slug];
+              const previewFeatures = (extra?.features ?? []).slice(0, 4);
+              const moreCount = (extra?.features.length ?? 0) - previewFeatures.length;
+
+              return (
               <article key={car.slug} className="bg-white rounded-[10px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col">
                 <div className="aspect-[16/10] bg-[#F5F5F0]">
                   <CarImage car={car} />
@@ -116,6 +122,29 @@ export default async function FleetPage({ params }: { params: Promise<{ locale: 
                     <Spec k={car.bags === 1 ? t("bagUnit") : t("bagsUnit")} v={String(car.bags)} />
                   </dl>
 
+                  {previewFeatures.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {previewFeatures.map((f) => (
+                        <span key={f} className="inline-flex items-center rounded-full bg-[#F5F5F0] text-[#4B5563] text-[11px] px-2.5 py-1">
+                          {f}
+                        </span>
+                      ))}
+                      {moreCount > 0 && (
+                        <span className="inline-flex items-center rounded-full bg-[#FFF7ED] text-[#F97316] text-[11px] px-2.5 py-1 font-medium">
+                          +{moreCount}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {extra && (
+                    <div className="flex items-center gap-3 text-[11px] text-[#9CA3AF] pt-1">
+                      <span>Залог: <span className="font-medium text-[#1A1A2E]">{extra.depositUzs.toLocaleString("ru-RU")} сум</span></span>
+                      <span>·</span>
+                      <span>Лимит: <span className="font-medium text-[#1A1A2E]">{extra.dailyKm} км/день</span></span>
+                    </div>
+                  )}
+
                   <div className="flex items-center justify-between pt-3 mt-auto border-t border-[#F5F5F0]">
                     <div>
                       <span className="text-[22px] font-bold text-[#F97316]">${car.pricePerDay}</span>
@@ -130,7 +159,8 @@ export default async function FleetPage({ params }: { params: Promise<{ locale: 
                   </div>
                 </div>
               </article>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
