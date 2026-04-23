@@ -1,0 +1,466 @@
+[
+  {
+    "slug": "chevrolet-spark",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1875/spark.png",
+      "https://api.rentcar.uz/1801/jpeg-optimizer_1-(16).jpeg",
+      "https://api.rentcar.uz/1802/jpeg-optimizer_3-(15).jpeg",
+      "https://api.rentcar.uz/1803/jpeg-optimizer_7-(12).jpeg",
+      "https://api.rentcar.uz/1804/jpeg-optimizer_6-(14).jpeg"
+    ],
+    "paths": [
+      "/cars/chevrolet-spark-g1.jpg",
+      "/cars/chevrolet-spark-g2.jpg",
+      "/cars/chevrolet-spark-g3.jpg",
+      "/cars/chevrolet-spark-g4.jpg"
+    ]
+  },
+  {
+    "slug": "chevrolet-cobalt",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1967/cobalt.png",
+      "https://api.rentcar.uz/1214/jpeg-optimizer_JAM00822.jpeg",
+      "https://api.rentcar.uz/1215/jpeg-optimizer_JAM00877.jpeg",
+      "https://api.rentcar.uz/1216/jpeg-optimizer_JAM00800.jpeg",
+      "https://api.rentcar.uz/1217/jpeg-optimizer_JAM00812.jpeg",
+      "https://api.rentcar.uz/1218/jpeg-optimizer_JAM00906.jpeg",
+      "https://api.rentcar.uz/1219/jpeg-optimizer_JAM00845.jpeg"
+    ],
+    "paths": [
+      "/cars/chevrolet-cobalt-g1.jpg",
+      "/cars/chevrolet-cobalt-g2.jpg",
+      "/cars/chevrolet-cobalt-g3.jpg",
+      "/cars/chevrolet-cobalt-g4.jpg",
+      "/cars/chevrolet-cobalt-g5.jpg",
+      "/cars/chevrolet-cobalt-g6.jpg"
+    ]
+  },
+  {
+    "slug": "chevrolet-lacetti",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1965/lacceti.png",
+      "https://api.rentcar.uz/1104/jpeg-optimizer_JAM08901.jpeg",
+      "https://api.rentcar.uz/1105/jpeg-optimizer_JAM08946.jpeg",
+      "https://api.rentcar.uz/1106/jpeg-optimizer_JAM08838.jpeg",
+      "https://api.rentcar.uz/1107/jpeg-optimizer_JAM08864.jpeg",
+      "https://api.rentcar.uz/1108/jpeg-optimizer_JAM08857.jpeg",
+      "https://api.rentcar.uz/1109/jpeg-optimizer_JAM08998.jpeg"
+    ],
+    "paths": [
+      "/cars/chevrolet-lacetti-g1.jpg",
+      "/cars/chevrolet-lacetti-g2.jpg",
+      "/cars/chevrolet-lacetti-g3.jpg",
+      "/cars/chevrolet-lacetti-g4.jpg",
+      "/cars/chevrolet-lacetti-g5.jpg",
+      "/cars/chevrolet-lacetti-g6.jpg"
+    ]
+  },
+  {
+    "slug": "chevrolet-onix-ltz-turbo",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1869/onix.png",
+      "https://api.rentcar.uz/987/jpeg-optimizer_JAM02906.jpeg",
+      "https://api.rentcar.uz/988/jpeg-optimizer_JAM02966.jpeg",
+      "https://api.rentcar.uz/989/jpeg-optimizer_JAM02990.jpeg",
+      "https://api.rentcar.uz/990/jpeg-optimizer_JAM02980.jpeg",
+      "https://api.rentcar.uz/991/jpeg-optimizer_JAM02968.jpeg",
+      "https://api.rentcar.uz/992/jpeg-optimizer_JAM03029.jpeg"
+    ],
+    "paths": [
+      "/cars/chevrolet-onix-ltz-turbo-g1.jpg",
+      "/cars/chevrolet-onix-ltz-turbo-g2.jpg",
+      "/cars/chevrolet-onix-ltz-turbo-g3.jpg",
+      "/cars/chevrolet-onix-ltz-turbo-g4.jpg",
+      "/cars/chevrolet-onix-ltz-turbo-g5.jpg",
+      "/cars/chevrolet-onix-ltz-turbo-g6.jpg"
+    ]
+  },
+  {
+    "slug": "chevrolet-monza",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1971/Monza.png",
+      "https://api.rentcar.uz/896/JAM09901.jpg",
+      "https://api.rentcar.uz/897/JAM09857.jpg",
+      "https://api.rentcar.uz/898/JAM09846.jpg",
+      "https://api.rentcar.uz/899/JAM09848.jpg",
+      "https://api.rentcar.uz/900/JAM09965.jpg",
+      "https://api.rentcar.uz/901/JAM09924.jpg"
+    ],
+    "paths": [
+      "/cars/chevrolet-monza-g1.jpg",
+      "/cars/chevrolet-monza-g2.jpg",
+      "/cars/chevrolet-monza-g3.jpg",
+      "/cars/chevrolet-monza-g4.jpg",
+      "/cars/chevrolet-monza-g5.jpg",
+      "/cars/chevrolet-monza-g6.jpg"
+    ]
+  },
+  {
+    "slug": "toyota-prado-120",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1975/prado-(2).png",
+      "https://api.rentcar.uz/1740/JAM01495.jpg",
+      "https://api.rentcar.uz/1741/JAM01540.jpg",
+      "https://api.rentcar.uz/1742/JAM01476.jpg",
+      "https://api.rentcar.uz/1743/JAM01566.jpg",
+      "https://api.rentcar.uz/1744/JAM01555.jpg",
+      "https://api.rentcar.uz/1745/JAM01597.jpg"
+    ],
+    "paths": [
+      "/cars/toyota-prado-120-g1.jpg",
+      "/cars/toyota-prado-120-g2.jpg",
+      "/cars/toyota-prado-120-g3.jpg",
+      "/cars/toyota-prado-120-g4.jpg",
+      "/cars/toyota-prado-120-g5.jpg",
+      "/cars/toyota-prado-120-g6.jpg"
+    ]
+  },
+  {
+    "slug": "chevrolet-tracker-2",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1879/tracker.png",
+      "https://api.rentcar.uz/1025/jpeg-optimizer_JAM00532.jpeg",
+      "https://api.rentcar.uz/1026/jpeg-optimizer_JAM00575.jpeg",
+      "https://api.rentcar.uz/1027/jpeg-optimizer_JAM00529.jpeg",
+      "https://api.rentcar.uz/1028/jpeg-optimizer_JAM00582.jpeg",
+      "https://api.rentcar.uz/1029/jpeg-optimizer_JAM00578.jpeg",
+      "https://api.rentcar.uz/1030/jpeg-optimizer_JAM00617.jpeg"
+    ],
+    "paths": [
+      "/cars/chevrolet-tracker-2-g1.jpg",
+      "/cars/chevrolet-tracker-2-g2.jpg",
+      "/cars/chevrolet-tracker-2-g3.jpg",
+      "/cars/chevrolet-tracker-2-g4.jpg",
+      "/cars/chevrolet-tracker-2-g5.jpg",
+      "/cars/chevrolet-tracker-2-g6.jpg"
+    ]
+  },
+  {
+    "slug": "kia-sonet",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1851/kia-sonet.png",
+      "https://api.rentcar.uz/1762/jpeg-optimizer_2-(15).jpeg",
+      "https://api.rentcar.uz/1763/jpeg-optimizer_4-(12).jpeg",
+      "https://api.rentcar.uz/1764/jpeg-optimizer_6-(11).jpeg",
+      "https://api.rentcar.uz/1765/jpeg-optimizer_7-(9).jpeg",
+      "https://api.rentcar.uz/1766/jpeg-optimizer_3-(12).jpeg"
+    ],
+    "paths": [
+      "/cars/kia-sonet-g1.jpg",
+      "/cars/kia-sonet-g2.jpg",
+      "/cars/kia-sonet-g3.jpg",
+      "/cars/kia-sonet-g4.jpg",
+      "/cars/kia-sonet-g5.jpg"
+    ]
+  },
+  {
+    "slug": "chevrolet-orlando-redline",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1833/orlando.png",
+      "https://api.rentcar.uz/1628/jpeg-optimizer_JAM01641.jpeg",
+      "https://api.rentcar.uz/1629/jpeg-optimizer_JAM01680.jpeg",
+      "https://api.rentcar.uz/1630/jpeg-optimizer_JAM01693.jpeg",
+      "https://api.rentcar.uz/1631/jpeg-optimizer_JAM01705.jpeg",
+      "https://api.rentcar.uz/1632/jpeg-optimizer_JAM01723.jpeg"
+    ],
+    "paths": [
+      "/cars/chevrolet-orlando-redline-g1.jpg",
+      "/cars/chevrolet-orlando-redline-g2.jpg",
+      "/cars/chevrolet-orlando-redline-g3.jpg",
+      "/cars/chevrolet-orlando-redline-g4.jpg",
+      "/cars/chevrolet-orlando-redline-g5.jpg"
+    ]
+  },
+  {
+    "slug": "byd-chazor-dm1",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1969/byd-chazor.png",
+      "https://api.rentcar.uz/1392/jpeg-optimizer_JAM09287.jpeg",
+      "https://api.rentcar.uz/1393/jpeg-optimizer_JAM09341.jpeg",
+      "https://api.rentcar.uz/1394/jpeg-optimizer_JAM09275.jpeg",
+      "https://api.rentcar.uz/1395/jpeg-optimizer_JAM09263.jpeg",
+      "https://api.rentcar.uz/1396/jpeg-optimizer_JAM09350.jpeg"
+    ],
+    "paths": [
+      "/cars/byd-chazor-dm1-g1.jpg",
+      "/cars/byd-chazor-dm1-g2.jpg",
+      "/cars/byd-chazor-dm1-g3.jpg",
+      "/cars/byd-chazor-dm1-g4.jpg",
+      "/cars/byd-chazor-dm1-g5.jpg"
+    ]
+  },
+  {
+    "slug": "chevrolet-equinox",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1963/equinox.png",
+      "https://api.rentcar.uz/1200/jpeg-optimizer_JAM00162.jpeg",
+      "https://api.rentcar.uz/1201/jpeg-optimizer_JAM00118.jpeg",
+      "https://api.rentcar.uz/1202/jpeg-optimizer_JAM00096.jpeg",
+      "https://api.rentcar.uz/1203/jpeg-optimizer_JAM00103.jpeg",
+      "https://api.rentcar.uz/1204/jpeg-optimizer_JAM00201.jpeg"
+    ],
+    "paths": [
+      "/cars/chevrolet-equinox-g1.jpg",
+      "/cars/chevrolet-equinox-g2.jpg",
+      "/cars/chevrolet-equinox-g3.jpg",
+      "/cars/chevrolet-equinox-g4.jpg",
+      "/cars/chevrolet-equinox-g5.jpg"
+    ]
+  },
+  {
+    "slug": "kia-k5-g515",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1937/K5.png",
+      "https://api.rentcar.uz/1465/jpeg-optimizer_JAM02600.jpeg",
+      "https://api.rentcar.uz/1466/jpeg-optimizer_JAM02593.jpeg",
+      "https://api.rentcar.uz/1467/jpeg-optimizer_JAM02656.jpeg",
+      "https://api.rentcar.uz/1468/jpeg-optimizer_JAM02561.jpeg"
+    ],
+    "paths": [
+      "/cars/kia-k5-g515-g1.jpg",
+      "/cars/kia-k5-g515-g2.jpg",
+      "/cars/kia-k5-g515-g3.jpg",
+      "/cars/kia-k5-g515-g4.jpg"
+    ]
+  },
+  {
+    "slug": "chevrolet-malibu-2",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1917/malibu2.png",
+      "https://api.rentcar.uz/1056/jpeg-optimizer_JAM09129.jpeg",
+      "https://api.rentcar.uz/1057/jpeg-optimizer_JAM09114.jpeg",
+      "https://api.rentcar.uz/1058/jpeg-optimizer_JAM09188.jpeg",
+      "https://api.rentcar.uz/1059/jpeg-optimizer_JAM09086.jpeg",
+      "https://api.rentcar.uz/1060/jpeg-optimizer_JAM09108.jpeg",
+      "https://api.rentcar.uz/1061/jpeg-optimizer_JAM09205.jpeg"
+    ],
+    "paths": [
+      "/cars/chevrolet-malibu-2-g1.jpg",
+      "/cars/chevrolet-malibu-2-g2.jpg",
+      "/cars/chevrolet-malibu-2-g3.jpg",
+      "/cars/chevrolet-malibu-2-g4.jpg",
+      "/cars/chevrolet-malibu-2-g5.jpg",
+      "/cars/chevrolet-malibu-2-g6.jpg"
+    ]
+  },
+  {
+    "slug": "chevrolet-trailblazer-ltz",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1977/traiblazer-(2).png",
+      "https://api.rentcar.uz/1004/jpeg-optimizer_JAM01007.jpeg",
+      "https://api.rentcar.uz/1005/jpeg-optimizer_JAM00976.jpeg",
+      "https://api.rentcar.uz/1006/jpeg-optimizer_JAM00934.jpeg",
+      "https://api.rentcar.uz/1007/jpeg-optimizer_JAM00924.jpeg",
+      "https://api.rentcar.uz/1008/jpeg-optimizer_JAM00927.jpeg",
+      "https://api.rentcar.uz/1009/jpeg-optimizer_JAM00955.jpeg",
+      "https://api.rentcar.uz/1737/JAM01039.jpg"
+    ],
+    "paths": [
+      "/cars/chevrolet-trailblazer-ltz-g1.jpg",
+      "/cars/chevrolet-trailblazer-ltz-g2.jpg",
+      "/cars/chevrolet-trailblazer-ltz-g3.jpg",
+      "/cars/chevrolet-trailblazer-ltz-g4.jpg",
+      "/cars/chevrolet-trailblazer-ltz-g5.jpg",
+      "/cars/chevrolet-trailblazer-ltz-g6.jpg",
+      "/cars/chevrolet-trailblazer-ltz-g7.jpg"
+    ]
+  },
+  {
+    "slug": "kia-carnival",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1847/carnival.png",
+      "https://api.rentcar.uz/1684/jpeg-optimizer_JAM09601.jpeg",
+      "https://api.rentcar.uz/1685/jpeg-optimizer_JAM09569.jpeg",
+      "https://api.rentcar.uz/1686/jpeg-optimizer_JAM09590.jpeg",
+      "https://api.rentcar.uz/1687/jpeg-optimizer_JAM09578.jpeg",
+      "https://api.rentcar.uz/1688/jpeg-optimizer_JAM09595.jpeg",
+      "https://api.rentcar.uz/1689/jpeg-optimizer_JAM09690.jpeg"
+    ],
+    "paths": [
+      "/cars/kia-carnival-g1.jpg",
+      "/cars/kia-carnival-g2.jpg",
+      "/cars/kia-carnival-g3.jpg",
+      "/cars/kia-carnival-g4.jpg",
+      "/cars/kia-carnival-g5.jpg",
+      "/cars/kia-carnival-g6.jpg"
+    ]
+  },
+  {
+    "slug": "byd-song-plus",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1929/byd-song-plus.png",
+      "https://api.rentcar.uz/1399/jpeg-optimizer_JAM02467.jpeg",
+      "https://api.rentcar.uz/1400/jpeg-optimizer_JAM02452.jpeg",
+      "https://api.rentcar.uz/1401/jpeg-optimizer_JAM02440.jpeg",
+      "https://api.rentcar.uz/1402/jpeg-optimizer_JAM02423.jpeg",
+      "https://api.rentcar.uz/1403/jpeg-optimizer_JAM02410.jpeg",
+      "https://api.rentcar.uz/1404/jpeg-optimizer_JAM02517.jpeg"
+    ],
+    "paths": [
+      "/cars/byd-song-plus-g1.jpg",
+      "/cars/byd-song-plus-g2.jpg",
+      "/cars/byd-song-plus-g3.jpg",
+      "/cars/byd-song-plus-g4.jpg",
+      "/cars/byd-song-plus-g5.jpg",
+      "/cars/byd-song-plus-g6.jpg"
+    ]
+  },
+  {
+    "slug": "hyundai-tucson",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1915/tuscon.png",
+      "https://api.rentcar.uz/1569/photo_2024-11-16_15-25-19.jpg",
+      "https://api.rentcar.uz/1570/photo_2024-11-16_15-25-07.jpg",
+      "https://api.rentcar.uz/1571/photo_2024-11-16_15-33-59.jpg"
+    ],
+    "paths": [
+      "/cars/hyundai-tucson-g1.jpg",
+      "/cars/hyundai-tucson-g2.jpg",
+      "/cars/hyundai-tucson-g3.jpg"
+    ]
+  },
+  {
+    "slug": "isuzu-d-max-irbis",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1947/isuzu-d.png",
+      "https://api.rentcar.uz/1457/jpeg-optimizer_JAM01814.jpeg",
+      "https://api.rentcar.uz/1458/jpeg-optimizer_JAM01875.jpeg",
+      "https://api.rentcar.uz/1459/jpeg-optimizer_JAM01825.jpeg",
+      "https://api.rentcar.uz/1460/jpeg-optimizer_JAM01840.jpeg",
+      "https://api.rentcar.uz/1461/jpeg-optimizer_JAM01807.jpeg",
+      "https://api.rentcar.uz/1462/jpeg-optimizer_JAM01910.jpeg"
+    ],
+    "paths": [
+      "/cars/isuzu-d-max-irbis-g1.jpg",
+      "/cars/isuzu-d-max-irbis-g2.jpg",
+      "/cars/isuzu-d-max-irbis-g3.jpg",
+      "/cars/isuzu-d-max-irbis-g4.jpg",
+      "/cars/isuzu-d-max-irbis-g5.jpg",
+      "/cars/isuzu-d-max-irbis-g6.jpg"
+    ]
+  },
+  {
+    "slug": "toyota-land-cruiser-prado",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1933/prado.png",
+      "https://api.rentcar.uz/1512/jpeg-optimizer_JAM00517.jpeg",
+      "https://api.rentcar.uz/1513/jpeg-optimizer_JAM00491.jpeg",
+      "https://api.rentcar.uz/1514/jpeg-optimizer_JAM00479.jpeg",
+      "https://api.rentcar.uz/1515/jpeg-optimizer_JAM00473.jpeg",
+      "https://api.rentcar.uz/1516/jpeg-optimizer_JAM00483.jpeg",
+      "https://api.rentcar.uz/1517/jpeg-optimizer_JAM00409.jpeg"
+    ],
+    "paths": [
+      "/cars/toyota-land-cruiser-prado-g1.jpg",
+      "/cars/toyota-land-cruiser-prado-g2.jpg",
+      "/cars/toyota-land-cruiser-prado-g3.jpg",
+      "/cars/toyota-land-cruiser-prado-g4.jpg",
+      "/cars/toyota-land-cruiser-prado-g5.jpg",
+      "/cars/toyota-land-cruiser-prado-g6.jpg"
+    ]
+  },
+  {
+    "slug": "kia-carnival-g03i",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1913/carnival-(1).png",
+      "https://api.rentcar.uz/961/jpeg-optimizer_JAM00662.jpg",
+      "https://api.rentcar.uz/962/jpeg-optimizer_JAM00715.jpg",
+      "https://api.rentcar.uz/963/jpeg-optimizer_JAM00653.jpg",
+      "https://api.rentcar.uz/964/jpeg-optimizer_JAM00641.jpg",
+      "https://api.rentcar.uz/965/jpeg-optimizer_JAM00650.jpg",
+      "https://api.rentcar.uz/966/jpeg-optimizer_JAM00739.jpg",
+      "https://api.rentcar.uz/967/jpeg-optimizer_JAM00679.jpg"
+    ],
+    "paths": [
+      "/cars/kia-carnival-g03i-g1.jpg",
+      "/cars/kia-carnival-g03i-g2.jpg",
+      "/cars/kia-carnival-g03i-g3.jpg",
+      "/cars/kia-carnival-g03i-g4.jpg",
+      "/cars/kia-carnival-g03i-g5.jpg",
+      "/cars/kia-carnival-g03i-g6.jpg",
+      "/cars/kia-carnival-g03i-g7.jpg"
+    ]
+  },
+  {
+    "slug": "toyota-land-cruiser-200",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1837/cruiser-200.png",
+      "https://api.rentcar.uz/1659/jpeg-optimizer_JAM01386.jpeg",
+      "https://api.rentcar.uz/1660/jpeg-optimizer_JAM01427.jpeg",
+      "https://api.rentcar.uz/1661/jpeg-optimizer_JAM01357.jpeg",
+      "https://api.rentcar.uz/1662/jpeg-optimizer_JAM01367.jpeg",
+      "https://api.rentcar.uz/1663/jpeg-optimizer_JAM01371.jpeg",
+      "https://api.rentcar.uz/1664/jpeg-optimizer_JAM01453.jpeg"
+    ],
+    "paths": [
+      "/cars/toyota-land-cruiser-200-g1.jpg",
+      "/cars/toyota-land-cruiser-200-g2.jpg",
+      "/cars/toyota-land-cruiser-200-g3.jpg",
+      "/cars/toyota-land-cruiser-200-g4.jpg",
+      "/cars/toyota-land-cruiser-200-g5.jpg",
+      "/cars/toyota-land-cruiser-200-g6.jpg"
+    ]
+  },
+  {
+    "slug": "lixiang-l9-ultra",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1841/l9-ULTRA.png",
+      "https://api.rentcar.uz/1583/jpeg-optimizer_JAM02869.jpeg",
+      "https://api.rentcar.uz/1584/jpeg-optimizer_JAM02721.jpeg",
+      "https://api.rentcar.uz/1585/jpeg-optimizer_JAM01983.jpeg",
+      "https://api.rentcar.uz/1586/jpeg-optimizer_JAM02701.jpeg",
+      "https://api.rentcar.uz/1587/jpeg-optimizer_JAM01987.jpeg",
+      "https://api.rentcar.uz/1588/jpeg-optimizer_JAM01971.jpeg",
+      "https://api.rentcar.uz/1589/jpeg-optimizer_JAM02760.jpeg"
+    ],
+    "paths": [
+      "/cars/lixiang-l9-ultra-g1.jpg",
+      "/cars/lixiang-l9-ultra-g2.jpg",
+      "/cars/lixiang-l9-ultra-g3.jpg",
+      "/cars/lixiang-l9-ultra-g4.jpg",
+      "/cars/lixiang-l9-ultra-g5.jpg",
+      "/cars/lixiang-l9-ultra-g6.jpg",
+      "/cars/lixiang-l9-ultra-g7.jpg"
+    ]
+  },
+  {
+    "slug": "toyota-land-cruiser-300",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1909/CRUISER-300.png",
+      "https://api.rentcar.uz/1349/jpeg-optimizer_JAM00018.jpeg",
+      "https://api.rentcar.uz/1350/jpeg-optimizer_JAM00007.jpeg",
+      "https://api.rentcar.uz/1351/jpeg-optimizer_JAM09989.jpeg",
+      "https://api.rentcar.uz/1353/jpeg-optimizer_JAM09993.jpeg",
+      "https://api.rentcar.uz/1354/jpeg-optimizer_JAM00051.jpeg"
+    ],
+    "paths": [
+      "/cars/toyota-land-cruiser-300-g1.jpg",
+      "/cars/toyota-land-cruiser-300-g2.jpg",
+      "/cars/toyota-land-cruiser-300-g3.jpg",
+      "/cars/toyota-land-cruiser-300-g4.jpg",
+      "/cars/toyota-land-cruiser-300-g5.jpg"
+    ]
+  },
+  {
+    "slug": "mercedes-benz-g400d",
+    "urls": [
+      "https://api.rentcar.uz/img/cars/1831/mers-benz.png",
+      "https://api.rentcar.uz/1823/IMG_8626.jpg",
+      "https://api.rentcar.uz/1824/IMG_8627.jpg",
+      "https://api.rentcar.uz/1825/IMG_8628.jpg",
+      "https://api.rentcar.uz/1826/IMG_8629.jpg",
+      "https://api.rentcar.uz/1827/IMG_8630.jpg",
+      "https://api.rentcar.uz/1828/IMG_8631.jpg",
+      "https://api.rentcar.uz/1829/IMG_8632.jpg"
+    ],
+    "paths": [
+      "/cars/mercedes-benz-g400d-g1.jpg",
+      "/cars/mercedes-benz-g400d-g2.jpg",
+      "/cars/mercedes-benz-g400d-g3.jpg",
+      "/cars/mercedes-benz-g400d-g4.jpg",
+      "/cars/mercedes-benz-g400d-g5.jpg",
+      "/cars/mercedes-benz-g400d-g6.jpg",
+      "/cars/mercedes-benz-g400d-g7.jpg"
+    ]
+  }
+]

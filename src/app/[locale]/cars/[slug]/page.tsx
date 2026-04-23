@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getCarBySlug, carDescription, CATALOG } from "@/lib/catalog";
 import { EXTRAS } from "@/lib/catalog-extras";
+import { ImageCarousel } from "@/components/ImageCarousel";
 
 export async function generateStaticParams() {
   return CATALOG.map((c) => ({ slug: c.slug }));
@@ -29,26 +30,10 @@ export default async function CarDetailPage({
     minivan: t("filterMinivan"),
   };
 
-  const primary = car.images[0];
-  const thumbs = car.images.slice(1, 6);
-
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-[1312px] px-6 md:px-16 py-16 grid md:grid-cols-[1.2fr_1fr] gap-10 items-start">
-        <div className="space-y-3">
-          <div className="rounded-2xl overflow-hidden bg-[#F5F5F0] aspect-[16/10]">
-            <img src={primary} alt={`${car.brand} ${car.model}`} className="w-full h-full object-cover" />
-          </div>
-          {thumbs.length > 0 && (
-            <div className="grid grid-cols-5 gap-2">
-              {thumbs.map((src, i) => (
-                <div key={src} className="rounded-[10px] overflow-hidden bg-[#F5F5F0] aspect-[4/3]">
-                  <img src={src} alt={`${car.brand} ${car.model} photo ${i + 2}`} className="w-full h-full object-cover" />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <ImageCarousel images={car.images} alt={`${car.brand} ${car.model}`} />
 
         <div className="space-y-5">
           <span className={`inline-block rounded-full px-3 py-1 text-[12px] font-semibold ${
