@@ -1,544 +1,199 @@
 import type { Metadata } from "next";
-import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import type { Locale } from "@/i18n/routing";
-import { Link } from "@/i18n/navigation";
 
-/* ─── Meta ─────────────────────────────────────────────────────────────── */
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "HomePage" });
+  const t = await getTranslations({ locale, namespace: "home" });
   return { title: t("metaTitle"), description: t("metaDescription") };
 }
 
-/* ─── Mock data ─────────────────────────────────────────────────────────── */
-
-const POPULAR_CARS = [
-  {
-    id: 1,
-    brand: "Chevrolet",
-    model: "Spark",
-    year: 2023,
-    price: 300_000,
-    seats: 4,
-    fuel: "Бензин",
-    transmission: "manual" as const,
-    initials: "CS",
-    bgClass: "bg-amber-50",
-    textClass: "text-amber-600",
-    city: "Ташкент",
-  },
-  {
-    id: 2,
-    brand: "Chevrolet",
-    model: "Tracker",
-    year: 2024,
-    price: 650_000,
-    seats: 5,
-    fuel: "Бензин",
-    transmission: "automatic" as const,
-    initials: "CT",
-    bgClass: "bg-rose-50",
-    textClass: "text-rose-600",
-    city: "Ташкент",
-  },
-  {
-    id: 3,
-    brand: "Toyota",
-    model: "Camry",
-    year: 2024,
-    price: 900_000,
-    seats: 5,
-    fuel: "Бензин",
-    transmission: "automatic" as const,
-    initials: "TC",
-    bgClass: "bg-teal-50",
-    textClass: "text-teal-600",
-    city: "Ташкент",
-  },
-  {
-    id: 4,
-    brand: "Toyota",
-    model: "Prado",
-    year: 2024,
-    price: 1_500_000,
-    seats: 7,
-    fuel: "Дизель",
-    transmission: "automatic" as const,
-    initials: "TP",
-    bgClass: "bg-emerald-50",
-    textClass: "text-emerald-600",
-    city: "Ташкент",
-  },
-];
-
-const BRAND_TABS = ["Все", "Chevrolet", "Kia", "Toyota", "BYD"];
-
-/* ─── Inline SVG Icons ─────────────────────────────────────────────────── */
-
-function IconLocation({ className = "w-5 h-5" }: { className?: string }) {
+function Icon({ d, className = "h-5 w-5" }: { d: string; className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-      <circle cx="12" cy="10" r="3" />
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <g dangerouslySetInnerHTML={{ __html: d }} />
     </svg>
   );
 }
+const I_PLANE = `<path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2 3 8l6 4-3 3H3l2 3 3 2 3-3v-3l4 6z"/>`;
+const I_HEADSET = `<path d="M3 12a9 9 0 0 1 18 0"/><path d="M21 18v-4a3 3 0 0 0-3-3h-1v7h1a3 3 0 0 0 3-3z"/><path d="M3 18v-4a3 3 0 0 1 3-3h1v7H6a3 3 0 0 1-3-3z"/>`;
+const I_SHIELD_CHECK = `<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>`;
+const I_NAV = `<polygon points="3 11 22 2 13 21 11 13 3 11"/>`;
+const I_USER = `<circle cx="12" cy="7" r="4"/><path d="M4 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/>`;
+const I_GEAR_SHIFT = `<circle cx="12" cy="12" r="3"/><path d="M12 15v6M9 21h6M12 9V3"/>`;
+const I_FUEL = `<path d="M3 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18"/><path d="M2 22h14"/><path d="M15 8h2a2 2 0 0 1 2 2v6a2 2 0 0 0 2 2"/>`;
 
-function IconCalendar({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-      <line x1="16" y1="2" x2="16" y2="6" />
-      <line x1="8" y1="2" x2="8" y2="6" />
-      <line x1="3" y1="10" x2="21" y2="10" />
-    </svg>
-  );
-}
+import { CATALOG, type Car } from "@/lib/catalog";
+import { CarImage } from "@/components/CarImage";
 
-function IconCar({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M5 17h2m10 0h2M3 11l1.5-5A2 2 0 0 1 6.4 4.5h11.2a2 2 0 0 1 1.9 1.5L21 11" />
-      <rect x="2" y="11" width="20" height="6" rx="2" />
-      <circle cx="7" cy="17" r="2" />
-      <circle cx="17" cy="17" r="2" />
-    </svg>
-  );
-}
+const POPULAR_SLUGS = ["chevrolet-malibu-2", "chevrolet-cobalt", "chevrolet-spark"] as const;
+const CARS: Car[] = POPULAR_SLUGS.map((slug) => CATALOG.find((c) => c.slug === slug)!);
 
-function IconGear({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-    </svg>
-  );
-}
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "home" });
+  const tc = await getTranslations({ locale, namespace: "common" });
 
-function IconDroplet({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
-    </svg>
-  );
-}
+  const features = [
+    { icon: I_PLANE,        title: t("feature1Title"), desc: t("feature1Desc") },
+    { icon: I_HEADSET,      title: t("feature2Title"), desc: t("feature2Desc") },
+    { icon: I_SHIELD_CHECK, title: t("feature3Title"), desc: t("feature3Desc") },
+    { icon: I_NAV,          title: t("feature4Title"), desc: t("feature4Desc") },
+  ];
 
-function IconUser({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
-  );
-}
+  const reviews = [
+    { text: t("review1"), name: t("review1Name"), country: t("review1Country") },
+    { text: t("review2"), name: t("review2Name"), country: t("review2Country") },
+    { text: t("review3"), name: t("review3Name"), country: t("review3Country") },
+  ];
 
-function IconSearch({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-  );
-}
-
-function IconShield({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    </svg>
-  );
-}
-
-function IconCheck({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  );
-}
-
-function IconArrowRight({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="5" y1="12" x2="19" y2="12" />
-      <polyline points="12 5 19 12 12 19" />
-    </svg>
-  );
-}
-
-/* ─── (car image is now /public/car-hero.png) ─────────────────────────── */
-
-/* ─── Page Component ───────────────────────────────────────────────────── */
-
-export default function HomePage() {
-  const tHero = useTranslations("Hero");
-  const tCars = useTranslations("PopularCars");
-  const tStats = useTranslations("Stats");
-  const tWhy = useTranslations("WhyChooseUs");
-  const tCommon = useTranslations("common");
-  const tCatalog = useTranslations("catalog");
-
-  const headline = tHero("headline");
-  const headlineWords = headline.split(" ");
-  const headlineFirst = headlineWords.slice(0, 2).join(" ");
-  const headlineRest = headlineWords.slice(2).join(" ");
+  const searchFields = [
+    { label: t("searchPickupLoc"),  val: t("searchPickupLocVal") },
+    { label: t("searchPickupDate"), val: t("searchPickupDateVal") },
+    { label: t("searchReturnDate"), val: t("searchReturnDateVal") },
+    { label: t("searchCarType"),    val: t("searchCarTypeVal") },
+  ];
 
   return (
     <>
-      {/* ── 1. HERO — DreamsRent style: white bg, text left, car image right ── */}
-      <section className="relative bg-white overflow-hidden" style={{ minHeight: "580px" }}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-          <div className="flex flex-col lg:flex-row items-center gap-10">
+      {/* Hero */}
+      <section className="bg-[#FFF7ED]">
+        <div className="mx-auto max-w-[1312px] px-6 md:px-16 py-16 grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <span className="inline-flex items-center rounded-full bg-[#F97316] px-4 py-1.5 text-[13px] font-semibold text-white">
+              {t("heroBadge")}
+            </span>
+            <h1 className="text-[44px] md:text-[52px] font-extrabold leading-[1.1] text-[#1A1A2E]">
+              {t("heroTitle1")}<br />{t("heroTitle2")}
+            </h1>
+            <p className="text-[17px] text-[#4B5563] leading-[1.6] max-w-[520px]">
+              {t("heroSubtitle")}
+            </p>
 
-            {/* Left column — text */}
-            <div className="lg:w-1/2 space-y-6 relative z-10">
-              <span className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 text-[#FFA633] text-sm font-medium rounded-full px-4 py-1.5">
-                <span>👍</span> 100% {tHero("trustInsurance")}
-              </span>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold leading-[1.1]">
-                <span className="text-[#201F1D]">{headlineFirst}</span>
-                <br />
-                <span className="text-[#FFA633]">{headlineRest}</span>
-              </h1>
-
-              <p className="text-gray-500 text-base sm:text-lg max-w-lg leading-relaxed">
-                {tHero("subheadline")}
-              </p>
-
-              <Link
-                href="/cars"
-                className="inline-flex items-center gap-2 rounded-lg border-2 border-[#201F1D] text-[#201F1D] px-7 py-3 font-semibold hover:bg-[#201F1D] hover:text-white transition text-sm"
-              >
-                {tCars("viewAll")}
-                <IconArrowRight className="w-4 h-4" />
+            <div className="bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.1)] p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              {searchFields.map((f) => (
+                <div key={f.label} className="bg-[#F5F5F0] rounded-[10px] px-3 py-2 flex-1 min-w-0">
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-[#9CA3AF]">{f.label}</div>
+                  <div className="text-[14px] font-medium text-[#1A1A2E] truncate">{f.val}</div>
+                </div>
+              ))}
+              <Link href={`/${locale}/cars`} className="inline-flex items-center justify-center rounded-full bg-[#F97316] px-8 py-4 text-[15px] font-semibold text-white hover:bg-[#EA580C] transition shrink-0">
+                {t("search")}
               </Link>
             </div>
+          </div>
 
-            {/* Right column — car image on orange background */}
-            <div className="lg:w-1/2 relative min-h-[350px] lg:min-h-[450px]">
-              {/* Orange shape extending to the right edge */}
-              <div className="absolute -right-[200px] top-0 bottom-0 left-[10%] bg-[#FFA633]" style={{ borderRadius: "0 0 0 60px" }} />
-
-              {/* Car image — real PNG */}
-              <div className="relative z-10 flex items-center justify-center h-full">
-                <img
-                  src="/car-hero.png"
-                  alt="Аренда автомобиля"
-                  className="w-full max-w-[550px] h-auto object-contain drop-shadow-2xl"
-                />
-              </div>
-            </div>
-
+          <div className="relative aspect-[4/5] md:aspect-auto md:h-[500px] rounded-3xl overflow-hidden">
+            <img src="/design/generated-1776872101080.png" alt="Car" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
 
-      {/* ── 2. SEARCH BAR — full-width strip below hero ──────────────────── */}
-      <section className="bg-[#201F1D] py-6">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 items-end">
-            <div>
-              <label className="block text-xs text-gray-400 mb-1.5">{tHero("pickupCity")}</label>
-              <input type="text" placeholder={tHero("pickupCityPlaceholder")} className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-400 mb-1.5">{tHero("dropoffCity")}</label>
-              <input type="text" placeholder={tHero("dropoffCityPlaceholder")} className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-400 mb-1.5">{tHero("startDate")}</label>
-              <input type="date" className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-400 mb-1.5">Время</label>
-              <input type="time" defaultValue="10:00" className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-400 mb-1.5">{tHero("endDate")}</label>
-              <input type="date" className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-400 mb-1.5">Время</label>
-              <input type="time" defaultValue="10:00" className="w-full rounded-lg bg-white py-2.5 px-3 text-sm text-[#2F2F2F] outline-none" />
-            </div>
-            <div>
-              <button className="w-full bg-[#FFA633] hover:bg-[#e8952d] text-white rounded-lg py-2.5 px-4 font-semibold transition flex items-center justify-center gap-2 text-sm">
-                <IconSearch className="w-4 h-4" />
-                {tHero("searchButton")}
-              </button>
-            </div>
+      {/* Trusted */}
+      <section className="bg-white border-b border-[#E5E7EB]">
+        <div className="mx-auto max-w-[1312px] px-6 md:px-16 py-12">
+          <p className="text-center text-[14px] font-semibold text-[#9CA3AF] uppercase tracking-wider mb-6">
+            {t("trustedLabel")}
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16 text-[#9CA3AF]">
+            <span className="flex items-center gap-2 text-[14px]">{t("trustedTripAdvisor")}</span>
+            <span className="flex items-center gap-2 text-[14px]">{t("trustedBooking")}</span>
+            <span className="flex items-center gap-2 text-[14px]">{t("trustedGoogle")}</span>
           </div>
         </div>
       </section>
 
-      {/* ── 3. HOW IT WORKS ──────────────────────────────────────────────── */}
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-[#201F1D] text-center mb-12">
-            Как это работает
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
-            {/* Step 1 */}
-            <div className="text-center">
-              <div className="h-16 w-16 rounded-full bg-[#FFF3E0] mx-auto flex items-center justify-center text-[#FFA633]">
-                <IconLocation className="w-7 h-7" />
-              </div>
-              <h3 className="font-semibold text-[#201F1D] mt-4">Выберите место</h3>
-              <p className="text-sm text-gray-500 mt-2">
-                Укажите город получения и возврата автомобиля
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="text-center">
-              <div className="h-16 w-16 rounded-full bg-[#FFF3E0] mx-auto flex items-center justify-center text-[#FFA633]">
-                <IconCalendar className="w-7 h-7" />
-              </div>
-              <h3 className="font-semibold text-[#201F1D] mt-4">Выберите дату</h3>
-              <p className="text-sm text-gray-500 mt-2">
-                Выберите даты начала и окончания аренды
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="text-center">
-              <div className="h-16 w-16 rounded-full bg-[#FFF3E0] mx-auto flex items-center justify-center text-[#FFA633]">
-                <IconCar className="w-7 h-7" />
-              </div>
-              <h3 className="font-semibold text-[#201F1D] mt-4">Забронируйте авто</h3>
-              <p className="text-sm text-gray-500 mt-2">
-                Выберите подходящий автомобиль и оформите бронь
-              </p>
-            </div>
+      {/* Fleet */}
+      <section className="bg-[#F5F5F0]">
+        <div className="mx-auto max-w-[1312px] px-6 md:px-16 py-20">
+          <div className="text-center mb-10">
+            <p className="text-[14px] font-semibold text-[#F97316] mb-2">{t("fleetTag")}</p>
+            <h2 className="text-[36px] font-bold text-[#1A1A2E]">{t("fleetTitle")}</h2>
+            <p className="text-[16px] text-[#4B5563] mt-2">{t("fleetSubtitle")}</p>
           </div>
-        </div>
-      </section>
-
-      {/* ── 4. POPULAR CARS ──────────────────────────────────────────────── */}
-      <section className="bg-[#f5f5f5] py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-[#201F1D] text-center mb-8">
-            {tCars("heading")}
-          </h2>
-
-          {/* Brand tabs */}
-          <div className="flex flex-wrap justify-center gap-3 mb-10">
-            {BRAND_TABS.map((tab, i) => (
-              <span
-                key={tab}
-                className={
-                  i === 0
-                    ? "bg-[#FFA633] text-white rounded-full px-5 py-2 text-sm font-medium"
-                    : "bg-white border border-gray-200 text-gray-600 rounded-full px-5 py-2 text-sm font-medium"
-                }
-              >
-                {tab}
-              </span>
-            ))}
-          </div>
-
-          {/* Car grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {POPULAR_CARS.map((car) => (
-              <div
-                key={car.id}
-                className="bg-white rounded-xl shadow-sm overflow-hidden"
-              >
-                {/* Colored header with initials */}
-                <div
-                  className={`${car.bgClass} h-48 flex items-center justify-center`}
-                >
-                  <span
-                    className={`${car.textClass} text-5xl font-black select-none`}
-                  >
-                    {car.initials}
-                  </span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {CARS.map((c) => (
+              <article key={c.slug} className="bg-white rounded-[10px] shadow-[0_2px_8px_rgba(0,0,0,0.05)] overflow-hidden">
+                <div className="aspect-[16/10] bg-[#F5F5F0]">
+                  <CarImage car={c} />
                 </div>
-
-                {/* Body */}
-                <div className="p-4">
-                  <p className="text-xs text-gray-400 uppercase font-medium">
-                    {car.brand}
-                  </p>
-                  <h3 className="text-lg font-bold text-[#201F1D]">
-                    {car.model} {car.year}
-                  </h3>
-
-                  {/* Specs grid */}
-                  <div className="grid grid-cols-3 gap-2 mt-3">
-                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                      <IconGear className="w-3.5 h-3.5 flex-shrink-0" />
-                      <span>
-                        {car.transmission === "automatic"
-                          ? tCatalog("automatic")
-                          : tCatalog("manual")}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                      <IconDroplet className="w-3.5 h-3.5 flex-shrink-0" />
-                      <span>{car.fuel}</span>
-                    </div>
-                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                      <IconUser className="w-3.5 h-3.5 flex-shrink-0" />
-                      <span>{car.seats}</span>
-                    </div>
+                <div className="p-5 space-y-4">
+                  <h3 className="text-[20px] font-bold text-[#1A1A2E]">{c.brand} {c.model}</h3>
+                  <div className="flex items-center gap-4 text-[13px] text-[#4B5563]">
+                    <span className="flex items-center gap-1"><Icon d={I_USER} className="h-4 w-4" /> {c.seats} {tc("seats")}</span>
+                    <span className="flex items-center gap-1"><Icon d={I_GEAR_SHIFT} className="h-4 w-4" /> {c.transmission === "auto" ? tc("auto") : tc("manual")}</span>
+                    <span className="flex items-center gap-1"><Icon d={I_FUEL} className="h-4 w-4" /> <span className="capitalize">{c.fuel}</span></span>
                   </div>
-
-                  {/* Location */}
-                  <p className="text-xs text-gray-400 mt-2">
-                    📍 {car.city}
-                  </p>
-
-                  {/* Divider */}
-                  <div className="border-t mt-3 pt-3 flex items-center justify-between">
+                  <div className="flex items-center justify-between pt-1">
                     <div>
-                      <span className="font-bold text-[#201F1D]">
-                        от {car.price.toLocaleString("ru-RU")} {tCommon("currency")}
-                      </span>
-                      <span className="text-gray-400 text-sm ml-1">
-                        / {tCommon("perDay")}
-                      </span>
+                      <span className="text-[24px] font-bold text-[#F97316]">${c.pricePerDay}</span>
+                      <span className="text-[13px] text-[#9CA3AF]"> {tc("perDay")}</span>
                     </div>
-                    <Link
-                      href="/catalog"
-                      className="bg-[#127384] text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-[#0e5f6d] transition"
-                    >
-                      {tCommon("book")}
+                    <Link href={`/${locale}/cars/${c.slug}`} className="rounded-full bg-[#1A1A2E] px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-[#F97316] transition">
+                      {tc("bookNow")}
                     </Link>
                   </div>
                 </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why */}
+      <section className="bg-white">
+        <div className="mx-auto max-w-[1312px] px-6 md:px-16 py-20">
+          <div className="text-center mb-10">
+            <p className="text-[14px] font-semibold text-[#F97316] mb-2">{t("whyTag")}</p>
+            <h2 className="text-[36px] font-bold text-[#1A1A2E]">{t("whyTitle")}</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {features.map((f) => (
+              <div key={f.title} className="bg-[#F5F5F0] rounded-2xl p-8 space-y-4">
+                <div className="h-14 w-14 rounded-[10px] bg-[#FFF7ED] text-[#F97316] flex items-center justify-center">
+                  <Icon d={f.icon} className="h-7 w-7" />
+                </div>
+                <h3 className="text-[20px] font-bold text-[#1A1A2E]">{f.title}</h3>
+                <p className="text-[14px] text-[#4B5563] leading-[1.6]">{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 5. STATS ─────────────────────────────────────────────────────── */}
-      <section className="bg-[#127384] py-16">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div>
-              <p className="text-4xl font-extrabold text-white">
-                {tStats("carsValue")}
-              </p>
-              <p className="text-sm text-teal-100 mt-1">
-                {tStats("carsLabel")}
-              </p>
-            </div>
-            <div>
-              <p className="text-4xl font-extrabold text-white">
-                {tStats("citiesValue")}
-              </p>
-              <p className="text-sm text-teal-100 mt-1">
-                {tStats("citiesLabel")}
-              </p>
-            </div>
-            <div>
-              <p className="text-4xl font-extrabold text-white">
-                {tStats("clientsValue")}
-              </p>
-              <p className="text-sm text-teal-100 mt-1">
-                {tStats("clientsLabel")}
-              </p>
-            </div>
-            <div>
-              <p className="text-4xl font-extrabold text-white">
-                {tStats("yearsValue")}
-              </p>
-              <p className="text-sm text-teal-100 mt-1">
-                {tStats("yearsLabel")}
-              </p>
-            </div>
+      {/* Testimonials */}
+      <section className="bg-[#F5F5F0]">
+        <div className="mx-auto max-w-[1312px] px-6 md:px-16 py-20">
+          <div className="text-center mb-10">
+            <p className="text-[14px] font-semibold text-[#F97316] mb-2">{t("testimonialsTag")}</p>
+            <h2 className="text-[36px] font-bold text-[#1A1A2E]">{t("testimonialsTitle")}</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {reviews.map((r, i) => (
+              <div key={i} className="bg-white rounded-2xl p-7 space-y-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+                <div className="text-[#FACC15] text-[16px]">★★★★★</div>
+                <p className="text-[14px] text-[#4B5563] leading-[1.7]">&ldquo;{r.text}&rdquo;</p>
+                <div className="flex items-center gap-3 pt-2">
+                  <div className="h-11 w-11 rounded-full bg-[#E5E7EB]" />
+                  <div>
+                    <div className="text-[14px] font-semibold text-[#1A1A2E]">{r.name}</div>
+                    <div className="text-[12px] text-[#9CA3AF]">{r.country}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── 6. WHY CHOOSE US ─────────────────────────────────────────────── */}
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm font-semibold text-[#FFA633] uppercase tracking-wide mb-2">
-            {tWhy("eyebrow")}
-          </p>
-          <h2 className="text-2xl font-bold text-[#201F1D] text-center mb-4">
-            {tWhy("heading")}
-          </h2>
-          <p className="text-center text-gray-500 max-w-2xl mx-auto mb-12">
-            {tWhy("subheading")}
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {/* Card 1 */}
-            <div className="bg-[#f5f5f5] rounded-xl p-8 text-center">
-              <div className="h-14 w-14 rounded-full bg-[#FFF3E0] mx-auto flex items-center justify-center text-[#FFA633]">
-                <IconShield className="w-6 h-6" />
-              </div>
-              <h3 className="font-semibold text-[#201F1D] mt-4">
-                {tWhy("advantage1Title")}
-              </h3>
-              <p className="text-sm text-gray-500 mt-2">
-                {tWhy("advantage1Desc")}
-              </p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-[#f5f5f5] rounded-xl p-8 text-center">
-              <div className="h-14 w-14 rounded-full bg-[#FFF3E0] mx-auto flex items-center justify-center text-[#FFA633]">
-                <IconCheck className="w-6 h-6" />
-              </div>
-              <h3 className="font-semibold text-[#201F1D] mt-4">
-                {tWhy("advantage2Title")}
-              </h3>
-              <p className="text-sm text-gray-500 mt-2">
-                {tWhy("advantage2Desc")}
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-[#f5f5f5] rounded-xl p-8 text-center">
-              <div className="h-14 w-14 rounded-full bg-[#FFF3E0] mx-auto flex items-center justify-center text-[#FFA633]">
-                <IconCar className="w-6 h-6" />
-              </div>
-              <h3 className="font-semibold text-[#201F1D] mt-4">
-                {tWhy("advantage3Title")}
-              </h3>
-              <p className="text-sm text-gray-500 mt-2">
-                {tWhy("advantage3Desc")}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 7. CTA ───────────────────────────────────────────────────────── */}
-      <section className="bg-[#201F1D] py-20">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
-            Готовы к поездке?
-          </h2>
-          <p className="text-gray-400 text-lg mb-8 max-w-xl mx-auto">
-            Выберите автомобиль из нашего каталога и забронируйте онлайн за пару минут
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/catalog"
-              className="inline-flex items-center gap-2 bg-[#FFA633] hover:bg-[#e8952d] text-white rounded-full px-8 py-3.5 font-semibold transition"
-            >
-              {tCars("viewAll")}
-              <IconArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/catalog"
-              className="inline-flex items-center gap-2 rounded-full border-2 border-white text-white px-8 py-3.5 font-semibold hover:bg-white hover:text-[#201F1D] transition"
-            >
-              Связаться с нами
+      {/* CTA */}
+      <section className="bg-[#1A1A2E]">
+        <div className="mx-auto max-w-[1312px] px-6 md:px-16 py-20 text-center">
+          <h2 className="text-[36px] md:text-[44px] font-extrabold text-white">{t("ctaTitle")}</h2>
+          <p className="text-[17px] text-[#9CA3AF] mt-4 max-w-[600px] mx-auto leading-[1.6]">{t("ctaSubtitle")}</p>
+          <div className="mt-8">
+            <Link href={`/${locale}/cars`} className="inline-flex items-center justify-center rounded-full bg-[#F97316] px-10 py-4 text-[17px] font-bold text-white shadow-[0_4px_16px_rgba(249,115,22,0.25)] hover:bg-[#EA580C] transition">
+              {tc("reserveYourCar")}
             </Link>
           </div>
         </div>
