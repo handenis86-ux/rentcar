@@ -44,7 +44,7 @@ export const CATALOG: Car[] = [
     slug: "chevrolet-cobalt", brand: "Chevrolet", model: "Cobalt", year: 2024, body: "sedan",
     category: "economy", seats: 5, bags: 2, transmission: "auto", fuel: "petrol",
     engine: "1.5 L", drive: "fwd", pricePerDay: 32, deposit: 3000,
-    images: ["/cars/chevrolet-cobalt-hero.png","/cars/chevrolet-cobalt-g1.jpg","/cars/chevrolet-cobalt-g2.jpg","/cars/chevrolet-cobalt-g3.jpg","/cars/chevrolet-cobalt-g4.jpg","/cars/chevrolet-cobalt-g5.jpg","/cars/chevrolet-cobalt-g6.jpg"],
+    images: ["/cars/chevrolet-cobalt-hero.png","/cars/chevrolet-cobalt-g1.jpg","/cars/chevrolet-cobalt-g2.jpg","/cars/chevrolet-cobalt-g3.jpg","/cars/chevrolet-cobalt-g4.jpg","/cars/chevrolet-cobalt-g5.jpg"],
     description: D(
       "Просторный седан эконом-класса. Вместительный багажник, низкий расход. Подходит для повседневных поездок и коротких трипов за город.",
       "Spacious economy sedan with a roomy trunk and low fuel use. A solid daily driver and short road-trip companion.",
