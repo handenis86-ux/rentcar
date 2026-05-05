@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 export function ImageCarousel({ images, alt }: { images: string[]; alt: string }) {
   const [idx, setIdx] = useState(0);
@@ -11,11 +12,14 @@ export function ImageCarousel({ images, alt }: { images: string[]; alt: string }
   return (
     <div className="space-y-3">
       <div className="relative rounded-2xl overflow-hidden bg-[#F5F5F0] aspect-[16/10] group">
-        <img
+        <Image
           key={images[idx]}
           src={images[idx]}
           alt={`${alt} — ${idx + 1}/${images.length}`}
-          className="w-full h-full object-cover transition-opacity duration-200"
+          fill
+          sizes="(min-width: 1024px) 720px, 100vw"
+          className="object-cover transition-opacity duration-200"
+          priority={idx === 0}
         />
         {images.length > 1 && (
           <>
@@ -58,7 +62,7 @@ export function ImageCarousel({ images, alt }: { images: string[]; alt: string }
                 i === idx ? "ring-2 ring-[#F97316]" : "opacity-70 hover:opacity-100"
               }`}
             >
-              <img src={src} alt="" className="w-full h-full object-cover" />
+              <Image src={src} alt="" width={120} height={90} className="w-full h-full object-cover" />
             </button>
           ))}
         </div>

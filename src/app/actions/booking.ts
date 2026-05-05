@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { isCarAvailable } from "@/lib/cars";
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 
@@ -55,6 +56,10 @@ export async function createBooking(raw: BookingInput): Promise<BookingResult> {
   const totalPrice  = days * data.pricePerDay;
   const commission  = Math.round(totalPrice * 0.05); // 5%
 
+  if (!(await isCarAvailable(data.carId, start, end))) {
+    return { success: false, error: "Авто уже забронировано на выбранные даты. Попробуйте другие даты." };
+  }
+
   try {
     // Find or create a guest user by phone
     const phone = data.phone.replace(/\s/g, "").replace(/-/g, "");
@@ -62,7 +67,7 @@ export async function createBooking(raw: BookingInput): Promise<BookingResult> {
 
     if (!user) {
       // Try to find by email pattern (in case of retry with same phone)
-      const guestEmail = `${phone.replace(/\D/g, "")}@guest.rentcar.uz`;
+      const guestEmail = `${phone.replace(/\D/g, "")}@guest.rentz.uz`;
       user = await prisma.user.upsert({
         where:  { email: guestEmail },
         update: { name: data.name },

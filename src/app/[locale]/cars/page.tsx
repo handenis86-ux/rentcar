@@ -2,17 +2,39 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { PageHero } from "@/components/SiteChrome";
-import { CATALOG, carDescription, type Car, type CarCategory } from "@/lib/catalog";
+import {
+  CATALOG,
+  carDescription,
+  categoryToDb,
+  transmissionToDb,
+  type Car,
+  type CarCategory,
+} from "@/lib/catalog";
 import { EXTRAS } from "@/lib/catalog-extras";
 import { CarImage } from "@/components/CarImage";
+import { getCars, getCities } from "@/lib/cars";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "fleet" });
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    alternates: {
+      canonical: `/${locale}/cars`,
+      languages: { ru: "/ru/cars", uz: "/uz/cars", en: "/en/cars", "x-default": "/en/cars" },
+    },
+  };
 }
 
-type SP = { category?: string; trans?: string; price?: string };
+type SP = {
+  category?: string | string[];
+  trans?: string;
+  price?: string;
+  city?: string;
+  pickup?: string;
+  return?: string;
+};
 
 const BADGE_COLOR: Record<CarCategory, string> = {
   economy: "bg-[#FFF7ED] text-[#F97316]",
@@ -22,11 +44,18 @@ const BADGE_COLOR: Record<CarCategory, string> = {
   minivan: "bg-[#F5F3FF] text-[#7C3AED]",
 };
 
-const PRICE_PREDICATE: Record<string, (p: number) => boolean> = {
-  low:  (p) => p <= 50,
-  mid:  (p) => p > 50 && p <= 100,
-  high: (p) => p > 100,
+const USD_TO_UZS = 12_500;
+const PRICE_RANGE_USD: Record<string, { min?: number; max?: number }> = {
+  low:  { max: 50 },
+  mid:  { min: 50, max: 100 },
+  high: { min: 100 },
 };
+
+function parseDate(s: string | undefined): Date | undefined {
+  if (!s) return undefined;
+  const d = new Date(s);
+  return Number.isNaN(d.getTime()) ? undefined : d;
+}
 
 function Spec({ k, v }: { k: string; v: string }) {
   return (
@@ -48,12 +77,18 @@ function buildHref(
   toggleValue: string | null,
 ): string {
   const next: SP = { ...current };
+  const cur = current[toggleKey];
+  const curStr = Array.isArray(cur) ? cur[0] : cur;
   if (toggleValue === null) delete next[toggleKey];
-  else if (current[toggleKey] === toggleValue) delete next[toggleKey];
-  else next[toggleKey] = toggleValue;
+  else if (curStr === toggleValue) delete next[toggleKey];
+  else (next as Record<string, string>)[toggleKey] = toggleValue;
 
   const qs = new URLSearchParams();
-  for (const [k, v] of Object.entries(next)) if (v) qs.set(k, v);
+  for (const [k, v] of Object.entries(next)) {
+    if (!v) continue;
+    if (Array.isArray(v)) v.forEach((x) => qs.append(k, x));
+    else qs.set(k, v);
+  }
   const s = qs.toString();
   return s ? `${basePath}?${s}` : basePath;
 }
@@ -96,13 +131,34 @@ export default async function FleetPage({
 
   const basePath = `/${locale}/cars`;
 
-  const filtered = CATALOG.filter((car: Car) => {
-    if (sp.category && car.category !== sp.category) return false;
-    if (sp.trans && car.transmission !== sp.trans) return false;
-    const pricePred = sp.price ? PRICE_PREDICATE[sp.price] : null;
-    if (pricePred && !pricePred(car.pricePerDay)) return false;
-    return true;
-  });
+  // Resolve scalar values (can be array from multi-value params)
+  const spCategory = Array.isArray(sp.category) ? sp.category[0] : sp.category;
+
+  const pickupDate = parseDate(sp.pickup);
+  const returnDate = parseDate(sp.return);
+
+  const priceRange = sp.price ? PRICE_RANGE_USD[sp.price] : undefined;
+
+  const dbCategory = spCategory ? categoryToDb(spCategory as CarCategory) : undefined;
+  const dbTransmission = sp.trans ? transmissionToDb(sp.trans as "auto" | "manual") : undefined;
+
+  const [{ cars: dbCars }, cities] = await Promise.all([
+    getCars({
+      city:          sp.city || undefined,
+      categories:    dbCategory ? [dbCategory] : [],
+      transmissions: dbTransmission ? [dbTransmission] : [],
+      pickupDate,
+      returnDate,
+      minPrice:      priceRange?.min !== undefined ? priceRange.min * USD_TO_UZS : undefined,
+      maxPrice:      priceRange?.max !== undefined ? priceRange.max * USD_TO_UZS : undefined,
+      limit:         100,
+    }),
+    getCities(),
+  ]);
+
+  // Merge DB cars with static CATALOG to get rich display fields (engine, drive, body, locale descriptions, etc.)
+  const dbBySlug = new Map(dbCars.map((c) => [c.slug, c]));
+  const filtered: Car[] = CATALOG.filter((c) => dbBySlug.has(c.slug));
 
   const badgeLabel: Record<CarCategory, string> = {
     economy: t("filterEconomy"),
@@ -132,6 +188,20 @@ export default async function FleetPage({
     { value: "high", label: t("filterPrice3") },
   ];
 
+  const cityName = (slug: string) => {
+    const c = cities.find((x) => x.slug === slug);
+    if (!c) return slug;
+    return locale === "en" ? c.nameEn : locale === "uz" ? c.nameUz : c.nameRu;
+  };
+
+  const detailHref = (slug: string) => {
+    const params = new URLSearchParams();
+    if (sp.pickup) params.set("pickup", sp.pickup);
+    if (sp.return) params.set("return", sp.return);
+    const s = params.toString();
+    return `${basePath}/${slug}${s ? `?${s}` : ""}`;
+  };
+
   return (
     <>
       <PageHero title={t("title")} subtitle={t("subtitle")} />
@@ -144,7 +214,7 @@ export default async function FleetPage({
                 key={c.value ?? "__all"}
                 label={c.label}
                 href={buildHref(basePath, sp, "category", c.value)}
-                active={c.value === null ? !sp.category : sp.category === c.value}
+                active={c.value === null ? !spCategory : spCategory === c.value}
               />
             ))}
           </div>
@@ -171,6 +241,38 @@ export default async function FleetPage({
             ))}
           </div>
         </div>
+
+        {(sp.city || sp.pickup || sp.return) && (
+          <div className="mx-auto max-w-[1312px] px-6 md:px-16 pb-4 flex flex-wrap items-center justify-center gap-2 text-[12px]">
+            {sp.city && (
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#F5F5F0] px-3 py-1.5 text-[#1A1A2E]">
+                {tc("city")}: <strong>{cityName(sp.city)}</strong>
+                <Link href={buildHref(basePath, sp, "city", null)} className="text-[#9CA3AF] hover:text-[#F97316]">×</Link>
+              </span>
+            )}
+            {sp.pickup && sp.return && (
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#F5F5F0] px-3 py-1.5 text-[#1A1A2E]">
+                {sp.pickup} → {sp.return}
+                <Link
+                  href={(() => {
+                    const next: SP = { ...sp };
+                    delete next.pickup;
+                    delete next.return;
+                    const qs = new URLSearchParams();
+                    for (const [k, v] of Object.entries(next)) {
+                      if (!v) continue;
+                      if (Array.isArray(v)) v.forEach((x) => qs.append(k, x));
+                      else qs.set(k, v);
+                    }
+                    const s = qs.toString();
+                    return s ? `${basePath}?${s}` : basePath;
+                  })()}
+                  className="text-[#9CA3AF] hover:text-[#F97316]"
+                >×</Link>
+              </span>
+            )}
+          </div>
+        )}
       </section>
 
       <section className="bg-white">
@@ -201,7 +303,7 @@ export default async function FleetPage({
 
                 return (
                   <article key={car.slug} className="bg-white rounded-[10px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col">
-                    <div className="aspect-[16/10] bg-[#F5F5F0]">
+                    <div className="relative aspect-[16/10] bg-[#F5F5F0]">
                       <CarImage car={car} />
                     </div>
                     <div className="p-5 space-y-3 flex-1 flex flex-col">
@@ -245,9 +347,9 @@ export default async function FleetPage({
 
                       {extra && (
                         <div className="flex items-center gap-3 text-[11px] text-[#9CA3AF] pt-1">
-                          <span>Залог: <span className="font-medium text-[#1A1A2E]">{extra.depositUzs.toLocaleString("ru-RU")} сум</span></span>
+                          <span>{tc("deposit")}: <span className="font-medium text-[#1A1A2E]">{extra.depositUzs.toLocaleString("ru-RU")} {tc("uzs")}</span></span>
                           <span>·</span>
-                          <span>Лимит: <span className="font-medium text-[#1A1A2E]">{extra.dailyKm} км/день</span></span>
+                          <span>{tc("limit")}: <span className="font-medium text-[#1A1A2E]">{extra.dailyKm} {tc("kmPerDay")}</span></span>
                         </div>
                       )}
 
@@ -257,7 +359,7 @@ export default async function FleetPage({
                           <span className="text-[13px] text-[#9CA3AF]"> {tc("perDay")}</span>
                         </div>
                         <Link
-                          href={`/${locale}/cars/${car.slug}`}
+                          href={detailHref(car.slug)}
                           className="rounded-full bg-[#1A1A2E] px-4 py-2 text-[12px] font-semibold text-white hover:bg-[#F97316] transition"
                         >
                           {tc("viewDetails")}

@@ -295,6 +295,34 @@ export const CATALOG: Car[] = [
   },
 ];
 
+// City assignment per car (slug → city slug). Used by seed and search.
+export const CITY_BY_SLUG: Record<string, string> = {
+  "chevrolet-spark":            "tashkent",
+  "chevrolet-cobalt":           "tashkent",
+  "chevrolet-lacetti":          "tashkent",
+  "chevrolet-onix-ltz-turbo":   "tashkent",
+  "chevrolet-monza":            "tashkent",
+  "toyota-prado-120":           "bukhara",
+  "chevrolet-tracker-2":        "samarkand",
+  "kia-sonet":                  "namangan",
+  "chevrolet-orlando-redline":  "tashkent",
+  "byd-chazor-dm1":             "tashkent",
+  "chevrolet-equinox":          "tashkent",
+  "kia-k5-g515":                "tashkent",
+  "chevrolet-malibu-2":         "samarkand",
+  "chevrolet-trailblazer-ltz":  "fergana",
+  "kia-carnival":               "samarkand",
+  "byd-song-plus":              "tashkent",
+  "hyundai-tucson":             "bukhara",
+  "isuzu-d-max-irbis":          "nukus",
+  "toyota-land-cruiser-prado":  "tashkent",
+  "kia-carnival-g03i":          "tashkent",
+  "toyota-land-cruiser-200":    "tashkent",
+  "lixiang-l9-ultra":           "tashkent",
+  "toyota-land-cruiser-300":    "tashkent",
+  "mercedes-benz-g400d":        "tashkent",
+};
+
 export function getCarBySlug(slug: string): Car | undefined {
   return CATALOG.find((c) => c.slug === slug);
 }
@@ -306,4 +334,40 @@ export function primaryImage(car: Car): string {
 export function carDescription(car: Car, locale: string): string {
   const key = (locale === "en" || locale === "uz") ? locale : "ru";
   return car.description[key as Locale];
+}
+
+const CATEGORY_TO_DB: Record<CarCategory, "ECONOMY" | "COMFORT" | "BUSINESS" | "SUV" | "MINIVAN" | "PREMIUM"> = {
+  economy: "ECONOMY",
+  comfort: "COMFORT",
+  premium: "PREMIUM",
+  suv:     "SUV",
+  minivan: "MINIVAN",
+};
+export function categoryToDb(c: CarCategory) {
+  return CATEGORY_TO_DB[c];
+}
+export function categoryFromDb(c: string): CarCategory {
+  switch (c) {
+    case "ECONOMY": return "economy";
+    case "COMFORT": return "comfort";
+    case "PREMIUM": return "premium";
+    case "SUV":     return "suv";
+    case "MINIVAN": return "minivan";
+    case "BUSINESS": return "comfort";
+    default:         return "economy";
+  }
+}
+
+const FUEL_TO_DB: Record<Car["fuel"], "PETROL" | "DIESEL" | "HYBRID" | "ELECTRIC"> = {
+  petrol:   "PETROL",
+  diesel:   "DIESEL",
+  hybrid:   "HYBRID",
+  electric: "ELECTRIC",
+};
+export function fuelToDb(f: Car["fuel"]) {
+  return FUEL_TO_DB[f];
+}
+
+export function transmissionToDb(t: Car["transmission"]): "AUTOMATIC" | "MANUAL" {
+  return t === "auto" ? "AUTOMATIC" : "MANUAL";
 }

@@ -9,9 +9,9 @@ export default function RegisterPage() {
 
         {/* Logo */}
         <div className="text-center mb-6">
-          <a href="/" className="inline-block select-none" aria-label="RentCar — home">
+          <a href="/" className="inline-block select-none" aria-label="Rentz — home">
             <span className="font-bold text-2xl text-[#201F1D]">Rent</span>
-            <span className="font-bold text-2xl text-[#FFA633]">Car</span>
+            <span className="font-bold text-2xl text-[#FFA633]">Z</span>
           </a>
         </div>
 

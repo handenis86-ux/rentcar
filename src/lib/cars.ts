@@ -10,10 +10,14 @@ export interface CarsFilter {
   maxPrice?: number;
   seats?: number;
   brand?: string;
+  pickupDate?: Date;
+  returnDate?: Date;
   sortBy?: "price_asc" | "price_desc" | "newest";
   page?: number;
   limit?: number;
 }
+
+const ACTIVE_BOOKING_STATUSES = ["PENDING", "CONFIRMED", "ACTIVE"] as const;
 
 export async function getCars(filter: CarsFilter = {}) {
   const {
@@ -25,10 +29,14 @@ export async function getCars(filter: CarsFilter = {}) {
     maxPrice,
     seats,
     brand,
+    pickupDate,
+    returnDate,
     sortBy = "price_asc",
     page = 1,
     limit = 12,
   } = filter;
+
+  const datesProvided = !!(pickupDate && returnDate && returnDate > pickupDate);
 
   const where = {
     isAvailable: true,
@@ -44,6 +52,17 @@ export async function getCars(filter: CarsFilter = {}) {
           pricePerDay: {
             ...(minPrice !== undefined ? { gte: minPrice } : {}),
             ...(maxPrice !== undefined ? { lte: maxPrice } : {}),
+          },
+        }
+      : {}),
+    ...(datesProvided
+      ? {
+          bookings: {
+            none: {
+              status: { in: [...ACTIVE_BOOKING_STATUSES] },
+              startDate: { lt: returnDate! },
+              endDate:   { gt: pickupDate! },
+            },
           },
         }
       : {}),
@@ -117,6 +136,19 @@ export async function getCarBySlug(slug: string) {
 
 export async function getCities() {
   return prisma.city.findMany({ orderBy: { nameRu: "asc" } });
+}
+
+export async function isCarAvailable(carId: string, pickupDate: Date, returnDate: Date) {
+  const conflict = await prisma.booking.findFirst({
+    where: {
+      carId,
+      status: { in: [...ACTIVE_BOOKING_STATUSES] },
+      startDate: { lt: returnDate },
+      endDate:   { gt: pickupDate },
+    },
+    select: { id: true },
+  });
+  return !conflict;
 }
 
 export async function getDistinctBrands() {

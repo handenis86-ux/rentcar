@@ -83,7 +83,15 @@ function SuccessScreen({ car, onClose }: { car: BookingCar; onClose: () => void 
 
 // ─── Booking Form ─────────────────────────────────────────────────────────────
 
-export function BookingForm({ car }: { car: BookingCar }) {
+export function BookingForm({
+  car,
+  initialPickup,
+  initialReturn,
+}: {
+  car: BookingCar;
+  initialPickup?: string;
+  initialReturn?: string;
+}) {
   const [open, setOpen]     = useState(false);
   const [done, setDone]     = useState(false);
   const [loading, setLoading] = useState(false);
@@ -92,10 +100,12 @@ export function BookingForm({ car }: { car: BookingCar }) {
 
   // Form fields
   const today = todayStr();
+  const defaultStart = initialPickup && initialPickup >= today ? initialPickup : today;
+  const defaultEnd   = initialReturn && initialReturn > defaultStart ? initialReturn : addDays(defaultStart, 1);
   const [name,            setName]           = useState("");
   const [phone,           setPhone]          = useState("");
-  const [startDate,       setStartDate]      = useState(today);
-  const [endDate,         setEndDate]        = useState(addDays(today, 1));
+  const [startDate,       setStartDate]      = useState(defaultStart);
+  const [endDate,         setEndDate]        = useState(defaultEnd);
   const [pickupLocation,  setPickup]         = useState(car.address ?? "");
   const [dropoffLocation, setDropoff]        = useState(car.address ?? "");
   const [paymentMethod,   setPaymentMethod]  = useState<PaymentMethod>("CASH");

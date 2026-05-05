@@ -4,16 +4,16 @@ import { LangSwitcher } from "./LangSwitcher";
 
 export const NAV = [
   { href: "/cars",          key: "fleet" as const },
+  { href: "/destinations",  key: "destinations" as const },
   { href: "/how-it-works",  key: "howItWorks" as const },
   { href: "/about",         key: "about" as const },
-  { href: "/contact",       key: "contact" as const },
   { href: "/faq",           key: "faq" as const },
 ];
 
 function Logo({ className = "text-[22px]" }: { className?: string }) {
   return (
     <span className={`font-bold ${className} text-[#1A1A2E] tracking-tight`}>
-      RentCar<span className="text-[#F97316]">.uz</span>
+      Rentz<span className="text-[#F97316]">.uz</span>
     </span>
   );
 }
@@ -21,7 +21,7 @@ function Logo({ className = "text-[22px]" }: { className?: string }) {
 function LogoInverse({ className = "text-[22px]" }: { className?: string }) {
   return (
     <span className={`font-bold ${className} text-white tracking-tight`}>
-      RentCar<span className="text-[#F97316]">.uz</span>
+      Rentz<span className="text-[#F97316]">.uz</span>
     </span>
   );
 }
@@ -33,10 +33,10 @@ export async function Header({ locale }: { locale: string }) {
     <header className="sticky top-0 z-50 bg-white border-b border-[#E5E7EB]">
       <div className="mx-auto max-w-[1312px] px-6 md:px-16 h-[72px] flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link href={`/${locale}`} aria-label="RentCar.uz — Home">
+          <Link href={`/${locale}`} aria-label="Rentz.uz — Home">
             <Logo />
           </Link>
-          <nav className="hidden md:flex items-center gap-6">
+          <nav aria-label="Primary" className="hidden md:flex items-center gap-6">
             {NAV.map((l) => (
               <Link
                 key={l.href}
@@ -67,9 +67,26 @@ function Facebook() { return (<svg viewBox="0 0 24 24" className="h-4 w-4" fill=
 function Twitter() { return (<svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden><path d="M18.2 2H21l-6.4 7.3L22 22h-5.8l-4.6-6-5.3 6H3.5l6.8-7.8L2 2h5.9l4.2 5.5L18.2 2zm-2 18h1.6L7 3.9H5.3L16.2 20z"/></svg>); }
 function YouTube() { return (<svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 0 0 .5 6.2C0 8 0 12 0 12s0 4 .5 5.8a3 3 0 0 0 2.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 16 24 12 24 12s0-4-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>); }
 
+const POPULAR_FOOTER_LINKS = [
+  { slug: "chevrolet-cobalt",          label: { ru: "Аренда Chevrolet Cobalt", en: "Rent Chevrolet Cobalt", uz: "Chevrolet Cobalt ijara" } },
+  { slug: "chevrolet-malibu-2",        label: { ru: "Аренда Chevrolet Malibu", en: "Rent Chevrolet Malibu", uz: "Chevrolet Malibu ijara" } },
+  { slug: "hyundai-tucson",            label: { ru: "Аренда Hyundai Tucson",   en: "Rent Hyundai Tucson",   uz: "Hyundai Tucson ijara" } },
+  { slug: "toyota-land-cruiser-prado", label: { ru: "Аренда Land Cruiser Prado", en: "Rent Land Cruiser Prado", uz: "Land Cruiser Prado ijara" } },
+  { slug: "kia-carnival",              label: { ru: "Аренда Kia Carnival",     en: "Rent Kia Carnival",     uz: "Kia Carnival ijara" } },
+  { slug: "mercedes-benz-g400d",       label: { ru: "Аренда Mercedes G-Class", en: "Rent Mercedes G-Class", uz: "Mercedes G-Class ijara" } },
+];
+
+const POPULAR_DESTINATIONS = [
+  { slug: "tashkent-samarkand", label: { ru: "Поездка в Самарканд", en: "Trip to Samarkand", uz: "Samarqandga sayohat" } },
+  { slug: "tashkent-bukhara",   label: { ru: "Поездка в Бухару",    en: "Trip to Bukhara",   uz: "Buxoroga sayohat" } },
+  { slug: "tashkent-khiva",     label: { ru: "Поездка в Хиву",      en: "Trip to Khiva",     uz: "Xivaga sayohat" } },
+  { slug: "chimgan",            label: { ru: "Чимган и Бельдерсай", en: "Chimgan & Beldersay", uz: "Chimg'on va Beldersay" } },
+];
+
 export async function Footer({ locale }: { locale: string }) {
   const tNav = await getTranslations({ locale, namespace: "nav" });
   const tFoot = await getTranslations({ locale, namespace: "footer" });
+  const l = (locale === "en" || locale === "uz" ? locale : "ru") as "ru" | "en" | "uz";
   return (
     <footer className="bg-[#1A1A2E] text-white">
       <div className="mx-auto max-w-[1312px] px-6 md:px-16 pt-16 pb-6">
@@ -98,12 +115,17 @@ export async function Footer({ locale }: { locale: string }) {
           <div className="space-y-3">
             <h4 className="text-[14px] font-semibold text-white mb-2">{tFoot("contact")}</h4>
             <p className="text-[14px] text-[#9CA3AF]">+998 71 200 00 00</p>
-            <p className="text-[14px] text-[#9CA3AF]">info@rentcar.uz</p>
+            <p className="text-[14px] text-[#9CA3AF]">info@rentz.uz</p>
             <p className="text-[14px] text-[#9CA3AF]">{tFoot("address")}</p>
 
             <div className="pt-2 flex items-center gap-3">
-              {[{ Icon: Instagram }, { Icon: Facebook }, { Icon: Twitter }, { Icon: YouTube }].map(({ Icon }, i) => (
-                <a key={i} href="#" className="h-9 w-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#F97316] transition-colors">
+              {[
+                { Icon: Instagram, label: "Instagram" },
+                { Icon: Facebook,  label: "Facebook"  },
+                { Icon: Twitter,   label: "X / Twitter" },
+                { Icon: YouTube,   label: "YouTube"   },
+              ].map(({ Icon, label }) => (
+                <a key={label} href="#" aria-label={`Rentz.uz on ${label}`} className="h-9 w-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#F97316] transition-colors">
                   <Icon />
                 </a>
               ))}
@@ -111,7 +133,38 @@ export async function Footer({ locale }: { locale: string }) {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="mt-14 pt-10 border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div>
+            <h4 className="text-[13px] font-semibold text-white mb-3 uppercase tracking-wider">
+              {l === "en" ? "Popular cars" : l === "uz" ? "Mashhur avtomobillar" : "Популярные авто"}
+            </h4>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+              {POPULAR_FOOTER_LINKS.map((p) => (
+                <li key={p.slug}>
+                  <Link href={`/${locale}/cars/${p.slug}`} className="text-[13px] text-[#9CA3AF] hover:text-[#F97316] transition-colors">
+                    {p.label[l]}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-[13px] font-semibold text-white mb-3 uppercase tracking-wider">
+              {l === "en" ? "Destinations" : l === "uz" ? "Yo'nalishlar" : "Направления"}
+            </h4>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+              {POPULAR_DESTINATIONS.map((p) => (
+                <li key={p.slug}>
+                  <Link href={`/${locale}/destinations/${p.slug}`} className="text-[13px] text-[#9CA3AF] hover:text-[#F97316] transition-colors">
+                    {p.label[l]}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[13px] text-[#9CA3AF]">{tFoot("copyright")}</p>
           <p className="text-[13px] text-[#9CA3AF]">{tFoot("madeIn")}</p>
         </div>

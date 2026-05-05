@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "home" });
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    alternates: {
+      canonical: `/${locale}`,
+      languages: { ru: "/ru", uz: "/uz", en: "/en", "x-default": "/en" },
+    },
+  };
 }
 
 function Icon({ d, className = "h-5 w-5" }: { d: string; className?: string }) {
@@ -25,6 +33,7 @@ const I_FUEL = `<path d="M3 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18"/><path d="M2 
 
 import { CATALOG, type Car } from "@/lib/catalog";
 import { CarImage } from "@/components/CarImage";
+import { HeroSearch } from "@/components/HeroSearch";
 
 const POPULAR_SLUGS = ["chevrolet-malibu-2", "chevrolet-cobalt", "chevrolet-spark"] as const;
 const CARS: Car[] = POPULAR_SLUGS.map((slug) => CATALOG.find((c) => c.slug === slug)!);
@@ -33,6 +42,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "home" });
   const tc = await getTranslations({ locale, namespace: "common" });
+  const tf = await getTranslations({ locale, namespace: "fleet" });
+  const tFaq = await getTranslations({ locale, namespace: "faq" });
 
   const features = [
     { icon: I_PLANE,        title: t("feature1Title"), desc: t("feature1Desc") },
@@ -42,17 +53,25 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   ];
 
   const reviews = [
-    { text: t("review1"), name: t("review1Name"), country: t("review1Country") },
-    { text: t("review2"), name: t("review2Name"), country: t("review2Country") },
-    { text: t("review3"), name: t("review3Name"), country: t("review3Country") },
+    { text: t("review1"), name: t("review1Name"), country: t("review1Country"), code: "UK", initial: "S" },
+    { text: t("review2"), name: t("review2Name"), country: t("review2Country"), code: "DE", initial: "T" },
+    { text: t("review3"), name: t("review3Name"), country: t("review3Country"), code: "JP", initial: "Y" },
   ];
 
-  const searchFields = [
-    { label: t("searchPickupLoc"),  val: t("searchPickupLocVal") },
-    { label: t("searchPickupDate"), val: t("searchPickupDateVal") },
-    { label: t("searchReturnDate"), val: t("searchReturnDateVal") },
-    { label: t("searchCarType"),    val: t("searchCarTypeVal") },
+  const categoryOptions = [
+    { value: "economy", label: tf("filterEconomy") },
+    { value: "comfort", label: tf("filterComfort") },
+    { value: "premium", label: tf("filterPremium") },
+    { value: "suv",     label: tf("filterSUV") },
+    { value: "minivan", label: tf("filterMinivan") },
   ];
+  const searchLabels = {
+    pickupDate: t("searchPickupDate"),
+    returnDate: t("searchReturnDate"),
+    carType:    t("searchCarType"),
+    search:     t("search"),
+    carTypeAny: t("searchCarTypeAny"),
+  };
 
   return (
     <>
@@ -63,28 +82,29 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <span className="inline-flex items-center rounded-full bg-[#F97316] px-4 py-1.5 text-[13px] font-semibold text-white">
               {t("heroBadge")}
             </span>
-            <h1 className="text-[44px] md:text-[52px] font-extrabold leading-[1.1] text-[#1A1A2E]">
+            <h1 className="text-[34px] sm:text-[44px] md:text-[52px] font-extrabold leading-[1.1] text-[#1A1A2E]">
               {t("heroTitle1")}<br />{t("heroTitle2")}
             </h1>
             <p className="text-[17px] text-[#4B5563] leading-[1.6] max-w-[520px]">
               {t("heroSubtitle")}
             </p>
 
-            <div className="bg-white rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.1)] p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              {searchFields.map((f) => (
-                <div key={f.label} className="bg-[#F5F5F0] rounded-[10px] px-3 py-2 flex-1 min-w-0">
-                  <div className="text-[11px] font-semibold uppercase tracking-wide text-[#9CA3AF]">{f.label}</div>
-                  <div className="text-[14px] font-medium text-[#1A1A2E] truncate">{f.val}</div>
-                </div>
-              ))}
-              <Link href={`/${locale}/cars`} className="inline-flex items-center justify-center rounded-full bg-[#F97316] px-8 py-4 text-[15px] font-semibold text-white hover:bg-[#EA580C] transition shrink-0">
-                {t("search")}
-              </Link>
-            </div>
+            <HeroSearch
+              locale={locale}
+              categories={categoryOptions}
+              labels={searchLabels}
+            />
           </div>
 
-          <div className="relative aspect-[4/5] md:aspect-auto md:h-[500px] rounded-3xl overflow-hidden">
-            <img src="/design/generated-1776872101080.png" alt="Car" className="w-full h-full object-cover" />
+          <div className="relative aspect-[16/10] sm:aspect-[4/5] md:aspect-auto md:h-[500px] rounded-3xl overflow-hidden">
+            <Image
+              src="/design/generated-1776872101080.png"
+              alt={`${t("heroTitle1")} ${t("heroTitle2")} — Rentz.uz`}
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              priority
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
@@ -95,11 +115,30 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <p className="text-center text-[14px] font-semibold text-[#9CA3AF] uppercase tracking-wider mb-6">
             {t("trustedLabel")}
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16 text-[#9CA3AF]">
-            <span className="flex items-center gap-2 text-[14px]">{t("trustedTripAdvisor")}</span>
-            <span className="flex items-center gap-2 text-[14px]">{t("trustedBooking")}</span>
-            <span className="flex items-center gap-2 text-[14px]">{t("trustedGoogle")}</span>
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 md:gap-x-16 text-[#4B5563]">
+            <span className="flex items-center gap-2 text-[14px] font-medium">
+              {/* Verified badge */}
+              <svg className="h-4 w-4 text-[#F97316]" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M12 2 4 5v6c0 5 3.5 9.6 8 11 4.5-1.4 8-6 8-11V5l-8-3zm-1.2 14.4-3.6-3.6 1.4-1.4 2.2 2.2 5-5 1.4 1.4-6.4 6.4z"/></svg>
+              {t("trustedTripAdvisor")}
+            </span>
+            <span className="flex items-center gap-2 text-[14px] font-medium">
+              {/* Star rating */}
+              <svg className="h-4 w-4 text-[#FACC15]" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              {t("trustedBooking")}
+            </span>
+            <span className="flex items-center gap-2 text-[14px] font-medium">
+              <svg className="h-4 w-4 text-[#FACC15]" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2z"/></svg>
+              {t("trustedGoogle")}
+            </span>
           </div>
+        </div>
+      </section>
+
+      {/* Intro paragraphs */}
+      <section className="bg-white">
+        <div className="mx-auto max-w-[820px] px-6 md:px-16 py-14 space-y-5 text-center">
+          <p className="text-[17px] text-[#4B5563] leading-[1.75]">{t("introP1")}</p>
+          <p className="text-[17px] text-[#4B5563] leading-[1.75]">{t("introP2")}</p>
         </div>
       </section>
 
@@ -114,7 +153,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {CARS.map((c) => (
               <article key={c.slug} className="bg-white rounded-[10px] shadow-[0_2px_8px_rgba(0,0,0,0.05)] overflow-hidden">
-                <div className="aspect-[16/10] bg-[#F5F5F0]">
+                <div className="relative aspect-[16/10] bg-[#F5F5F0]">
                   <CarImage car={c} />
                 </div>
                 <div className="p-5 space-y-4">
@@ -136,6 +175,120 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 </div>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Destinations */}
+      <section className="bg-white">
+        <div className="mx-auto max-w-[1312px] px-6 md:px-16 py-20">
+          <div className="text-center mb-10 max-w-[680px] mx-auto">
+            <p className="text-[14px] font-semibold text-[#F97316] mb-2">{t("destTag")}</p>
+            <h2 className="text-[32px] md:text-[36px] font-bold text-[#1A1A2E]">{t("destTitle")}</h2>
+            <p className="text-[16px] text-[#4B5563] mt-3 leading-[1.6]">{t("destSubtitle")}</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { slug: "tashkent-samarkand", img: "/design/generated-1776872171930.png", n: t("dest1Name"), d: t("dest1Distance"), x: t("dest1Desc") },
+              { slug: "tashkent-bukhara",   img: "/design/generated-1776872186016.png", n: t("dest2Name"), d: t("dest2Distance"), x: t("dest2Desc") },
+              { slug: "tashkent-khiva",     img: "/design/generated-1776872193435.png", n: t("dest3Name"), d: t("dest3Distance"), x: t("dest3Desc") },
+              { slug: "chimgan",            img: "/design/generated-1776872206548.png", n: t("dest4Name"), d: t("dest4Distance"), x: t("dest4Desc") },
+            ].map((dst) => (
+              <Link
+                key={dst.slug}
+                href={`/${locale}/destinations/${dst.slug}`}
+                className="group bg-white rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] transition flex flex-col"
+              >
+                <div className="relative aspect-[4/3] bg-[#F5F5F0]">
+                  <Image src={dst.img} alt={dst.n} fill sizes="(min-width: 1024px) 300px, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div className="p-5 space-y-1.5 flex-1">
+                  <h3 className="text-[18px] font-bold text-[#1A1A2E]">{dst.n}</h3>
+                  <p className="text-[12px] font-medium text-[#F97316]">{dst.d}</p>
+                  <p className="text-[13px] text-[#4B5563] leading-[1.55] pt-1">{dst.x}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section className="bg-[#F5F5F0]">
+        <div className="mx-auto max-w-[1080px] px-6 md:px-16 py-20">
+          <div className="text-center mb-10 max-w-[680px] mx-auto">
+            <p className="text-[14px] font-semibold text-[#F97316] mb-2">{t("pricingTag")}</p>
+            <h2 className="text-[32px] md:text-[36px] font-bold text-[#1A1A2E]">{t("pricingTitle")}</h2>
+            <p className="text-[16px] text-[#4B5563] mt-3 leading-[1.6]">{t("pricingSubtitle")}</p>
+          </div>
+          <div className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+            <table className="w-full text-left">
+              <thead className="bg-[#FFF7ED] text-[#9CA3AF] text-[11px] uppercase tracking-wider">
+                <tr>
+                  <th className="px-5 py-3 font-semibold">{t("pricingClass")}</th>
+                  <th className="px-5 py-3 font-semibold hidden sm:table-cell">{t("pricingExample")}</th>
+                  <th className="px-5 py-3 font-semibold text-right">{t("pricingPrice")}</th>
+                  <th className="px-5 py-3 font-semibold text-right hidden md:table-cell">{t("pricingDeposit")}</th>
+                </tr>
+              </thead>
+              <tbody className="text-[14px] text-[#1A1A2E]">
+                {[
+                  { c: t("pricingClassEconomy"), ex: t("pricingClassEconomyEx"), p: 25,  dep: 3000 },
+                  { c: t("pricingClassComfort"), ex: t("pricingClassComfortEx"), p: 40,  dep: 4000 },
+                  { c: t("pricingClassSUV"),     ex: t("pricingClassSUVEx"),     p: 55,  dep: 5000 },
+                  { c: t("pricingClassPremium"), ex: t("pricingClassPremiumEx"), p: 127, dep: 12000 },
+                ].map((row) => (
+                  <tr key={row.c} className="border-t border-[#F5F5F0]">
+                    <td className="px-5 py-4 font-semibold">{row.c}</td>
+                    <td className="px-5 py-4 text-[#4B5563] text-[13px] hidden sm:table-cell">{row.ex}</td>
+                    <td className="px-5 py-4 text-right"><span className="font-bold text-[#F97316]">${row.p}</span><span className="text-[12px] text-[#9CA3AF]"> {tc("perDay")}</span></td>
+                    <td className="px-5 py-4 text-right text-[#4B5563] hidden md:table-cell">${row.dep.toLocaleString("en-US")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-[12px] text-[#9CA3AF] text-center mt-4">{t("pricingNote")}</p>
+        </div>
+      </section>
+
+      {/* Add-ons */}
+      <section className="bg-white">
+        <div className="mx-auto max-w-[1080px] px-6 md:px-16 py-20">
+          <div className="text-center mb-10 max-w-[680px] mx-auto">
+            <p className="text-[14px] font-semibold text-[#F97316] mb-2">{t("addonsTag")}</p>
+            <h2 className="text-[32px] md:text-[36px] font-bold text-[#1A1A2E]">{t("addonsTitle")}</h2>
+            <p className="text-[16px] text-[#4B5563] mt-3 leading-[1.6]">{t("addonsSubtitle")}</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="bg-[#ECFDF5] rounded-2xl p-6 border border-[#A7F3D0]">
+              <div className="flex items-center gap-2 mb-4">
+                <svg className="h-5 w-5 text-[#16A34A]" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="m9 16.17-3.88-3.88a.996.996 0 1 0-1.41 1.41l4.59 4.59c.39.39 1.02.39 1.41 0L21.7 7.21a.996.996 0 1 0-1.41-1.41L9 16.17z"/></svg>
+                <h3 className="text-[16px] font-bold text-[#1A1A2E] uppercase tracking-wider">{t("addonsFreeTitle")}</h3>
+              </div>
+              <ul className="space-y-2.5">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <li key={i} className="text-[14px] text-[#1A1A2E] leading-[1.55] flex items-start gap-2">
+                    <span className="text-[#16A34A] font-bold mt-0.5">+</span>
+                    {t(`addonFree${i}` as `addonFree${1 | 2 | 3 | 4 | 5 | 6}`)}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-[#FFF7ED] rounded-2xl p-6 border border-[#FED7AA]">
+              <div className="flex items-center gap-2 mb-4">
+                <svg className="h-5 w-5 text-[#F97316]" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                <h3 className="text-[16px] font-bold text-[#1A1A2E] uppercase tracking-wider">{t("addonsPaidTitle")}</h3>
+              </div>
+              <ul className="space-y-2.5">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                  <li key={i} className="text-[14px] flex items-baseline justify-between gap-3">
+                    <span className="text-[#1A1A2E]">{t(`addonPaid${i}Name` as `addonPaid${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8}Name`)}</span>
+                    <span className="text-[#F97316] font-semibold whitespace-nowrap text-[13px]">{t(`addonPaid${i}Price` as `addonPaid${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8}Price`)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -174,7 +327,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <div className="text-[#FACC15] text-[16px]">★★★★★</div>
                 <p className="text-[14px] text-[#4B5563] leading-[1.7]">&ldquo;{r.text}&rdquo;</p>
                 <div className="flex items-center gap-3 pt-2">
-                  <div className="h-11 w-11 rounded-full bg-[#E5E7EB]" />
+                  <div className="relative h-11 w-11 rounded-full bg-[#FFF7ED] text-[#F97316] font-bold flex items-center justify-center text-[15px]">
+                    {r.initial}
+                    <span className="absolute -bottom-0.5 -right-0.5 h-5 min-w-5 px-1 rounded-full bg-[#1A1A2E] text-white text-[9px] font-semibold uppercase tracking-wider flex items-center justify-center border-2 border-white">
+                      {r.code}
+                    </span>
+                  </div>
                   <div>
                     <div className="text-[14px] font-semibold text-[#1A1A2E]">{r.name}</div>
                     <div className="text-[12px] text-[#9CA3AF]">{r.country}</div>
@@ -183,6 +341,50 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-white">
+        <div className="mx-auto max-w-[860px] px-6 md:px-16 py-20">
+          <div className="text-center mb-10">
+            <p className="text-[14px] font-semibold text-[#F97316] mb-2">FAQ</p>
+            <h2 className="text-[32px] md:text-[36px] font-bold text-[#1A1A2E]">{tFaq("title")}</h2>
+          </div>
+          <div className="space-y-3">
+            {[1, 2, 3, 4, 5, 6].map((i) => {
+              const q = tFaq(`q${i}` as `q${1 | 2 | 3 | 4 | 5 | 6}`);
+              const a = tFaq(`a${i}` as `a${1 | 2 | 3 | 4 | 5 | 6}`);
+              return (
+                <details key={i} className="group bg-[#F5F5F0] rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden">
+                  <summary className="flex items-center justify-between cursor-pointer list-none">
+                    <span className="text-[15px] font-semibold text-[#1A1A2E] pr-4">{q}</span>
+                    <svg className="h-4 w-4 text-[#9CA3AF] shrink-0 group-open:rotate-180 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </summary>
+                  <p className="mt-3 text-[14px] text-[#4B5563] leading-[1.65]">{a}</p>
+                </details>
+              );
+            })}
+          </div>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                mainEntity: [1, 2, 3, 4, 5, 6].map((i) => ({
+                  "@type": "Question",
+                  name: tFaq(`q${i}` as `q${1 | 2 | 3 | 4 | 5 | 6}`),
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: tFaq(`a${i}` as `a${1 | 2 | 3 | 4 | 5 | 6}`),
+                  },
+                })),
+              }),
+            }}
+          />
         </div>
       </section>
 
