@@ -295,5 +295,31 @@
   "BlogPage": {
     "metaTitle": "Blog",
     "metaDescription": "Articles about traveling Uzbekistan and renting a car."
+  },
+  "fab": {
+    "whatsapp": "Chat on WhatsApp",
+    "telegram": "Chat on Telegram",
+    "callback": "Request a callback",
+    "close": "Close",
+    "menuLabel": "Contact us"
+  },
+  "callback": {
+    "title": "Request a callback",
+    "subtitle": "Leave your number — we will call back within 15 minutes during business hours, or first thing next morning.",
+    "name": "Your name",
+    "namePh": "John Doe",
+    "phone": "Phone number",
+    "phonePh": "+998 90 123 45 67",
+    "preferTime": "Preferred time (optional)",
+    "preferTimePh": "e.g. after 6 pm",
+    "message": "Message (optional)",
+    "messagePh": "What would you like to know?",
+    "submit": "Call me back",
+    "sending": "Sending...",
+    "successTitle": "Request received",
+    "successText": "Thanks. We'll call you on the number you provided shortly.",
+    "successClose": "OK",
+    "consent": "By submitting, you agree to the processing of your personal data",
+    "errorRetry": "Couldn't send. Please try again."
   }
 }

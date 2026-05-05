@@ -228,3 +228,29 @@ model Page {
   @@index([slug])
   @@index([isPublished])
 }
+
+enum LeadKind {
+  CALLBACK
+  CONTACT
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model Lead {
+  id          String     @id @default(cuid())
+  kind        LeadKind   @default(CALLBACK)
+  name        String
+  phone       String
+  preferTime  String?
+  message     String?
+  source      String?
+  status      LeadStatus @default(NEW)
+  createdAt   DateTime   @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}

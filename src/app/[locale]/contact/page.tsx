@@ -78,9 +78,17 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
         </div>
 
         <div className="mx-auto max-w-[1312px] px-6 md:px-16 pb-20">
-          <div className="rounded-[10px] border border-dashed border-[#E5E7EB] h-[140px] flex items-center justify-center gap-2 text-[#9CA3AF] text-[13px]">
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z" /></svg>
-            {t("mapLabel")}
+          <div className="rounded-[10px] overflow-hidden border border-[#E5E7EB] h-[420px]">
+            <iframe
+              title={t("mapLabel")}
+              src="https://www.google.com/maps?q=15+Amir+Temur+Avenue,+Tashkent,+Uzbekistan&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
           </div>
         </div>
       </section>

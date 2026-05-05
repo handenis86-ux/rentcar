@@ -4,6 +4,8 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
 import { Header, Footer } from "@/components/SiteChrome";
+import { FloatingActions } from "@/components/FloatingActions";
+import { TawkToLoader } from "@/components/TawkToLoader";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rentz.uz";
 
@@ -145,6 +147,8 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
         <main id="main-content" className="flex-1">{children}</main>
         <Footer locale={locale as Locale} />
       </div>
+      <FloatingActions />
+      <TawkToLoader />
     </NextIntlClientProvider>
   );
 }

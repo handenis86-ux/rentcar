@@ -295,5 +295,31 @@
   "BlogPage": {
     "metaTitle": "Blog",
     "metaDescription": "O'zbekistonga sayohat va avtomobil ijarasi haqida maqolalar."
+  },
+  "fab": {
+    "whatsapp": "WhatsApp orqali yozing",
+    "telegram": "Telegram orqali yozing",
+    "callback": "Qo'ng'iroq buyurtma qiling",
+    "close": "Yopish",
+    "menuLabel": "Biz bilan bog'laning"
+  },
+  "callback": {
+    "title": "Qo'ng'iroq buyurtma qilish",
+    "subtitle": "Raqamingizni qoldiring — ish vaqtida 15 daqiqa ichida yoki ertangi tongda qayta qo'ng'iroq qilamiz.",
+    "name": "Ismingiz",
+    "namePh": "Alisher Karimov",
+    "phone": "Telefon raqam",
+    "phonePh": "+998 90 123 45 67",
+    "preferTime": "Qulay vaqt (ixtiyoriy)",
+    "preferTimePh": "Masalan, soat 18:00 dan keyin",
+    "message": "Izoh (ixtiyoriy)",
+    "messagePh": "Nimani bilmoqchisiz?",
+    "submit": "Qo'ng'iroq kutyapman",
+    "sending": "Yuborilmoqda...",
+    "successTitle": "Ariza qabul qilindi",
+    "successText": "Rahmat. Tez orada ko'rsatilgan raqamga qayta qo'ng'iroq qilamiz.",
+    "successClose": "Yaxshi",
+    "consent": "Tugmani bosish bilan shaxsiy ma'lumotlarni qayta ishlashga rozilik bildirasiz",
+    "errorRetry": "Yuborib bo'lmadi. Qaytadan urinib ko'ring."
   }
 }
