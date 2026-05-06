@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { prisma } from "./prisma";
 import type { CarCategory, Transmission, FuelType } from "@/types";
 
@@ -20,6 +21,30 @@ export interface CarsFilter {
 const ACTIVE_BOOKING_STATUSES = ["PENDING", "CONFIRMED", "ACTIVE"] as const;
 
 export async function getCars(filter: CarsFilter = {}) {
+  const datesProvided = !!(
+    filter.pickupDate &&
+    filter.returnDate &&
+    filter.returnDate > filter.pickupDate
+  );
+
+  // Without dates the filter is fully serialisable and the result is the same
+  // for every visitor — cache it. With dates, availability depends on bookings,
+  // so query straight through.
+  if (!datesProvided) {
+    const { pickupDate: _p, returnDate: _r, ...keyable } = filter;
+    void _p; void _r;
+    return getCarsCached(keyable);
+  }
+  return getCarsRaw(filter);
+}
+
+const getCarsCached = unstable_cache(
+  (filter: Omit<CarsFilter, "pickupDate" | "returnDate">) => getCarsRaw(filter),
+  ["cars"],
+  { tags: ["cars"], revalidate: 60 },
+);
+
+async function getCarsRaw(filter: CarsFilter) {
   const {
     city,
     categories = [],
@@ -73,20 +98,17 @@ export async function getCars(filter: CarsFilter = {}) {
     sortBy === "newest"     ? { year: "desc" as const }        :
                               { pricePerDay: "asc" as const };
 
-  const [cars, total] = await Promise.all([
-    prisma.car.findMany({
-      where,
-      orderBy,
-      skip: (page - 1) * limit,
-      take: limit,
-      include: {
-        city: true,
-        company: { select: { id: true, name: true, slug: true, isVerified: true } },
-        reviews: { select: { rating: true } },
-      },
-    }),
-    prisma.car.count({ where }),
-  ]);
+  const cars = await prisma.car.findMany({
+    where,
+    orderBy,
+    skip: (page - 1) * limit,
+    take: limit,
+    include: {
+      city: true,
+      company: { select: { id: true, name: true, slug: true, isVerified: true } },
+      reviews: { select: { rating: true } },
+    },
+  });
 
   return {
     cars: cars.map((car) => ({
@@ -97,8 +119,6 @@ export async function getCars(filter: CarsFilter = {}) {
           : null,
       reviewCount: car.reviews.length,
     })),
-    total,
-    totalPages: Math.ceil(total / limit),
     page,
   };
 }
@@ -134,9 +154,11 @@ export async function getCarBySlug(slug: string) {
   };
 }
 
-export async function getCities() {
-  return prisma.city.findMany({ orderBy: { nameRu: "asc" } });
-}
+export const getCities = unstable_cache(
+  async () => prisma.city.findMany({ orderBy: { nameRu: "asc" } }),
+  ["cities"],
+  { tags: ["cities"], revalidate: 3600 },
+);
 
 export async function isCarAvailable(carId: string, pickupDate: Date, returnDate: Date) {
   const conflict = await prisma.booking.findFirst({
