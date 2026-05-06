@@ -151,10 +151,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <p className="text-[16px] text-[#4B5563] mt-2">{t("fleetSubtitle")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {CARS.map((c) => (
+            {CARS.map((c, i) => (
               <article key={c.slug} className="bg-white rounded-[10px] shadow-[0_2px_8px_rgba(0,0,0,0.05)] overflow-hidden">
                 <div className="relative aspect-[16/10] bg-[#F5F5F0]">
-                  <CarImage car={c} />
+                  <CarImage car={c} priority={i === 0} />
                 </div>
                 <div className="p-5 space-y-4">
                   <h3 className="text-[20px] font-bold text-[#1A1A2E]">{c.brand} {c.model}</h3>

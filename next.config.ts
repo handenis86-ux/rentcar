@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "res.cloudinary.com" },
     ],
     formats: ["image/avif", "image/webp"],
+    qualities: [75],
+    minimumCacheTTL: 31536000,
   },
 };
 

@@ -1,7 +1,15 @@
 import Image from "next/image";
 import type { Car } from "@/lib/catalog";
 
-export function CarImage({ car, className = "" }: { car: Car; className?: string }) {
+export function CarImage({
+  car,
+  className = "",
+  priority = false,
+}: {
+  car: Car;
+  className?: string;
+  priority?: boolean;
+}) {
   const src = car.images[0];
   return (
     <Image
@@ -10,6 +18,7 @@ export function CarImage({ car, className = "" }: { car: Car; className?: string
       fill
       sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
       className={`object-cover ${className}`}
+      priority={priority}
     />
   );
 }

@@ -153,7 +153,7 @@ export default async function FleetPage({
       returnDate,
       minPrice:      priceRange?.min !== undefined ? priceRange.min * USD_TO_UZS : undefined,
       maxPrice:      priceRange?.max !== undefined ? priceRange.max * USD_TO_UZS : undefined,
-      limit:         100,
+      limit:         50,
     }),
     getCities(),
   ]);

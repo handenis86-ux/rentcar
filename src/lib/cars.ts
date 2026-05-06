@@ -123,36 +123,40 @@ async function getCarsRaw(filter: CarsFilter) {
   };
 }
 
-export async function getCarBySlug(slug: string) {
-  const car = await prisma.car.findUnique({
-    where: { slug },
-    include: {
-      city: true,
-      company: true,
-      owner: {
-        select: { id: true, name: true, phone: true, avatar: true, isVerified: true },
-      },
-      reviews: {
-        include: {
-          reviewer: { select: { id: true, name: true, avatar: true } },
+export const getCarBySlug = unstable_cache(
+  async (slug: string) => {
+    const car = await prisma.car.findUnique({
+      where: { slug },
+      include: {
+        city: true,
+        company: true,
+        owner: {
+          select: { id: true, name: true, phone: true, avatar: true, isVerified: true },
         },
-        orderBy: { createdAt: "desc" },
-        take: 10,
+        reviews: {
+          include: {
+            reviewer: { select: { id: true, name: true, avatar: true } },
+          },
+          orderBy: { createdAt: "desc" },
+          take: 10,
+        },
       },
-    },
-  });
+    });
 
-  if (!car) return null;
+    if (!car) return null;
 
-  return {
-    ...car,
-    averageRating:
-      car.reviews.length > 0
-        ? car.reviews.reduce((sum, r) => sum + r.rating, 0) / car.reviews.length
-        : null,
-    reviewCount: car.reviews.length,
-  };
-}
+    return {
+      ...car,
+      averageRating:
+        car.reviews.length > 0
+          ? car.reviews.reduce((sum, r) => sum + r.rating, 0) / car.reviews.length
+          : null,
+      reviewCount: car.reviews.length,
+    };
+  },
+  ["car-by-slug"],
+  { tags: ["cars"], revalidate: 60 },
+);
 
 export const getCities = unstable_cache(
   async () => prisma.city.findMany({ orderBy: { nameRu: "asc" } }),
