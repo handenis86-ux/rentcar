@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { isCarAvailable } from "@/lib/cars";
+import { notifyAdmin, escapeHtml } from "@/lib/telegram";
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 
@@ -99,7 +100,28 @@ export async function createBooking(raw: BookingInput): Promise<BookingResult> {
         paymentStatus:   "PENDING",
         notes:           data.notes ?? null,
       },
+      include: { car: { select: { brand: true, model: true, year: true } } },
     });
+
+    const fmt = (d: Date) => d.toISOString().slice(0, 10);
+    await notifyAdmin(
+      [
+        "🚗 <b>Новая бронь</b>",
+        `${escapeHtml(booking.car.brand)} ${escapeHtml(booking.car.model)} ${booking.car.year}`,
+        "",
+        `<b>Клиент:</b> ${escapeHtml(data.name)}`,
+        `<b>Телефон:</b> <code>${escapeHtml(phone)}</code>`,
+        `<b>Даты:</b> ${fmt(start)} → ${fmt(end)} (${days} дн.)`,
+        `<b>Выдача:</b> ${escapeHtml(data.pickupLocation)}`,
+        `<b>Возврат:</b> ${escapeHtml(data.dropoffLocation)}`,
+        `<b>Сумма:</b> $${totalPrice} · депозит $${data.deposit} · ${data.paymentMethod}`,
+        data.notes ? `<b>Комментарий:</b> ${escapeHtml(data.notes)}` : "",
+        "",
+        `<i>id: ${booking.id}</i>`,
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    );
 
     return { success: true, bookingId: booking.id };
   } catch (err) {

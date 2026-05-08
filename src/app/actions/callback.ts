@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { notifyAdmin, escapeHtml } from "@/lib/telegram";
 
 const CallbackSchema = z.object({
   name:       z.string().trim().min(2, "Введите имя"),
@@ -45,6 +46,23 @@ export async function createLead(raw: CallbackInput): Promise<CallbackResult> {
         status:     "NEW",
       },
     });
+
+    await notifyAdmin(
+      [
+        "📞 <b>Заявка на обратный звонок</b>",
+        "",
+        `<b>Имя:</b> ${escapeHtml(data.name)}`,
+        `<b>Телефон:</b> <code>${escapeHtml(phone)}</code>`,
+        data.preferTime ? `<b>Удобное время:</b> ${escapeHtml(data.preferTime)}` : "",
+        data.message ? `<b>Сообщение:</b> ${escapeHtml(data.message)}` : "",
+        data.source ? `<b>Источник:</b> ${escapeHtml(data.source)}` : "",
+        "",
+        `<i>id: ${lead.id}</i>`,
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    );
+
     return { success: true, leadId: lead.id };
   } catch (err) {
     console.error("[createLead]", err);
