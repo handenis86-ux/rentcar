@@ -40,8 +40,8 @@
     "madeIn": "Made in Uzbekistan"
   },
   "home": {
-    "metaTitle": "Rentz.uz — Explore Uzbekistan at Your Own Pace",
-    "metaDescription": "Premium car rental across Uzbekistan. Airport pickup, 24/7 support and transparent pricing.",
+    "metaTitle": "Car rental in Uzbekistan — from $25/day — Rentz.uz",
+    "metaDescription": "Car rental in Tashkent and across Uzbekistan: 24 models from $25/day. Airport meet-and-greet, 24/7 English-speaking support, card or cash payment, no hidden fees.",
     "heroBadge": "#1 Car Rental in Uzbekistan",
     "heroTitle1": "Explore Uzbekistan",
     "heroTitle2": "at Your Own Pace",
@@ -149,8 +149,8 @@
     "addonPaid8Price": "from 2,000 UZS/km"
   },
   "fleet": {
-    "metaTitle": "Fleet",
-    "metaDescription": "Choose from our wide selection of well-maintained vehicles.",
+    "metaTitle": "Car rental in Uzbekistan — 24 models from $25/day — Rentz.uz",
+    "metaDescription": "Rentz.uz fleet in Tashkent: economy from $25/day, comfort, SUV and premium classes. Card or cash payment, third-party insurance, 24/7 support. Perfect for trips to Samarkand, Bukhara, Khiva and Chimgan.",
     "title": "Our Fleet",
     "subtitle": "Choose from our wide selection of well-maintained vehicles",
     "filterAll": "All",
@@ -168,8 +168,8 @@
     "bagsUnit": "bags"
   },
   "about": {
-    "metaTitle": "About Us",
-    "metaDescription": "Uzbekistan's trusted car rental service since 2019.",
+    "metaTitle": "About Rentz.uz — local car rental in Tashkent since 2019",
+    "metaDescription": "Rentz.uz is a local Uzbekistan car rental company operating since 2019. 50+ vehicles in our Tashkent fleet, 5,000+ trips completed, 24/7 English- and Russian-speaking support, transparent pricing.",
     "title": "About Rentz.uz",
     "subtitle": "Uzbekistan's trusted car rental service since 2019 — helping travelers explore the beauty of Central Asia with comfort and reliability.",
     "storyTitle": "Our Story",
@@ -200,8 +200,8 @@
     "team3Bio": "Available 24/7 to help you with anything on the road"
   },
   "how": {
-    "metaTitle": "How It Works",
-    "metaDescription": "Renting a car in Uzbekistan has never been easier. Just follow these simple steps.",
+    "metaTitle": "How to rent a car in Uzbekistan — step-by-step guide — Rentz.uz",
+    "metaDescription": "Rent a car in Tashkent in 4 steps: pick a car, book online, pay by card or cash, collect at the airport or in town. Third-party insurance, 300 km/day mileage and 24/7 support are always included.",
     "title": "How It Works",
     "subtitle": "Renting a car in Uzbekistan has never been easier. Just follow these simple steps.",
     "stepsTitle": "Your Journey in 4 Simple Steps",
@@ -230,8 +230,8 @@
     "ctaSubtitle": "Book your car in under 2 minutes and explore Uzbekistan's most beautiful destinations."
   },
   "contact": {
-    "metaTitle": "Contact",
-    "metaDescription": "Have questions? We're here to help you plan the perfect road trip across Uzbekistan.",
+    "metaTitle": "Contact Rentz.uz — car rental in Tashkent, +998 71 200 00 00",
+    "metaDescription": "Get in touch with Rentz.uz: office at 15 Amir Temur Avenue, Tashkent, phone +998 71 200 00 00, email info@rentz.uz. 24/7 support on WhatsApp and Telegram, online booking.",
     "title": "Get in Touch",
     "subtitle": "Have questions? We're here to help you plan the perfect road trip across Uzbekistan.",
     "formTitle": "Send Us a Message",
@@ -257,8 +257,8 @@
     "mapLabel": "Interactive Map — Tashkent, Uzbekistan"
   },
   "faq": {
-    "metaTitle": "Frequently Asked Questions",
-    "metaDescription": "Everything you need to know about renting a car with us in Uzbekistan.",
+    "metaTitle": "Car rental in Uzbekistan FAQ — documents, insurance, deposit — Rentz.uz",
+    "metaDescription": "Answers to common questions about renting a car in Tashkent: documents foreigners need, deposit amounts, third-party insurance, 300 km/day mileage allowance, airport delivery and rental terms.",
     "title": "Frequently Asked Questions",
     "subtitle": "Everything you need to know about renting a car with us in Uzbekistan.",
     "leftTitle": "Booking & terms",
@@ -321,5 +321,40 @@
     "successClose": "OK",
     "consent": "By submitting, you agree to the processing of your personal data",
     "errorRetry": "Couldn't send. Please try again."
+  },
+  "booking": {
+    "triggerCta": "Book now",
+    "title": "Book this car",
+    "perDay": "UZS/day",
+    "uzs": "UZS",
+    "close": "Close",
+    "name": "Your name",
+    "namePh": "John Doe",
+    "phone": "Phone",
+    "phonePh": "+998 90 123 45 67",
+    "startDate": "Pickup date",
+    "endDate": "Return date",
+    "pickupLocation": "Pickup location",
+    "dropoffLocation": "Return location",
+    "locationPh": "Address, metro stop or district",
+    "paymentMethod": "Payment method",
+    "paymentCash": "Cash",
+    "paymentClick": "Click",
+    "paymentPayme": "Payme",
+    "paymentCard": "Bank card",
+    "notes": "Notes",
+    "optional": "(optional)",
+    "notesPh": "Child seat, extra driver, special requests...",
+    "depositRefundable": "Deposit (refundable)",
+    "totalLabel": "Total",
+    "days": "{count, plural, one {day} other {days}}",
+    "submitting": "Sending...",
+    "submitWithTotal": "Book for {total}",
+    "submitPickDates": "Pick your dates",
+    "consent": "By booking, you agree to the rental terms",
+    "errorRetry": "Something went wrong. Please try again.",
+    "successTitle": "Request sent!",
+    "successText": "Your booking for <strong>{car}</strong> has been received. The owner will contact you within 1 hour.",
+    "successClose": "Great, thanks!"
   }
 }

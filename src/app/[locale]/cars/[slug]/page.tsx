@@ -119,13 +119,14 @@ export default async function CarDetailPage({
     },
   };
 
+  const homeName = locale === "en" ? "Home" : locale === "uz" ? "Bosh sahifa" : "Главная";
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: tc("browseFleet"), item: `${SITE_URL}/${locale}` },
-      { "@type": "ListItem", position: 2, name: t("title"),       item: `${SITE_URL}/${locale}/cars` },
-      { "@type": "ListItem", position: 3, name: `${car.brand} ${car.model}` },
+      { "@type": "ListItem", position: 1, name: homeName,    item: `${SITE_URL}/${locale}` },
+      { "@type": "ListItem", position: 2, name: t("title"),  item: `${SITE_URL}/${locale}/cars` },
+      { "@type": "ListItem", position: 3, name: `${car.brand} ${car.model}`, item: `${SITE_URL}/${locale}/cars/${car.slug}` },
     ],
   };
 

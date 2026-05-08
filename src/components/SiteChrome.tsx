@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { LangSwitcher } from "./LangSwitcher";
+import { MobileMenu } from "./MobileMenu";
 
 export const NAV = [
   { href: "/cars",          key: "fleet" as const },
@@ -56,6 +57,11 @@ export async function Header({ locale }: { locale: string }) {
           >
             {tCommon("bookNow")}
           </Link>
+          <MobileMenu
+            locale={locale}
+            navItems={NAV.map((l) => ({ href: l.href, label: tNav(l.key) }))}
+            bookNowLabel={tCommon("bookNow")}
+          />
         </div>
       </div>
     </header>

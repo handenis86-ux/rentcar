@@ -40,8 +40,8 @@
     "madeIn": "O'zbekistonda yaratilgan"
   },
   "home": {
-    "metaTitle": "Rentz.uz — O'zbekistonni o'z sur'atingizda kashf eting",
-    "metaDescription": "O'zbekiston bo'ylab premium avtomobil ijarasi. Aeroportdan olish, 24/7 qo'llab-quvvatlash.",
+    "metaTitle": "O'zbekistonda avtomobil ijarasi — kuniga $25 dan — Rentz.uz",
+    "metaDescription": "Toshkent va O'zbekiston bo'ylab avtomobil ijarasi: kuniga $25 dan boshlab 24 ta model. Aeroportda kutib olish, 24/7 qo'llab-quvvatlash, karta yoki naqd to'lov, yashirin to'lovlar yo'q.",
     "heroBadge": "O'zbekistondagi №1 avtomobil ijarasi",
     "heroTitle1": "O'zbekistonni kashf eting",
     "heroTitle2": "o'z sur'atingizda",
@@ -149,8 +149,8 @@
     "addonPaid8Price": "2 000 so'm/km dan"
   },
   "fleet": {
-    "metaTitle": "Park",
-    "metaDescription": "Bizning keng tanlovli avtomobil parkidan tanlang.",
+    "metaTitle": "O'zbekistonda avtomobil ijarasi — kuniga $25 dan 24 ta model — Rentz.uz",
+    "metaDescription": "Rentz.uz Toshkent parki: kuniga $25 dan ekonom, komfort, SUV va premium klasslar. Karta yoki naqd to'lov, ОСАГО sug'urtasi, 24/7 qo'llab-quvvatlash. Samarqand, Buxoro, Xiva va Chimg'on yo'nalishlari.",
     "title": "Bizning park",
     "subtitle": "Bizning keng tanlovli parvarishlangan avtomobillar parkidan tanlang",
     "filterAll": "Barchasi",
@@ -168,8 +168,8 @@
     "bagsUnit": "sumka"
   },
   "about": {
-    "metaTitle": "Biz haqimizda",
-    "metaDescription": "2019-yildan beri O'zbekistonning ishonchli avtomobil ijarasi.",
+    "metaTitle": "Rentz.uz haqida — Toshkentda 2019-yildan beri avtomobil ijarasi",
+    "metaDescription": "Rentz.uz — 2019-yildan beri O'zbekistonda faoliyat yuritayotgan mahalliy avtomobil ijarasi xizmati. Toshkent parkida 50 dan ortiq avtomobil, 5000+ yakunlangan safar, 24/7 ingliz va rus tillarida qo'llab-quvvatlash, shaffof narxlar.",
     "title": "Rentz.uz haqida",
     "subtitle": "2019-yildan beri O'zbekistonning ishonchli avtomobil ijarasi — sayyohlarga Markaziy Osiyo go'zalligini qulay va ishonchli tarzda kashf etishga yordam beramiz.",
     "storyTitle": "Bizning tariximiz",
@@ -200,8 +200,8 @@
     "team3Bio": "24/7 mavjud — yo'lda har qanday masalada yordam beradi"
   },
   "how": {
-    "metaTitle": "Qanday ishlaydi",
-    "metaDescription": "O'zbekistonda avtomobil ijaraga olish juda oson — ushbu oddiy qadamlarni bajaring.",
+    "metaTitle": "O'zbekistonda avtomobilni qanday ijaraga olish — qadamma-qadam — Rentz.uz",
+    "metaDescription": "Toshkentda avtomobilni 4 qadamda ijaraga oling: avtomobilni tanlang, onlayn band qiling, karta yoki naqd to'lang, aeroport yoki shaharda oling. ОСАГО sug'urtasi, kuniga 300 km va 24/7 qo'llab-quvvatlash narxga kiritilgan.",
     "title": "Qanday ishlaydi",
     "subtitle": "O'zbekistonda avtomobil ijaraga olish juda oson. Bu oddiy qadamlarni bajaring.",
     "stepsTitle": "Sayohatingiz 4 ta oddiy qadamda",
@@ -230,8 +230,8 @@
     "ctaSubtitle": "Avtomobilni 2 daqiqada band qiling va O'zbekistonning eng chiroyli joylarini kashf eting."
   },
   "contact": {
-    "metaTitle": "Aloqa",
-    "metaDescription": "Savollaringiz bormi? Biz O'zbekiston bo'ylab ideal safarni rejalashtirishga yordam beramiz.",
+    "metaTitle": "Rentz.uz aloqa — Toshkentda avtomobil ijarasi, +998 71 200 00 00",
+    "metaDescription": "Rentz.uz bilan bog'laning: Toshkent, Amir Temur shoh ko'chasi 15-uy, telefon +998 71 200 00 00, email info@rentz.uz. WhatsApp va Telegram'da 24/7 qo'llab-quvvatlash, onlayn bron qilish.",
     "title": "Biz bilan bog'laning",
     "subtitle": "Savollaringiz bormi? Biz O'zbekiston bo'ylab ideal safarni rejalashtirishga yordam beramiz.",
     "formTitle": "Xabar yuboring",
@@ -257,8 +257,8 @@
     "mapLabel": "Interaktiv xarita — Toshkent, O'zbekiston"
   },
   "faq": {
-    "metaTitle": "Ko'p so'raladigan savollar",
-    "metaDescription": "O'zbekistonda bizdan avtomobil ijaraga olish haqida bilishingiz kerak bo'lgan barcha narsa.",
+    "metaTitle": "O'zbekistonda avtomobil ijarasi: FAQ — hujjatlar, sug'urta, garov — Rentz.uz",
+    "metaDescription": "Toshkentda avtomobil ijaraga olish bo'yicha tez-tez beriladigan savollar: chet ellik fuqarolarga qanday hujjatlar kerak, garov miqdori, ОСАГО sug'urtasi, kuniga 300 km probeg limiti, aeroportga yetkazib berish va ijara shartlari.",
     "title": "Ko'p so'raladigan savollar",
     "subtitle": "O'zbekistonda bizdan avtomobil ijaraga olish haqida bilishingiz kerak bo'lgan barcha narsa.",
     "leftTitle": "Band qilish va shartlar",
@@ -321,5 +321,40 @@
     "successClose": "Yaxshi",
     "consent": "Tugmani bosish bilan shaxsiy ma'lumotlarni qayta ishlashga rozilik bildirasiz",
     "errorRetry": "Yuborib bo'lmadi. Qaytadan urinib ko'ring."
+  },
+  "booking": {
+    "triggerCta": "Bron qilish",
+    "title": "Avtomobilni bron qilish",
+    "perDay": "so'm/sutka",
+    "uzs": "so'm",
+    "close": "Yopish",
+    "name": "Ismingiz",
+    "namePh": "Alisher Karimov",
+    "phone": "Telefon",
+    "phonePh": "+998 90 123 45 67",
+    "startDate": "Olish sanasi",
+    "endDate": "Qaytarish sanasi",
+    "pickupLocation": "Olish joyi",
+    "dropoffLocation": "Qaytarish joyi",
+    "locationPh": "Manzil, metro yoki tuman",
+    "paymentMethod": "To'lov usuli",
+    "paymentCash": "Naqd pul",
+    "paymentClick": "Click",
+    "paymentPayme": "Payme",
+    "paymentCard": "Bank kartasi",
+    "notes": "Izohlar",
+    "optional": "(ixtiyoriy)",
+    "notesPh": "Bolalar o'rindig'i, qo'shimcha haydovchi, tilaklar...",
+    "depositRefundable": "Garov (qaytariladi)",
+    "totalLabel": "Jami",
+    "days": "{count, plural, one {sutka} other {sutka}}",
+    "submitting": "Yuborilmoqda...",
+    "submitWithTotal": "{total} ga bron qilish",
+    "submitPickDates": "Sanalarni tanlang",
+    "consent": "Tugmani bosish bilan ijara shartlariga rozilik bildirasiz",
+    "errorRetry": "Xatolik yuz berdi. Qaytadan urinib ko'ring.",
+    "successTitle": "Ariza yuborildi!",
+    "successText": "<strong>{car}</strong> uchun broningiz qabul qilindi. Egasi 1 soat ichida siz bilan bog'lanadi.",
+    "successClose": "Ajoyib, rahmat!"
   }
 }

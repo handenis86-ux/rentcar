@@ -95,39 +95,95 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   if (!hasLocale(routing.locales, locale)) notFound();
   const messages = await getMessages();
 
+  const telegramUsername = process.env.NEXT_PUBLIC_TELEGRAM_USERNAME ?? "rentzuz";
+  const sameAs = [
+    `https://t.me/${telegramUsername}`,
+    "https://instagram.com/rentz.uz",
+    "https://facebook.com/rentz.uz",
+    "https://youtube.com/@rentz.uz",
+  ];
+
   const orgJsonLd = {
     "@context": "https://schema.org",
-    "@type": "AutoRentalCompany",
+    "@type": "Organization",
     "@id": `${SITE_URL}/#org`,
     name: "Rentz.uz",
-    url: `${SITE_URL}/${locale}`,
-    logo: `${SITE_URL}/og-image.jpg`,
+    legalName: "Rentz.uz",
+    url: SITE_URL,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/icon-512.png`,
+      width: 512,
+      height: 512,
+    },
     description:
-      "Premium car rental service in Uzbekistan. Pickup at Tashkent airport, full insurance, 24/7 support in English and Russian.",
+      "Car rental service in Uzbekistan. Pickup at Tashkent airport, third-party insurance, 24/7 support in English, Russian and Uzbek.",
+    telephone: "+998712000000",
+    email: "info@rentz.uz",
     address: {
       "@type": "PostalAddress",
+      streetAddress: "15 Amir Temur Avenue",
       addressLocality: "Tashkent",
       addressCountry: "UZ",
-      streetAddress: "15 Amir Temur Avenue",
+      postalCode: "100000",
     },
-    telephone: "+998-71-200-00-00",
+    sameAs,
+  };
+
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "CarRental"],
+    "@id": `${SITE_URL}/#localbusiness`,
+    name: "Rentz.uz",
+    url: `${SITE_URL}/${locale}`,
+    image: `${SITE_URL}/icon-512.png`,
+    logo: `${SITE_URL}/icon-512.png`,
+    telephone: "+998712000000",
     email: "info@rentz.uz",
+    description:
+      "Car rental in Tashkent and across Uzbekistan. 24 vehicles from $25/day, airport pickup, third-party insurance, 24/7 support.",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "15 Amir Temur Avenue",
+      addressLocality: "Tashkent",
+      addressCountry: "UZ",
+      postalCode: "100000",
+    },
     areaServed: { "@type": "Country", name: "Uzbekistan" },
     priceRange: "$$",
-    sameAs: [],
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ],
+        opens: "00:00",
+        closes: "23:59",
+      },
+    ],
+    sameAs,
   };
 
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${SITE_URL}/#website`,
-    url: `${SITE_URL}/${locale}`,
+    url: SITE_URL,
     name: "Rentz.uz",
     inLanguage: locale,
     publisher: { "@id": `${SITE_URL}/#org` },
     potentialAction: {
       "@type": "SearchAction",
-      target: `${SITE_URL}/${locale}/cars?category={search_term_string}`,
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/${locale}/cars?city={search_term_string}`,
+      },
       "query-input": "required name=search_term_string",
     },
   };
@@ -137,6 +193,10 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
       />
       <script
         type="application/ld+json"
