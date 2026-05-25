@@ -1,8 +1,11 @@
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import { getLocale } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
+
+const GA_ID = "G-PB6RKG2C0L";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "cyrillic"],
@@ -27,6 +30,13 @@ export default async function RootLayout({
           Skip to main content
         </a>
         {children}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
+        </Script>
         <Analytics />
         <SpeedInsights />
       </body>
