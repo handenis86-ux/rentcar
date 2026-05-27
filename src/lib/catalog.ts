@@ -209,7 +209,7 @@ export const CATALOG: Car[] = [
     slug: "hyundai-tucson", brand: "Hyundai", model: "Tucson", year: 2023, body: "suv",
     category: "suv", seats: 5, bags: 4, transmission: "auto", fuel: "petrol",
     engine: "2.0 L", drive: "awd", pricePerDay: 95, deposit: 8000,
-    images: ["/cars/hyundai-tucson-hero.png","/cars/hyundai-tucson-g1.jpg","/cars/hyundai-tucson-g2.jpg","/cars/hyundai-tucson-g3.jpg"],
+    images: ["/cars/hyundai-tucson-hero.png","/cars/hyundai-tucson-g1.jpg","/cars/hyundai-tucson-g2.jpg","/cars/hyundai-tucson-g3.jpg","/cars/hyundai-tucson-g4.png"],
     description: D(
       "Современный SUV с отточенной геометрией. Приятное вождение, расширенный список ассистентов, комфортная подвеска.",
       "Modern SUV with refined styling. Pleasant drive, extensive ADAS and a comfortable ride.",

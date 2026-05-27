@@ -120,7 +120,7 @@ export async function Footer({ locale }: { locale: string }) {
 
           <div className="space-y-3">
             <h4 className="text-[14px] font-semibold text-white mb-2">{tFoot("contact")}</h4>
-            <p className="text-[14px] text-[#9CA3AF]">+998 71 200 00 00</p>
+            <p className="text-[14px] text-[#9CA3AF]">+998 99 104-12-22</p>
             <p className="text-[14px] text-[#9CA3AF]">info@rentz.uz</p>
             <p className="text-[14px] text-[#9CA3AF]">{tFoot("address")}</p>
 

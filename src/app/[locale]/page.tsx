@@ -193,6 +193,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               { slug: "tashkent-bukhara",   img: "/design/generated-1776872186016.png", n: t("dest2Name"), d: t("dest2Distance"), x: t("dest2Desc") },
               { slug: "tashkent-khiva",     img: "/design/generated-1776872193435.png", n: t("dest3Name"), d: t("dest3Distance"), x: t("dest3Desc") },
               { slug: "chimgan",            img: "/design/generated-1776872206548.png", n: t("dest4Name"), d: t("dest4Distance"), x: t("dest4Desc") },
+              { slug: "tashkent-fergana",  img: "/design/generated-fergana.png",       n: t("dest5Name"), d: t("dest5Distance"), x: t("dest5Desc") },
+              { slug: "nurata-aydarkul",   img: "/design/generated-nurata.png",        n: t("dest6Name"), d: t("dest6Distance"), x: t("dest6Desc") },
+              { slug: "shahrisabz",         img: "/design/generated-shahrisabz.png",    n: t("dest7Name"), d: t("dest7Distance"), x: t("dest7Desc") },
             ].map((dst) => (
               <Link
                 key={dst.slug}

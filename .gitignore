@@ -48,3 +48,12 @@ next-env.d.ts
 
 .vercel
 .claude/
+
+# secrets (OAuth tokens, credentials)
+.secrets/
+
+# analytics local env
+scripts/analytics/**/.env
+
+# weekly reports (generated)
+reports/

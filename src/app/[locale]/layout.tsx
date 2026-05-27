@@ -118,7 +118,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
     },
     description:
       "Car rental service in Uzbekistan. Pickup at Tashkent airport, third-party insurance, 24/7 support in English, Russian and Uzbek.",
-    telephone: "+998712000000",
+    telephone: "+998991041222",
     email: "info@rentz.uz",
     address: {
       "@type": "PostalAddress",
@@ -138,7 +138,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
     url: `${SITE_URL}/${locale}`,
     image: `${SITE_URL}/icon-512.png`,
     logo: `${SITE_URL}/icon-512.png`,
-    telephone: "+998712000000",
+    telephone: "+998991041222",
     email: "info@rentz.uz",
     description:
       "Car rental in Tashkent and across Uzbekistan. 24 vehicles from $25/day, airport pickup, third-party insurance, 24/7 support.",
