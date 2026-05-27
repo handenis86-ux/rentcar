@@ -17,7 +17,7 @@ export function CarImage({
       alt={`${car.brand} ${car.model} — аренда в Узбекистане`}
       fill
       sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
-      className={`object-cover ${className}`}
+      className={`object-contain ${className}`}
       priority={priority}
     />
   );

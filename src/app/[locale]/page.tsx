@@ -153,7 +153,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {CARS.map((c, i) => (
               <article key={c.slug} className="bg-white rounded-[10px] shadow-[0_2px_8px_rgba(0,0,0,0.05)] overflow-hidden">
-                <div className="relative aspect-[16/10] bg-[#F5F5F0]">
+                <div className="relative aspect-[16/10] bg-[#F5F5F0] p-4">
                   <CarImage car={c} priority={i === 0} />
                 </div>
                 <div className="p-5 space-y-4">
