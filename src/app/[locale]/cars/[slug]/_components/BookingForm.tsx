@@ -132,7 +132,13 @@ export function BookingForm({
   }, [open]);
 
   const days  = calcDays(startDate, endDate);
-  const total = days * car.pricePerDay;
+  const subtotal = days * car.pricePerDay;
+  const isCardPayment = paymentMethod !== "CASH";
+  const vatRate = 0.12;
+  const bankFeeRate = 0.025;
+  const vatAmount = isCardPayment ? Math.round(subtotal * vatRate) : 0;
+  const bankFee = isCardPayment ? Math.round(subtotal * bankFeeRate) : 0;
+  const total = subtotal + vatAmount + bankFee;
 
   function handleClose() {
     setOpen(false);
@@ -300,13 +306,45 @@ export function BookingForm({
                       )}
                     </div>
 
+                    {/* Payment method — before price so fees update live */}
+                    {field("paymentMethod", t("paymentMethod"),
+                      <div className="grid grid-cols-2 gap-2">
+                        {PAYMENT_VALUES.map((value) => (
+                          <button
+                            key={value}
+                            type="button"
+                            onClick={() => setPaymentMethod(value)}
+                            className={`py-2.5 px-4 rounded-xl text-sm font-medium border transition-colors text-left ${
+                              paymentMethod === value
+                                ? "bg-[#F97316] text-white border-[#F97316]"
+                                : "bg-white text-gray-600 border-gray-200 hover:border-[#F97316]"
+                            }`}
+                          >
+                            {t(PAYMENT_LABEL_KEYS[value])}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
                     {/* Price summary */}
                     {days > 0 && (
                       <div className="bg-[#f7f7f7] rounded-xl p-4 flex flex-col gap-2 text-sm">
                         <div className="flex justify-between text-gray-500">
                           <span>{car.pricePerDay.toLocaleString("ru-RU")} × {days} {t("days", { count: days })}</span>
-                          <span className="font-semibold text-[#201F1D]">{total.toLocaleString("ru-RU")} {t("uzs")}</span>
+                          <span className="font-semibold text-[#201F1D]">{subtotal.toLocaleString("ru-RU")} {t("uzs")}</span>
                         </div>
+                        {isCardPayment && (
+                          <>
+                            <div className="flex justify-between text-gray-400">
+                              <span>{t("vat")} (12%)</span>
+                              <span>+{vatAmount.toLocaleString("ru-RU")} {t("uzs")}</span>
+                            </div>
+                            <div className="flex justify-between text-gray-400">
+                              <span>{t("bankFee")} (2.5%)</span>
+                              <span>+{bankFee.toLocaleString("ru-RU")} {t("uzs")}</span>
+                            </div>
+                          </>
+                        )}
                         {car.deposit > 0 && (
                           <div className="flex justify-between text-gray-400">
                             <span>{t("depositRefundable")}</span>
@@ -317,6 +355,9 @@ export function BookingForm({
                           <span>{t("totalLabel")}</span>
                           <span>{total.toLocaleString("ru-RU")} {t("uzs")}</span>
                         </div>
+                        {isCardPayment && (
+                          <p className="text-xs text-gray-400 mt-1">{t("cashDiscount")}</p>
+                        )}
                       </div>
                     )}
 
@@ -342,26 +383,6 @@ export function BookingForm({
                         className={inputCls("dropoffLocation")}
                         required
                       />
-                    )}
-
-                    {/* Payment method */}
-                    {field("paymentMethod", t("paymentMethod"),
-                      <div className="grid grid-cols-2 gap-2">
-                        {PAYMENT_VALUES.map((value) => (
-                          <button
-                            key={value}
-                            type="button"
-                            onClick={() => setPaymentMethod(value)}
-                            className={`py-2.5 px-4 rounded-xl text-sm font-medium border transition-colors text-left ${
-                              paymentMethod === value
-                                ? "bg-[#F97316] text-white border-[#F97316]"
-                                : "bg-white text-gray-600 border-gray-200 hover:border-[#F97316]"
-                            }`}
-                          >
-                            {t(PAYMENT_LABEL_KEYS[value])}
-                          </button>
-                        ))}
-                      </div>
                     )}
 
                     {/* Notes */}
