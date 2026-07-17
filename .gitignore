@@ -57,3 +57,6 @@ scripts/analytics/**/.env
 
 # weekly reports (generated)
 reports/
+
+# raw source photos (working material, not app assets)
+фото для каталога/

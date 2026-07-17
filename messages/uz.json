@@ -367,6 +367,19 @@
     "errorRetry": "Xatolik yuz berdi. Qaytadan urinib ko'ring.",
     "successTitle": "Ariza yuborildi!",
     "successText": "<strong>{car}</strong> uchun broningiz qabul qilindi. Egasi 1 soat ichida siz bilan bog'lanadi.",
-    "successClose": "Ajoyib, rahmat!"
+    "successClose": "Ajoyib, rahmat!",
+    "redirectingToPayment": "To'lov sahifasiga yo'naltirilmoqda...",
+    "paymentError": "To'lovni yaratib bo'lmadi. Qaytadan urinib ko'ring."
+  },
+  "payment": {
+    "successTitle": "To'lov muvaffaqiyatli!",
+    "successMessage": "Broningiz tasdiqlandi. Tafsilotlarni kelishish uchun siz bilan bog'lanamiz.",
+    "errorTitle": "To'lov xatosi",
+    "errorMessage": "Afsuski, to'lov amalga oshmadi. Qaytadan urinib ko'ring yoki boshqa to'lov usulini tanlang.",
+    "bookingId": "Bron raqami",
+    "browseMore": "Avtoparkni ko'rish",
+    "backHome": "Bosh sahifaga",
+    "tryAgain": "Qaytadan urinish",
+    "contactSupport": "Qo'llab-quvvatlash bilan bog'lanish"
   }
 }

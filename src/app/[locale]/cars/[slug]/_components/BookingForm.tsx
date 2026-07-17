@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, type FormEvent } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { createBooking } from "@/app/actions/booking";
+import { createPaymentInvoice } from "@/app/actions/payment";
 import type { PaymentMethod } from "@/types";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -97,10 +98,12 @@ export function BookingForm({
   initialReturn?: string;
 }) {
   const t = useTranslations("booking");
+  const locale = useLocale();
 
   const [open, setOpen]     = useState(false);
   const [done, setDone]     = useState(false);
   const [loading, setLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
   const [error, setError]   = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
@@ -168,15 +171,40 @@ export function BookingForm({
       deposit:         car.deposit,
     });
 
-    setLoading(false);
-
-    if (result.success) {
-      setDone(true);
-    } else if (result.fieldErrors) {
-      setFieldErrors(result.fieldErrors);
-    } else {
-      setError(result.error ?? t("errorRetry"));
+    if (!result.success) {
+      setLoading(false);
+      if (result.fieldErrors) {
+        setFieldErrors(result.fieldErrors);
+      } else {
+        setError(result.error ?? t("errorRetry"));
+      }
+      return;
     }
+
+    // For card payments (CLICK, PAYME, CARD), create Multicard invoice and redirect
+    if (paymentMethod !== "CASH" && result.bookingId) {
+      setRedirecting(true);
+      const paymentResult = await createPaymentInvoice(
+        result.bookingId,
+        total,  // total in USD (pricePerDay * days + VAT + bank fee)
+        locale,
+      );
+
+      if (paymentResult.success && paymentResult.checkoutUrl) {
+        // Redirect to Multicard payment page
+        window.location.href = paymentResult.checkoutUrl;
+        return; // keep loading/redirecting state while navigating
+      } else {
+        setRedirecting(false);
+        setLoading(false);
+        setError(paymentResult.error ?? t("paymentError"));
+        return;
+      }
+    }
+
+    // For cash — show success screen as before
+    setLoading(false);
+    setDone(true);
   }
 
   // ── Field helpers ──────────────────────────────────────────────────────────

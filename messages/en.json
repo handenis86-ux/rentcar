@@ -367,6 +367,19 @@
     "errorRetry": "Something went wrong. Please try again.",
     "successTitle": "Request sent!",
     "successText": "Your booking for <strong>{car}</strong> has been received. The owner will contact you within 1 hour.",
-    "successClose": "Great, thanks!"
+    "successClose": "Great, thanks!",
+    "redirectingToPayment": "Redirecting to payment...",
+    "paymentError": "Failed to create payment. Please try again."
+  },
+  "payment": {
+    "successTitle": "Payment successful!",
+    "successMessage": "Your booking is confirmed. We will contact you to arrange the details.",
+    "errorTitle": "Payment failed",
+    "errorMessage": "Unfortunately, the payment did not go through. Please try again or choose a different payment method.",
+    "bookingId": "Booking ID",
+    "browseMore": "Browse fleet",
+    "backHome": "Back to home",
+    "tryAgain": "Try again",
+    "contactSupport": "Contact support"
   }
 }
