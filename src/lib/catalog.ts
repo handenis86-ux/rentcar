@@ -33,7 +33,7 @@ export const CATALOG: Car[] = [
     slug: "chevrolet-spark", brand: "Chevrolet", model: "Spark", year: 2023, body: "hatchback",
     category: "economy", seats: 4, bags: 1, transmission: "auto", fuel: "petrol",
     engine: "1.2 L", drive: "fwd", pricePerDay: 25, deposit: 3000,
-    images: ["/cars/chevrolet-spark-hero.png","/cars/chevrolet-spark-g1.png","/cars/chevrolet-spark-g2.png","/cars/chevrolet-spark-g3.jpg","/cars/chevrolet-spark-g4.jpg"],
+    images: ["/cars/chevrolet-spark-hero.png","/cars/chevrolet-spark-g1.jpg","/cars/chevrolet-spark-g2.jpg","/cars/chevrolet-spark-g3.jpg","/cars/chevrolet-spark-g4.jpg"],
     description: D(
       "Компактный городской хэтчбек. Маневренный, экономичный, лёгкая парковка. Оптимален для одного-двух пассажиров в пределах Ташкента.",
       "Compact city hatchback. Easy to manoeuvre, fuel-efficient, simple to park. Best for 1–2 passengers around Tashkent.",
@@ -286,7 +286,7 @@ export const CATALOG: Car[] = [
     slug: "mercedes-benz-g400d", brand: "Mercedes-Benz", model: "G400d", year: 2023, body: "suv",
     category: "premium", seats: 5, bags: 4, transmission: "auto", fuel: "diesel",
     engine: "3.0 L TD I6", drive: "awd", pricePerDay: 635, deposit: 50000,
-    images: ["/cars/mercedes-benz-g400d-hero.png","/cars/mercedes-benz-g400d-g2.jpg","/cars/mercedes-benz-g400d-g3.jpg","/cars/mercedes-benz-g400d-g4.jpg","/cars/mercedes-benz-g400d-g5.jpg","/cars/mercedes-benz-g400d-g6.jpg","/cars/mercedes-benz-g400d-g7.png"],
+    images: ["/cars/mercedes-benz-g400d-hero.png","/cars/mercedes-benz-g400d-g2.jpg","/cars/mercedes-benz-g400d-g3.jpg","/cars/mercedes-benz-g400d-g4.jpg","/cars/mercedes-benz-g400d-g5.jpg","/cars/mercedes-benz-g400d-g6.jpg","/cars/mercedes-benz-g400d-g7.jpg"],
     description: D(
       "Культовый G-класс в дизельной версии 400d. Три блокировки, роскошный салон, безукоризненное исполнение. Для особых случаев и VIP-поездок.",
       "The iconic G-Class in 400d diesel. Three diff locks, a lavish cabin, flawless build — for special occasions and VIP trips.",
